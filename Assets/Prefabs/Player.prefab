@@ -302,6 +302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a4c3cedc9a74798977e648b45f9ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 0
   wakeupMeter: {fileID: 0}
-  speed: 0
+  speed: 5
