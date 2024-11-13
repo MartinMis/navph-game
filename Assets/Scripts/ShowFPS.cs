@@ -5,16 +5,13 @@ using UnityEngine;
 
 public class ShowFPS : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private TextMeshProUGUI _text;
     void Start()
     {
-        
+        _text = GetComponent<TextMeshProUGUI>();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        GetComponent<TextMeshProUGUI>().text = "FPS: " + ((int)(1f / Time.unscaledDeltaTime));
-        
+        _text.text = "FPS: " + ((int)(1f / Time.unscaledDeltaTime));
     }
 }

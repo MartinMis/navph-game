@@ -20,9 +20,9 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        _rigidbody.velocity = _moveInput * speed;
+        _rigidbody.velocity = 10 * speed * Time.fixedDeltaTime * _moveInput;
     }
 
     public void DamagePlayer(float damage)

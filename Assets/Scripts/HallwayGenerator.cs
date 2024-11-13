@@ -15,6 +15,11 @@ public class GenerateHallway : MonoBehaviour
     
     void Start()
     {
+        CreateHallway();
+    }
+
+    void CreateHallway()
+    {
         GameObject floor = transform.Find("Floor").gameObject;
         HallwayWidth = floor.GetComponent<SpriteRenderer>().size.x;
         HallwayLength = Random.Range(minLength, maxLength);
@@ -30,6 +35,6 @@ public class GenerateHallway : MonoBehaviour
             new (-HallwayWidth/2, -HallwayLength/2)
         };
         floor.GetComponent<EdgeCollider2D>().points = points;
-        transform.position += new Vector3(0, HallwayLength/2-HallwayWidth, 0);
+        transform.position = new Vector3(0, HallwayLength/2-HallwayWidth, 0);
     }
 }
