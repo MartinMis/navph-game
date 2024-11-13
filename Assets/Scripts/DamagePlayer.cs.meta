@@ -3,7 +3,9 @@ guid: 572c4e0e4fe904209a4ff662b9d519c3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerTransform: {instanceID: 0}
+  - dogSound: {fileID: 7629072467698986697, guid: 9035bf2d8d94382489204362234c8f70, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
