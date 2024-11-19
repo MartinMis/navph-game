@@ -30,7 +30,7 @@ public class DogDamage : MonoBehaviour
     {
         if (playerTransform == null) return;
 
-        if (!dogController.IsMovingCheck())
+        if (!dogController.IsMoving)
         {
             float distance = Vector2.Distance(transform.position, playerTransform.position);
             if (distance <= damageRadius)
@@ -50,7 +50,6 @@ public class DogDamage : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // Draw the damage radius in the editor for visualization
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, damageRadius);
     }

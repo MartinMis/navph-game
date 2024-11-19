@@ -7,7 +7,7 @@ public class TeaCandleSpawnerScript : MonoBehaviour
     [SerializeField] private GameObject teaCandlePrefab;
     [SerializeField] private int minCandleCount = 3;
     [SerializeField] private int maxCandleCount = 7;
-    [SerializeField] private float candleMinDistance = 5f; // Minimum distance between candles
+    [SerializeField] private float minYSeparation = 5f;
 
     private List<Vector3> spawnedPositions = new List<Vector3>();
 
@@ -25,35 +25,31 @@ public class TeaCandleSpawnerScript : MonoBehaviour
         float hallwayLength = hallwayGenerator.HallwayLength;
 
         int attempts = 0;
-        int maxAttempts = candleCount * 10; // Prevent infinite loops
+        int maxAttempts = candleCount * 10;
         while (spawnedPositions.Count < candleCount && attempts < maxAttempts)
         {
             attempts++;
 
-            // Random position within the hallway
             float xPosition = Random.Range(-hallwayWidth / 2, hallwayWidth / 2);
             float yPosition = Random.Range(-hallwayLength / 2, hallwayLength / 2);
             Vector3 candlePosition = new Vector3(xPosition, yPosition, 0);
 
-            // Check minimum distance from other candles
             bool tooClose = false;
             foreach (Vector3 pos in spawnedPositions)
             {
-                if (Vector3.Distance(candlePosition, pos) < candleMinDistance)
+                if (Vector3.Distance(candlePosition, pos) < minYSeparation)
                 {
                     tooClose = true;
                     break;
                 }
             }
 
-            // Check if the candle's movement will stay within the hallway bounds
-            float movementRadius = 2f; // The radius of the candle's circular movement
+            float movementRadius = 2f;
             if (IsWithinBounds(candlePosition, movementRadius, hallwayWidth, hallwayLength) && !tooClose)
             {
                 GameObject newCandle = Instantiate(teaCandlePrefab, transform);
                 newCandle.transform.localPosition = candlePosition;
 
-                // Optionally set the center position in TeaCandleController
                 TeaCandleController candleController = newCandle.GetComponent<TeaCandleController>();
                 if (candleController != null)
                 {
@@ -75,11 +71,9 @@ public class TeaCandleSpawnerScript : MonoBehaviour
         float halfWidth = width / 2;
         float halfLength = length / 2;
 
-        // Check left and right bounds
         if (position.x - radius < -halfWidth || position.x + radius > halfWidth)
             return false;
 
-        // Check top and bottom bounds
         if (position.y - radius < -halfLength || position.y + radius > halfLength)
             return false;
 

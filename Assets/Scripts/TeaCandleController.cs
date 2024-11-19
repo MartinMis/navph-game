@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TeaCandleController : MonoBehaviour
@@ -81,20 +83,7 @@ public class TeaCandleController : MonoBehaviour
 
     private void ShootFire()
     {
-        GameObject fire = Instantiate(firePrefab, transform.position, Quaternion.identity);
-
-        Vector2 direction = (playerTransform.position - transform.position).normalized;
-
-        Rigidbody2D rb = fire.GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
-            float fireSpeed = 5f;
-            rb.velocity = direction * fireSpeed;
-        }
-        else
-        {
-            Debug.LogWarning("Fire prefab does not have a Rigidbody2D component. Cannot set velocity.");
-        }
+        Instantiate(firePrefab, transform.position, Quaternion.identity);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
