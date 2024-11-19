@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Unawakened-The_Long_Sleep.sln"
+    "dotnet.defaultSolution": "navph-game.sln"
 }
