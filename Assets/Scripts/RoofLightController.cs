@@ -33,12 +33,18 @@ public class RoofLightController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        _dealDamage = true;
+        if (other.CompareTag("Player"))
+        {
+            _dealDamage = true;
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        _dealDamage = false;
+        if (other.CompareTag("Player"))
+        {
+            _dealDamage = false;
+        }
     }
 
     public void ModifyRadius(float newRadius)
