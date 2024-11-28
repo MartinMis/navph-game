@@ -11,6 +11,10 @@ GameObject:
   - component: {fileID: 58846470503427791}
   - component: {fileID: 3139701073541392058}
   - component: {fileID: 6739023198453374605}
+  - component: {fileID: 124498571834864995}
+  - component: {fileID: 3252007333819621071}
+  - component: {fileID: 6942116800183538358}
+  - component: {fileID: 5632391471947782111}
   m_Layer: 0
   m_Name: Hallway
   m_TagString: Untagged
@@ -46,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2193ed46e22447b84d6e508d1d3155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minLength: 100
-  maxLength: 200
+  minLength: 200
+  maxLength: 300
 --- !u!114 &6739023198453374605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +71,72 @@ MonoBehaviour:
   windowDistance: 5
   minLightRange: 5
   maxLightRange: 12
+--- !u!114 &124498571834864995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3c5984f287949dca15b96f0f70439a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roofLightPrefab: {fileID: 2414175005961213002, guid: 7d5bda0f083284b7180e91cdf1ebeb55, type: 3}
+  minRadius: 1
+  maxRadius: 4
+  lightCount: 20
+  lightDistance: 5
+  maxSpawnAttempts: 10
+--- !u!114 &3252007333819621071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b850e09df9bc23c48aebb6dceaf9e205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alarmClockPrefab: {fileID: 7415184656182069669, guid: 15d8c2d222a94604a8ce16fb410ed3c5, type: 3}
+  minAlarmClocks: 1
+  maxAlarmClocks: 5
+  minYSeparation: 2
+--- !u!114 &6942116800183538358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa4e302b6b56ce45a994b77ce5245eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dogPrefab: {fileID: 5075018026783109547, guid: a375bf92408cef043a0d9a8dd915632b, type: 3}
+  minDogCount: 5
+  maxDogCount: 15
+  minYSeparation: 1
+--- !u!114 &5632391471947782111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 825d92d258a32ba4aa3a140d7b626895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teaCandlePrefab: {fileID: 237964079824520263, guid: c758ee0b7f28c0a488e08933cdab1c42, type: 3}
+  minCandleCount: 3
+  maxCandleCount: 7
+  minYSeparation: 5
 --- !u!1001 &6773897324458852480
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,7 +199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1447439439742645340, guid: cba70c268d5b543aaac6599c390a7f2e, type: 3}
       propertyPath: m_Size.y
-      value: 145.48561
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1447439439742645340, guid: cba70c268d5b543aaac6599c390a7f2e, type: 3}
       propertyPath: m_DrawMode
@@ -204,11 +274,7 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0.5
   m_Points:
-  - {x: -7.5, y: -72.742805}
-  - {x: 7.5, y: -72.742805}
-  - {x: 7.5, y: 72.742805}
-  - {x: -7.5, y: 72.742805}
-  - {x: -7.5, y: -72.742805}
+  - {x: 0, y: 0}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
