@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5323153332127191582}
   - component: {fileID: 3879355038807025756}
   - component: {fileID: 3423827491931755693}
-  - component: {fileID: 3493630036707976281}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -154,7 +153,7 @@ MonoBehaviour:
   - {x: 0.47555262, y: -0.92040443, z: 0}
   m_ShapePathHash: -188978549
   m_Mesh: {fileID: 0}
-  m_InstanceId: 30774
+  m_InstanceId: 31820
   m_LocalBounds:
     m_Center: {x: -0.0353837, y: 0.18319845, z: 0}
     m_Extent: {x: 1.0325725, y: 1.3201103, z: 0}
@@ -290,18 +289,3 @@ PolygonCollider2D:
       - {x: 0.565, y: -0.41}
       - {x: 0.49499997, y: -0.38}
   m_UseDelaunayMesh: 0
---- !u!114 &3493630036707976281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3528723211947123960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2a4c3cedc9a74798977e648b45f9ef2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  wakeupMeter: {fileID: 0}
-  speed: 5
