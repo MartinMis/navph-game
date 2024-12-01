@@ -1,81 +1,48 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TabNavigationController : MonoBehaviour
 {
-    public Button upgradesButton;
-    public Button homeButton;
-    public Button collectionButton;
-    public Button rankingButton;
+    // list of all buttons with configuration
+    public List<Tab> tabs; 
 
     void Start()
     {
-        // Získaj názov aktuálnej scény
         string currentScene = SceneManager.GetActiveScene().name;
 
-        // Reset všetkých tlaèidiel na štandardný vzh¾ad
-        ResetButtonStates();
-
-        // Nastavenie aktívneho tlaèidla pod¾a názvu scény
-        switch (currentScene)
+        // set button states based on current scene
+        foreach (var tab in tabs)
         {
-            case "UpgradesScene":
-                SetActiveButton(upgradesButton);
-                break;
-            case "HomeScene":
-                SetActiveButton(homeButton);
-                break;
-            case "CollectionScene":
-                SetActiveButton(collectionButton);
-                break;
-            case "RankingScene":
-                SetActiveButton(rankingButton);
-                break;
+            bool isActive = tab.config.targetScene == currentScene;
+            UpdateButtonState(tab, isActive);
+
+            // button on click listener
+            tab.button.onClick.AddListener(() => LoadScene(tab.config.targetScene));
         }
-
-        upgradesButton.onClick.AddListener(LoadUpgradesScene);
-        homeButton.onClick.AddListener(LoadHomeScene);
-        collectionButton.onClick.AddListener(LoadCollectionScene);
-        rankingButton.onClick.AddListener(LoadRankingScene);
-
     }
 
-    void ResetButtonStates()
+    private void UpdateButtonState(Tab tab, bool isActive)
     {
-        //reset all buttons to interactable
-        upgradesButton.interactable = true;
-        homeButton.interactable = true;
-        collectionButton.interactable = true;
-        rankingButton.interactable = true;
+        UpdateButtonVisuals(tab, isActive);
+        UpdateButtonInteractivity(tab, isActive);
     }
 
-    void SetActiveButton(Button activeButton)
+    private void UpdateButtonVisuals(Tab tab, bool isActive)
     {
-        // turn off interactable for active button
-        activeButton.interactable = false;
-        // change color later
+        // swap sprite
+        Image buttonImage = tab.button.GetComponent<Image>();
+        buttonImage.sprite = isActive ? tab.config.activeSprite : tab.config.normalSprite;
     }
 
-    public void LoadHomeScene()
+    private void UpdateButtonInteractivity(Tab tab, bool isActive)
     {
-        SceneManager.LoadScene("HomeScene");
+        tab.button.interactable = !isActive;
     }
 
-    public void LoadUpgradesScene()
+    private void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene("UpgradesScene");
-    }
-
-    public void LoadCollectionScene()
-    {
-        SceneManager.LoadScene("CollectionScene");
-    }
-
-    public void LoadRankingScene()
-    {
-        SceneManager.LoadScene("RankingScene");
+        SceneManager.LoadScene(sceneName);
     }
 }
