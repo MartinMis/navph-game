@@ -16,6 +16,9 @@ public class CoinManager : MonoBehaviour, ICoinManager
 
     private void Awake()
     {
+
+        //PlayerPrefs.DeleteAll(); // reset coins and other player prefs
+
         if (Instance == null)
         {
             Instance = this; 

@@ -11,6 +11,7 @@ namespace Assets.Scripts
         public Text upgradePrice;      
         public Text upgradeCount;      
         public Button upgradeButton;
+        public Image progressBarFill;
         // can be an upgrade description in the future
 
         private ICoinManager coinManager;
@@ -113,7 +114,16 @@ namespace Assets.Scripts
         {
             upgradePrice.text = $"{currentUpgradePrice} Coins";
             upgradeCount.text = $"{currentUpgradeLevel}/{maxUpgradeLevel}";
+
+            // upgrade progress bar
+            if (progressBarFill != null)
+            {
+                progressBarFill.fillAmount = (float)currentUpgradeLevel / maxUpgradeLevel; 
+            }
+
             upgradeButton.interactable = currentUpgradeLevel < maxUpgradeLevel; // deactivate buy button on max level
+
+
         }
 
         // saves the current state of the upgrade to PlayerPrefs.
