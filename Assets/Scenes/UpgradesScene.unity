@@ -962,19 +962,19 @@ MonoBehaviour:
   upgrades:
   - key: slippers
     name: Comfy slippers
-    icon: {fileID: 21300000, guid: 4fd16b32187a8b54e9f5c94282396486, type: 3}
+    icon: {fileID: 21300000, guid: e47c91a8186ee044cb3a7a6e90abab26, type: 3}
     basePrice: 10
   - key: bear
     name: Teddy bear
-    icon: {fileID: 21300000, guid: 4fd16b32187a8b54e9f5c94282396486, type: 3}
+    icon: {fileID: 21300000, guid: abc433d1430063a4caa37c2a45a662b3, type: 3}
     basePrice: 20
   - key: mask
     name: Sleeping mask
-    icon: {fileID: 21300000, guid: 4fd16b32187a8b54e9f5c94282396486, type: 3}
+    icon: {fileID: 21300000, guid: 7c87bf4bb84e09b42a25e021805d8f03, type: 3}
     basePrice: 25
   - key: pyjama
     name: Cozy pyjamas
-    icon: {fileID: 21300000, guid: 4fd16b32187a8b54e9f5c94282396486, type: 3}
+    icon: {fileID: 21300000, guid: fe30a57175930564480db91a2bf8331c, type: 3}
     basePrice: 30
 --- !u!1 &2077815618
 GameObject:
