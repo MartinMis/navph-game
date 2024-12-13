@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3879355038807025756}
   - component: {fileID: 8234434039199340289}
   - component: {fileID: 2531707149999615892}
+  - component: {fileID: 1390027448618762065}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1075616083
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1246750806a684224937f3c0ccf41d2c, type: 3}
@@ -133,31 +134,34 @@ MonoBehaviour:
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
   m_SelfShadows: 0
-  m_ApplyToSortingLayers: efbd041800000000
+  m_ApplyToSortingLayers: ad66e3bfefbd0418
   m_ShapePath:
-  - {x: -0.07584703, y: -1.1369119, z: 0}
-  - {x: -0.4350893, y: -0.9059224, z: 0}
-  - {x: -0.4517433, y: 0.17661285, z: 0}
-  - {x: -0.6682505, y: 0.44308352, z: 0}
-  - {x: -1.0513017, y: 0.509701, z: 0}
-  - {x: -1.0679562, y: 0.90940666, z: 0}
-  - {x: -0.684905, y: 1.0259874, z: 0}
-  - {x: -0.50170654, y: 1.3091121, z: 0}
-  - {x: -0.092500806, y: 1.5033088, z: 0}
-  - {x: 0.4309395, y: 1.342421, z: 0}
-  - {x: 0.63079196, y: 0.9926784, z: 0}
-  - {x: 0.78068143, y: 0.9926784, z: 0}
-  - {x: 0.99718887, y: 0.7928257, z: 0}
-  - {x: 0.9305714, y: 0.45973778, z: 0}
-  - {x: 0.5641745, y: 0.40977478, z: 0}
-  - {x: 0.37562615, y: 0.18761182, z: 0}
-  - {x: 0.47555262, y: -0.92040443, z: 0}
-  m_ShapePathHash: -188978549
+  - {x: -0.33149487, y: -0.5700405, z: 0}
+  - {x: -0.25724733, y: 0.09443867, z: 0}
+  - {x: -0.41839793, y: 0.28776407, z: 0}
+  - {x: -0.6126749, y: 0.29858696, z: 0}
+  - {x: -0.76230854, y: 0.4541254, z: 0}
+  - {x: -0.70115715, y: 0.6092984, z: 0}
+  - {x: -0.48483276, y: 0.6591884, z: 0}
+  - {x: -0.40167043, y: 0.85339195, z: 0}
+  - {x: -0.17030665, y: 0.9808979, z: 0}
+  - {x: 0.108600914, y: 1.0089674, z: 0}
+  - {x: 0.27510804, y: 0.9148725, z: 0}
+  - {x: 0.4249975, y: 0.69257, z: 0}
+  - {x: 0.5970444, y: 0.6594442, z: 0}
+  - {x: 0.69715375, y: 0.4486227, z: 0}
+  - {x: 0.5864046, y: 0.29862356, z: 0}
+  - {x: 0.36451107, y: 0.27653277, z: 0}
+  - {x: 0.2747389, y: 0.11695406, z: 0}
+  - {x: 0.3080842, y: -0.5388382, z: 0}
+  - {x: 0.2191633, y: -0.7277953, z: 0}
+  - {x: -0.15800935, y: -0.76479274, z: 0}
+  m_ShapePathHash: -1195807853
   m_Mesh: {fileID: 0}
-  m_InstanceId: 33916
+  m_InstanceId: -1356
   m_LocalBounds:
-    m_Center: {x: -0.0353837, y: 0.18319845, z: 0}
-    m_Extent: {x: 1.0325725, y: 1.3201103, z: 0}
+    m_Center: {x: -0.032577395, y: 0.1220873, z: 0}
+    m_Extent: {x: 0.72973114, y: 0.88688004, z: 0}
 --- !u!114 &8234434039199340289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,3 +207,38 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!70 &1390027448618762065
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528723211947123960}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.022230148, y: 0.116708875}
+  m_Size: {x: 0.6107421, y: 1.7488127}
+  m_Direction: 0
