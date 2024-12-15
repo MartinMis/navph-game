@@ -878,7 +878,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421978265}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -1772,6 +1772,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3375630958429206601, guid: f59a35f0f0c234950b26bd35875fa2dd, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 1451104106}
+    - target: {fileID: -3375630958429206601, guid: f59a35f0f0c234950b26bd35875fa2dd, type: 3}
+      propertyPath: itemIcon
+      value: 
+      objectReference: {fileID: 396726344}
+    - target: {fileID: -3375630958429206601, guid: f59a35f0f0c234950b26bd35875fa2dd, type: 3}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: -3375630958429206601, guid: f59a35f0f0c234950b26bd35875fa2dd, type: 3}
+      propertyPath: interaction
+      value: 
+      objectReference: {fileID: 478490750}
     - target: {fileID: 3134202109592042265, guid: f59a35f0f0c234950b26bd35875fa2dd, type: 3}
       propertyPath: m_Name
       value: UI

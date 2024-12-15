@@ -52,7 +52,7 @@ public class FireDamage : MonoBehaviour
             PlayerController playerController = collision.GetComponent<PlayerController>();
             if (playerController != null)
             {
-                playerController.DamagePlayer(damageAmount);
+                playerController.DamagePlayer(damageAmount, DamageType.Fire);
             }
             Destroy(gameObject);
         }
