@@ -11,6 +11,15 @@ GameObject:
   - component: {fileID: 58846470503427791}
   - component: {fileID: 3139701073541392058}
   - component: {fileID: 6739023198453374605}
+  - component: {fileID: 8085438496960007216}
+  - component: {fileID: 6189503696830370547}
+  - component: {fileID: -1778252192331701093}
+  - component: {fileID: 9204161756532017032}
+  - component: {fileID: 2202485121042815388}
+  - component: {fileID: 2743655885305178533}
+  - component: {fileID: -2114247446246738732}
+  - component: {fileID: 9096571448457939204}
+  - component: {fileID: 3502390673965010918}
   m_Layer: 0
   m_Name: Hallway
   m_TagString: Untagged
@@ -67,6 +76,150 @@ MonoBehaviour:
   windowDistance: 5
   minLightRange: 5
   maxLightRange: 12
+--- !u!114 &8085438496960007216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a767a846917626d4689290e7c296f37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coffeeCupPrefab: {fileID: 6462681176889781255, guid: 6e4c99b393f5f724a870f95324ff0b48, type: 3}
+  minCoffeeCups: 5
+  maxCoffeeCups: 10
+  minYSeparation: 2
+--- !u!114 &6189503696830370547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa4e302b6b56ce45a994b77ce5245eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dogPrefab: {fileID: 5075018026783109547, guid: a375bf92408cef043a0d9a8dd915632b, type: 3}
+  minDogCount: 5
+  maxDogCount: 15
+  minYSeparation: 1
+--- !u!114 &-1778252192331701093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 825d92d258a32ba4aa3a140d7b626895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teaCandlePrefab: {fileID: 237964079824520263, guid: c758ee0b7f28c0a488e08933cdab1c42, type: 3}
+  minCandleCount: 3
+  maxCandleCount: 7
+  minYSeparation: 5
+--- !u!114 &9204161756532017032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b850e09df9bc23c48aebb6dceaf9e205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alarmClockPrefab: {fileID: 7415184656182069669, guid: 15d8c2d222a94604a8ce16fb410ed3c5, type: 3}
+  minAlarmClocks: 1
+  maxAlarmClocks: 5
+  minYSeparation: 2
+--- !u!114 &2202485121042815388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3c5984f287949dca15b96f0f70439a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roofLightPrefab: {fileID: 2414175005961213002, guid: 7d5bda0f083284b7180e91cdf1ebeb55, type: 3}
+  minRadius: 0
+  maxRadius: 0
+  lightCount: 0
+  lightDistance: 0
+  maxSpawnAttempts: 10
+--- !u!114 &2743655885305178533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45bd570cba90f254ca9569eea55cc008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decafCoffeePrefab: {fileID: 7202550394103050049, guid: 7a4e1662350a0874eacb783b01411b8b, type: 3}
+  minDecafCoffees: 5
+  maxDecafCoffees: 10
+  minSeparation: 2
+--- !u!114 &-2114247446246738732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb1e315280b43442b204dd2f0899344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zzzPointPrefab: {fileID: 6033434796071160682, guid: 67e56a19abaf4234d9a1e0a276d4b043, type: 3}
+  minZZZPoints: 10
+  maxZZZPoints: 20
+  minSeparation: 2
+--- !u!114 &9096571448457939204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09f63886a7af3864585d618340bfa4c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stylishShadesPrefab: {fileID: 8680098721192914048, guid: 5fbc34c4d7d9ac54784e1ce48d703443, type: 3}
+  minStylishShades: 1
+  maxStylishShades: 5
+  minSeparation: 2
+--- !u!114 &3502390673965010918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26767353a24b4c043bcaa466ddc835fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screamerPrefab: {fileID: 3961521752905542561, guid: 0f89bf0234e49a044ad5ed95b1986f0b, type: 3}
+  yOffsetFromHallway: 50
 --- !u!1001 &6773897324458852480
 PrefabInstance:
   m_ObjectHideFlags: 0
