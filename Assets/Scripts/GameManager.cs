@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
+        //delete playerprefs
+        //PlayerPrefs.DeleteAll();
+
         Debug.Log("[GameManager] Initializing core managers...");
 
         // coin manager first, because upgrades depend on coins

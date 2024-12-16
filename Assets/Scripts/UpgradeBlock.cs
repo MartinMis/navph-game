@@ -20,7 +20,7 @@ namespace Assets.Scripts
         private int currentUpgradePrice;         
         private int currentUpgradeLevel;         
         private int maxUpgradeLevel = 10;
-        private int baseUpgradePrice = 10;
+        private int baseUpgradePrice;
         private int baseUpgradeLevel = 0;
         public string UpgradeName => upgradeName.text;
         public int CurrentLevel => currentUpgradeLevel;
@@ -54,6 +54,7 @@ namespace Assets.Scripts
             upgradeImage.sprite = icon; 
             upgradeName.text = name; 
             currentUpgradePrice = basePrice;
+            baseUpgradePrice = basePrice;
 
             // Invoked in ApplyUpgrade() method
             /** this is IUpgrade ApplyEffect() method which is implemented by

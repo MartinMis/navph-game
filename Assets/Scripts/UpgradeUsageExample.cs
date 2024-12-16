@@ -8,7 +8,7 @@ public class UpgradeUsageExample : MonoBehaviour
     private void Start()
     {
         var upgradeManager = UpgradeManager.Instance;
-        var speedUpgrade = upgradeManager.GetUpgradeByKey("slippers");
+        var speedUpgrade = upgradeManager.GetUpgradeByKey(UpgradeKey.Slippers);
         if (speedUpgrade != null)
         {
             

@@ -12,23 +12,21 @@ namespace Assets.Scripts
         public GameObject upgradePrefab;
         private Transform contentParent;
 
-        public List<UpgradeData> upgrades = new List<UpgradeData>();
+        [SerializeField] public List<UpgradeData> upgrades;
 
-        private readonly Dictionary<string, Func<UpgradeData, IUpgrade>> upgradeFactories =
-            new Dictionary<string, Func<UpgradeData, IUpgrade>>();
+        private readonly Dictionary<UpgradeKey, Func<UpgradeData, IUpgrade>> upgradeFactories =
+            new Dictionary<UpgradeKey, Func<UpgradeData, IUpgrade>>();
 
-        private Dictionary<string, IUpgrade> createdUpgrades = new Dictionary<string, IUpgrade>();
+        private Dictionary<UpgradeKey, IUpgrade> createdUpgrades = new Dictionary<UpgradeKey, IUpgrade>();
 
         private ICoinManager coinManager;
 
         // it is initialized in HomeScene and blocks are created in UpgradeScene
         private bool isInitialized = false;
-        private bool blocksCreated = false;
 
         // when this is UpgradeScene, we need to find contentParent where the upgrade blocks will be created
-        private string upgradeSceneName = "UpgradesScene";
-        // contentParent is the parent object of all upgrade blocks
-        private string contentParentObjectName = "UpgradeCointainer";
+        private const string UpgradeSceneName = "UpgradesScene";
+        private const string ContentParentObjectName = "UpgradeContainer";
 
         public void Initialize()
         {
@@ -46,18 +44,33 @@ namespace Assets.Scripts
             coinManager = CoinManager.Instance;
             InitializeFactories();
 
-
-            // initialize all upgrades
+            // Initialize all upgrades
             foreach (var data in upgrades)
             {
+                if (data == null)
+                {
+                    Debug.LogError("[UpgradeManager] Found null UpgradeData in the list!");
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(data.key.ToString()))
+                {
+                    Debug.LogError($"[UpgradeManager] UpgradeData has an invalid key: {data.name}");
+                    continue;
+                }
+
                 var upgrade = CreateUpgrade(data);
                 if (upgrade != null)
                 {
-                    createdUpgrades[upgrade.Key] = upgrade;
+                    createdUpgrades[data.key] = upgrade;
+                }
+                else
+                {
+                    Debug.LogWarning($"[UpgradeManager] Failed to create upgrade for key: {data.key}");
                 }
             }
 
-            // load saved state for all upgrades
+            // Load saved state for all upgrades
             foreach (var upgrade in createdUpgrades.Values)
             {
                 if (UpgradeStateStorage.TryLoadUpgradeState(upgrade.Key, out var level, out var price))
@@ -74,7 +87,6 @@ namespace Assets.Scripts
 
             isInitialized = true;
 
-            // Zaregistrujeme sa na udalosť, ktorá sa zavolá, keď sa načíta nová scéna
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             Debug.Log("[UpgradeManager] Upgrades loaded into memory, waiting for contentParent to create blocks.");
@@ -82,14 +94,16 @@ namespace Assets.Scripts
 
         private void InitializeFactories()
         {
-            upgradeFactories["slippers"] = data => new PlayerSpeedUpgrade(data);
-            upgradeFactories["bear"] = data => new SleepMeterCapacityUpgrade(data);
-            upgradeFactories["mask"] = data => new SleepMeterSpeedUpgrade(data);
-            upgradeFactories["pyjama"] = data => new LightDamageUpgrade(data);
+            upgradeFactories[UpgradeKey.Slippers] = data => new PlayerSpeedUpgrade(data);
+            upgradeFactories[UpgradeKey.Bear] = data => new SleepMeterCapacityUpgrade(data);
+            upgradeFactories[UpgradeKey.Mask] = data => new SleepMeterSpeedUpgrade(data);
+            upgradeFactories[UpgradeKey.Pyjama] = data => new LightDamageUpgrade(data);
         }
 
         private IUpgrade CreateUpgrade(UpgradeData data)
         {
+            Debug.Log($"[UpgradeManager] Processing UpgradeData: {data?.key}");
+
             if (upgradeFactories.TryGetValue(data.key, out var factory))
             {
                 return factory(data);
@@ -99,15 +113,13 @@ namespace Assets.Scripts
             return null;
         }
 
-        // Callback pri načítaní scény
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            // Skontrolujeme, či je to UpgradeScene
-            if (scene.name == "UpgradesScene")
+            if (scene.name == UpgradeSceneName)
             {
                 Debug.Log("[UpgradeManager] UpgradeScene loaded. Trying to find contentParent...");
-                // Nájdeme contentParent podľa názvu
-                var parentObj = GameObject.Find("UpgradeContainer");
+
+                var parentObj = GameObject.Find(ContentParentObjectName);
                 if (parentObj != null)
                 {
                     SetContentParent(parentObj.transform);
@@ -147,19 +159,26 @@ namespace Assets.Scripts
                 return;
             }
 
-            if (blocksCreated)
-            {
-                Debug.LogWarning("[UpgradeManager] Upgrade blocks already created.");
-                return;
-            }
+            ClearExistingBlocks();
 
             foreach (var upgrade in createdUpgrades.Values)
             {
                 CreateUpgradeBlock(upgrade);
             }
 
-            blocksCreated = true;
             Debug.Log("[UpgradeManager] All upgrade blocks created.");
+        }
+
+        private void ClearExistingBlocks()
+        {
+            if (contentParent != null)
+            {
+                foreach (Transform child in contentParent)
+                {
+                    Destroy(child.gameObject);
+                }
+                Debug.Log("[UpgradeManager] Existing upgrade blocks cleared.");
+            }
         }
 
         private void CreateUpgradeBlock(IUpgrade upgrade)
@@ -176,8 +195,7 @@ namespace Assets.Scripts
             upgradeBlock.Initialize(upgrade.Icon, upgrade.Name, upgrade.BasePrice, upgrade.ApplyEffect, coinManager, upgrade);
         }
 
-        // when I want to apply an upgrade, I will find it by upgrade key [slippers, bear, mask, pyjama]
-        public IUpgrade GetUpgradeByKey(string key)
+        public IUpgrade GetUpgradeByKey(UpgradeKey key)
         {
             if (createdUpgrades.TryGetValue(key, out var upgrade))
             {

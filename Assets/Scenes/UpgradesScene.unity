@@ -958,24 +958,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradePrefab: {fileID: 5655545799633776179, guid: 1dc66b3bcf38c0c40b6d80d4fa5191c7, type: 3}
-  contentParent: {fileID: 1933141844}
   upgrades:
-  - key: slippers
-    name: Comfy slippers
-    icon: {fileID: 21300000, guid: e47c91a8186ee044cb3a7a6e90abab26, type: 3}
-    basePrice: 10
-  - key: bear
-    name: Teddy bear
-    icon: {fileID: 21300000, guid: abc433d1430063a4caa37c2a45a662b3, type: 3}
-    basePrice: 20
-  - key: mask
-    name: Sleeping mask
-    icon: {fileID: 21300000, guid: 7c87bf4bb84e09b42a25e021805d8f03, type: 3}
-    basePrice: 25
-  - key: pyjama
-    name: Cozy pyjamas
-    icon: {fileID: 21300000, guid: fe30a57175930564480db91a2bf8331c, type: 3}
-    basePrice: 30
+  - {fileID: 11400000, guid: f08b54fa479fed94688aa13c220c7aa0, type: 2}
+  - {fileID: 11400000, guid: a16fdd2339b088643b5c4a8255005fde, type: 2}
+  - {fileID: 11400000, guid: 29215cf0fa3ec6a41ada3704dc80a083, type: 2}
+  - {fileID: 11400000, guid: 68ead97b46cff3343968f3df6245dd10, type: 2}
 --- !u!1 &2077815618
 GameObject:
   m_ObjectHideFlags: 0

@@ -1338,26 +1338,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradePrefab: {fileID: 5655545799633776179, guid: 1dc66b3bcf38c0c40b6d80d4fa5191c7, type: 3}
   upgrades:
-  - key: slippers
-    name: Comfy slippers
-    icon: {fileID: 21300000, guid: e47c91a8186ee044cb3a7a6e90abab26, type: 3}
-    basePrice: 10
-    currentLevel: 0
-  - key: bear
-    name: Teddy bear
-    icon: {fileID: 21300000, guid: abc433d1430063a4caa37c2a45a662b3, type: 3}
-    basePrice: 20
-    currentLevel: 0
-  - key: mask
-    name: Sleeping mask
-    icon: {fileID: 21300000, guid: 7c87bf4bb84e09b42a25e021805d8f03, type: 3}
-    basePrice: 25
-    currentLevel: 0
-  - key: pyjama
-    name: Cozy pyjamas
-    icon: {fileID: 21300000, guid: fe30a57175930564480db91a2bf8331c, type: 3}
-    basePrice: 30
-    currentLevel: 0
+  - {fileID: 11400000, guid: f08b54fa479fed94688aa13c220c7aa0, type: 2}
+  - {fileID: 11400000, guid: a16fdd2339b088643b5c4a8255005fde, type: 2}
+  - {fileID: 11400000, guid: 29215cf0fa3ec6a41ada3704dc80a083, type: 2}
+  - {fileID: 11400000, guid: 68ead97b46cff3343968f3df6245dd10, type: 2}
 --- !u!114 &1336938911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1673,50 +1657,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582678827}
   m_CullTransparentMesh: 1
---- !u!1 &1844768417
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1844768419}
-  - component: {fileID: 1844768418}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1844768418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844768417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8ac9b8e4a21ef14daa5983d2f61825c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1844768419
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844768417}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 610.0328, y: 1337.309, z: -1.9780564}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1928663826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1854,6 +1794,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2008044409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2008044411}
+  - component: {fileID: 2008044412}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2008044411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008044409}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 610.0328, y: 1337.309, z: -1.9780564}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2008044412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008044409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ac9b8e4a21ef14daa5983d2f61825c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1862,4 +1846,4 @@ SceneRoots:
   - {fileID: 948276960}
   - {fileID: 706176689}
   - {fileID: 892732783}
-  - {fileID: 1844768419}
+  - {fileID: 2008044411}

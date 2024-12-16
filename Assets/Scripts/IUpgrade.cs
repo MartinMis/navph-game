@@ -4,7 +4,7 @@ namespace Assets.Scripts
 {
     public interface IUpgrade
     {
-        string Key { get; }
+        UpgradeKey Key { get; }
         string Name { get; }
         Sprite Icon { get; }
         int BasePrice { get; }

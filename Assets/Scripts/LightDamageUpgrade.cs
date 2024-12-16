@@ -4,7 +4,7 @@ namespace Assets.Scripts
 {
     public class LightDamageUpgrade : IUpgrade
     {
-        public string Key { get; private set; }
+        public UpgradeKey Key { get; private set; }
         public string Name { get; private set; }
         public Sprite Icon { get; private set; }
         public int BasePrice { get; private set; }
@@ -12,10 +12,15 @@ namespace Assets.Scripts
 
         public LightDamageUpgrade(UpgradeData data)
         {
+            if (data == null)
+            {
+                Debug.LogError("[LightDamageUpgrade] UpgradeData is null!");
+                return;
+            }
             Key = data.key;
-            Name = data.name;
+            Name = data.name ?? "Unknown Upgrade";
             Icon = data.icon;
-            BasePrice = data.basePrice;
+            BasePrice = data.basePrice > 0 ? data.basePrice : 100;
             CurrentLevel = data.currentLevel;
         }
 

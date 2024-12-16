@@ -4,19 +4,29 @@ namespace Assets.Scripts
 {
     public class PlayerSpeedUpgrade : IUpgrade
     {
-        public string Key { get; private set; }
+        public UpgradeKey Key { get; private set; }
         public string Name { get; private set; }
         public Sprite Icon { get; private set; }
         public int BasePrice { get; private set; }
         public int CurrentLevel { get; private set; }
         public float SpeedMultiplier { get; private set; }
+
+        private float speedIncreasePerLevel;
+
         public PlayerSpeedUpgrade(UpgradeData data)
         {
+            if (data == null)
+            {
+                Debug.LogError("[PlayerSpeedUpgrade] UpgradeData is null!");
+                return;
+            }
+
             Key = data.key;
-            Name = data.name;
+            Name = data.name ?? "Unknown Upgrade";
             Icon = data.icon;
-            BasePrice = data.basePrice;
+            BasePrice = data.basePrice > 0 ? data.basePrice : 100; // Default price
             CurrentLevel = data.currentLevel;
+            speedIncreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
         }
 
         public void SetCurrentLevel(int level)
@@ -29,7 +39,7 @@ namespace Assets.Scripts
             Debug.Log($"{Name}: Player speed increased!");
             Debug.Log($"{Name}: Player speed level upgrade = {CurrentLevel}!");
 
-            SpeedMultiplier = 1f + (CurrentLevel * 0.05f);
+            SpeedMultiplier = 1f + (CurrentLevel * speedIncreasePerLevel);
 
             Debug.Log($"{Name}: Computed Speed Multiplier = {SpeedMultiplier}");
         }
