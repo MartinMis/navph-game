@@ -14,5 +14,6 @@ namespace Assets.Scripts
         public string name;
         public Sprite icon;
         public int basePrice;
+        public int currentLevel;
     }
 }

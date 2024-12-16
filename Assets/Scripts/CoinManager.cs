@@ -14,15 +14,13 @@ public class CoinManager : MonoBehaviour, ICoinManager
 
     private const string TotalCoinsKey = "TotalCoins"; // for PlayerPrefs
 
-    private void Awake()
+    public void Initialize()
     {
-
-        //PlayerPrefs.DeleteAll(); // reset coins and other player prefs
-
+        Debug.Log("[CoinManager] Initializing...");
         if (Instance == null)
         {
-            Instance = this; 
-            DontDestroyOnLoad(gameObject); 
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -30,9 +28,9 @@ public class CoinManager : MonoBehaviour, ICoinManager
             return;
         }
 
-        // Load coins from PlayerPrefs
         LoadCoins();
     }
+
 
     public int GetTotalCoins()
     {
