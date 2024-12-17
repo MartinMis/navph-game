@@ -8,7 +8,6 @@ using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(Light2D))]
 public class DamagePlayer : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform;
     [SerializeField] private float damage;
     [SerializeField] private int rayCount;
     
@@ -41,7 +40,7 @@ public class DamagePlayer : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Player"))
                 {
-                    hit.collider.GetComponent<PlayerController>().DamagePlayer(damage + Time.deltaTime);
+                    hit.collider.GetComponent<PlayerController>().DamagePlayer(damage * Time.deltaTime);
                 }
             }
             

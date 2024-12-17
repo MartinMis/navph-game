@@ -8,8 +8,8 @@ public class FollowPlayer : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
     [SerializeField] private GameObject hallwayPrefab;
-    [SerializeField] private bool ignoreVertical = false;
-    [SerializeField] private bool ignoreHorizontal = true;
+    public bool IgnoreVertical = false;
+    public bool IgnoreHorizontal = true;
     [SerializeField] private float horizontalDeadzone = 0;
     [SerializeField] private float verticalDeadzone = 0;
 
@@ -19,7 +19,7 @@ public class FollowPlayer : MonoBehaviour
     void Start()
     {
         _camera = Camera.main;
-        _hallwayLength = hallwayPrefab.GetComponent<GenerateHallway>().HallwayLength;
+        _hallwayLength = hallwayPrefab.GetComponent<GenerateHallway>().HallwayCameraLength;
     }
     void Update()
     {
@@ -31,7 +31,7 @@ public class FollowPlayer : MonoBehaviour
         // Starting camera position
         Vector3 newPosition = new Vector3(0, 0, -10);
 
-        if (!ignoreVertical)
+        if (!IgnoreVertical)
         {
             if (Math.Abs(playerY - cameraY) > verticalDeadzone)
             {
@@ -45,7 +45,7 @@ public class FollowPlayer : MonoBehaviour
                 }
             }
         }
-        if (!ignoreHorizontal)
+        if (!IgnoreHorizontal)
         {
             
             if (Math.Abs(playerX - cameraX) > horizontalDeadzone)

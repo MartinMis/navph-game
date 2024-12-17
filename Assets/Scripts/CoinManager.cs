@@ -5,7 +5,7 @@ using UnityEngine;
 public class CoinManager : MonoBehaviour, ICoinManager
 {
     // Singleton instance
-    public static ICoinManager Instance { get; private set; }
+    
 
     private int totalCoins; // global total coins 
     private int runEarnings = 0;  // in game run earnings
@@ -13,7 +13,7 @@ public class CoinManager : MonoBehaviour, ICoinManager
     public event Action OnCoinsChanged;
 
     private const string TotalCoinsKey = "TotalCoins"; // for PlayerPrefs
-
+    public static ICoinManager Instance { get; private set; }
     private void Awake()
     {
 
@@ -84,7 +84,7 @@ public class CoinManager : MonoBehaviour, ICoinManager
         totalCoins += runEarnings;
         Debug.Log($"Run earnings {runEarnings} added to total. New total: {totalCoins}");
         runEarnings = 0; // Reset earnings
-        SaveCoins(); // Ulož nový stav
+        SaveCoins(); // Uloï¿½ novï¿½ stav
         OnCoinsChanged?.Invoke();
     }
 
@@ -92,7 +92,7 @@ public class CoinManager : MonoBehaviour, ICoinManager
     private void SaveCoins()
     {
         PlayerPrefs.SetInt(TotalCoinsKey, totalCoins);
-        PlayerPrefs.Save(); // Zapíš dáta na disk
+        PlayerPrefs.Save(); // Zapï¿½ dï¿½ta na disk
         Debug.Log($"[CoinManager] Coins saved: {totalCoins}");
     }
 
@@ -106,7 +106,7 @@ public class CoinManager : MonoBehaviour, ICoinManager
         }
         else
         {
-            totalCoins = 10000; // Predvolený poèet coinov
+            totalCoins = 10000; // Predvolenï¿½ poï¿½et coinov
             Debug.Log($"[CoinManager] No saved coins found. Defaulting to {totalCoins}");
         }
     }

@@ -10,6 +10,8 @@ public class CoffeeCupSpawner : MonoBehaviour
 
     void Start()
     {
+        minCoffeeCups = (int)(minCoffeeCups * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
+        maxCoffeeCups = (int)(maxCoffeeCups * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
         SpawnCoffeeCups();
     }
 

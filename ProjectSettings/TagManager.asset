@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Dog
+  - Furniture
+  - UserInterfaceRoot
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,8 @@ public class StylishShadesSpawner : MonoBehaviour
 
     void Start()
     {
+        minStylishShades = (int)(minStylishShades * DifficultyManager.Instance.HallwayLengthCoeficient);
+        maxStylishShades = (int)(maxStylishShades * DifficultyManager.Instance.HallwayLengthCoeficient);
         SpawnStylishShades();
     }
 

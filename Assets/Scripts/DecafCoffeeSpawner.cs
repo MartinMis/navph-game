@@ -10,6 +10,8 @@ public class DecafCoffeeSpawner : MonoBehaviour
 
     void Start()
     {
+        minDecafCoffees = (int)(minDecafCoffees * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
+        maxDecafCoffees = (int)(maxDecafCoffees * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
         SpawnDecafCoffees();
     }
 

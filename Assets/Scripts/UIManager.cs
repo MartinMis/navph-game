@@ -1,19 +1,20 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    [Header("Interaction")]
-    public GameObject interaction;
+    [FormerlySerializedAs("interaction")] [Header("Interaction")]
+    public GameObject interactionPopUp;
     public Image image;
 
     [Header("Equipped Item")]
     public Image itemIcon;
     public Sprite defaultIcon;
-
-    private Camera mainCamera;
+    
     private RectTransform interactionRectTransform;
 
     private void Awake()
@@ -22,11 +23,10 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            mainCamera = Camera.main;
 
-            if (interaction != null)
+            if (interactionPopUp != null)
             {
-                interactionRectTransform = interaction.GetComponent<RectTransform>();
+                interactionRectTransform = interactionPopUp.GetComponent<RectTransform>();
             }
         }
         else
@@ -35,11 +35,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowInteraction(bool show, Vector3 worldPosition, Sprite sprite = null) // DELEGATES ????
+    public void ToggleInteractionPopUp(bool show, Vector3 popUpWorldPosition, Sprite sprite = null, Action callback = null) // DELEGATES ????
     {
-        if (interaction != null)
+        if (interactionPopUp != null)
         {
-            interaction.SetActive(show);
+            interactionPopUp.SetActive(show);
             if (image != null && sprite != null)
             {
                 image.sprite = sprite;
@@ -47,12 +47,27 @@ public class UIManager : MonoBehaviour
 
             if (show && interactionRectTransform != null)
             {
-                Vector3 screenPos = mainCamera.WorldToScreenPoint(worldPosition);
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(popUpWorldPosition);
 
                 interactionRectTransform.position = screenPos;
             }
+
+            EnterButtonController buttonController = interactionPopUp.gameObject.GetComponent<EnterButtonController>();
+            if (show && !buttonController.InteractionIsAssigned())
+            {
+                Debug.Log("[UIManager] Assigning callback");
+                buttonController.ButtonPressed += callback;
+            }
+            else if (!show && buttonController.InteractionIsAssigned())
+            {
+                Debug.Log("[UIManager] Unassigning callback");
+                buttonController.ResetAllListeners();
+            }
         }
     }
+    
+    
+    
 
     public void UpdateEquippedItemUI(Sprite itemSprite)
     {

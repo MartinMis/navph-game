@@ -11,6 +11,8 @@ public class ZZZPointSpawner : MonoBehaviour
 
     private void Start()
     {
+        minZZZPoints = (int)(minZZZPoints * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
+        maxZZZPoints = (int)(maxZZZPoints * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
         SpawnZZZPoints();
     }
 
