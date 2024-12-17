@@ -7,12 +7,14 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    [System.Serializable]
-    public class UpgradeData
+    [CreateAssetMenu(fileName = "NewUpgradeData", menuName = "Upgrade/Upgrade Data")]
+    public class UpgradeData : ScriptableObject
     {
-        public string key;
+        public UpgradeKey key;
         public string name;
         public Sprite icon;
         public int basePrice;
+        public int currentLevel;
+        public float upgradeMultiplier = 0.05f;
     }
 }
