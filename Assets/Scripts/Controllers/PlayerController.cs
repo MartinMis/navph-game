@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI wakeupMeter;
     [SerializeField] public float speed;
     [SerializeField] private float interactionRadius = 3;
+    [SerializeField] private float maxSleepMeter = 100;
     [SerializeField] private GameObject decafCoffeePrefab; // dictionary
     [SerializeField] private GameObject stylishShadesPrefab;
     // Start is called before the first frame update
@@ -20,11 +22,46 @@ public class PlayerController : MonoBehaviour
     private float damageReduction = 0f;
     private DamageType reducedDamageType;
     private GameObject equippedItemPrefab;
+    private float _speedModifier;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         wakeupMeter.text = "Wakeup Meter: " + health;
+        CalculatePlayerSpeed();
+        maxSleepMeter *= GetSleepMeterModifier();
+    }
+
+    void CalculatePlayerSpeed()
+    {
+        var speedUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Slippers);
+        speedUpgrade?.ApplyEffect();
+        if (speedUpgrade is PlayerSpeedUpgrade psu)
+        {
+            speed *= psu.SpeedMultiplier;
+        }
+    }
+
+    float GetSleepMeterModifier()
+    {
+        var sleepMeterUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Bear);
+        sleepMeterUpgrade?.ApplyEffect();
+        if (sleepMeterUpgrade is SleepMeterCapacityUpgrade smcu)
+        {
+            return smcu.SleepMeterCapacityModifier;
+        }
+        return 1;
+    }
+
+    float GetDamageReduction()
+    {
+        var lightDamageUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Pyjama);
+        lightDamageUpgrade?.ApplyEffect();
+        if (lightDamageUpgrade is LightDamageUpgrade ldmg)
+        {
+            return ldmg.LightDamageModifier;
+        }
+        return 1;
     }
     
     void FixedUpdate()
@@ -36,14 +73,15 @@ public class PlayerController : MonoBehaviour
     {
         float finalDamage = damage;
         
-        
+        finalDamage *= GetDamageReduction();
         
         // Account for item effect
         if (equippedItemPrefab != null && damageType == reducedDamageType)
         {
             finalDamage *= (1 - damageReduction);
         }
-
+        
+        Debug.Log($"[PlayerController] Taking Damage: {finalDamage}");
         health += finalDamage;
         wakeupMeter.text = "Wakeup Meter: " + health;
     }

@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 public class RunTimer : MonoBehaviour
@@ -11,8 +14,17 @@ public class RunTimer : MonoBehaviour
     [SerializeField] SunriseController sunriseController;
     private float _timer;
     private float _initialIntensity;
+    
+    public event Action<float> OnUpdate; 
     void Start()
     {
+        var sunriseTimerUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Mask);
+        sunriseTimerUpgrade?.ApplyEffect();
+        if (sunriseTimerUpgrade is SunriseTimerUpgrade stu)
+        {
+            maxTime *= stu.SunriseTimerModifier;
+            Debug.Log($"Max time: {maxTime}");
+        }
         _initialIntensity = sunriseController.LightLevel;
     }
 
@@ -24,6 +36,7 @@ public class RunTimer : MonoBehaviour
             _timer = 0;
             float newLightLevel = Mathf.Clamp(Time.timeSinceLevelLoad / maxTime * (maxLightIntensity - _initialIntensity) + _initialIntensity, 0f, maxLightIntensity);
             sunriseController.LightLevel = newLightLevel;
+            OnUpdate?.Invoke((newLightLevel-_initialIntensity)/(maxLightIntensity-_initialIntensity));
         }
         _timer += Time.deltaTime;
     }

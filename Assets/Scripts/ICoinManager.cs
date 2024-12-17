@@ -15,5 +15,6 @@ namespace Assets.Scripts
         bool SpendCoins(int amount); 
         void AddRunEarnings(int amount);
         void FinalizeRunEarnings();
+        void ResetCoins();
     }
 }

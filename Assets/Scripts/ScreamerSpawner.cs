@@ -23,7 +23,7 @@ public class ScreamerSpawner : MonoBehaviour
         float hallwayBottomY = -hallwayGenerator.HallwayLength / 2;
 
         float xPosition = 0;
-        float yPosition = hallwayBottomY + yOffsetFromHallway / 100f;
+        float yPosition = hallwayBottomY + yOffsetFromHallway;
 
         GameObject newScreamer = Instantiate(screamerPrefab, transform);
         newScreamer.transform.localPosition = new Vector3(xPosition, yPosition, 0);

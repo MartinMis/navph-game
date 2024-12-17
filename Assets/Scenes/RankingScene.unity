@@ -234,7 +234,6 @@ GameObject:
   m_Component:
   - component: {fileID: 706176689}
   - component: {fileID: 706176688}
-  - component: {fileID: 706176690}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -718,7 +717,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: dee10c833f9f34401a203ef51cd05fba, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -905,6 +904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd0f04f950479444ace7657851d7f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpeed: 10
 --- !u!4 &2067695172
 Transform:
   m_ObjectHideFlags: 0

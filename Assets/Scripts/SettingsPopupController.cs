@@ -79,4 +79,5 @@ public class SettingsPopupController : MonoBehaviour
             settingsPopupInstance.SetActive(false);
         }
     }
+    
 }

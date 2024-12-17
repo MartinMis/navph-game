@@ -92,11 +92,28 @@ namespace Assets.Scripts
             Debug.Log("[UpgradeManager] Upgrades loaded into memory, waiting for contentParent to create blocks.");
         }
 
+        public void ReloadUpgrades()
+        {
+            foreach (var upgrade in createdUpgrades.Values)
+            {
+                if (UpgradeStateStorage.TryLoadUpgradeState(upgrade.Key, out var level, out var price))
+                {
+                    upgrade.SetCurrentLevel(level);
+                    Debug.Log($"[UpgradeManager] Loaded {upgrade.Key}: Level {level}, Price {price} into IUpgrade.");
+                }
+                else
+                {
+                    upgrade.SetCurrentLevel(0);
+                    Debug.Log($"[UpgradeManager] No saved state for {upgrade.Key}. Using default Level 0.");
+                }
+            }
+        }
+
         private void InitializeFactories()
         {
             upgradeFactories[UpgradeKey.Slippers] = data => new PlayerSpeedUpgrade(data);
             upgradeFactories[UpgradeKey.Bear] = data => new SleepMeterCapacityUpgrade(data);
-            upgradeFactories[UpgradeKey.Mask] = data => new SleepMeterSpeedUpgrade(data);
+            upgradeFactories[UpgradeKey.Mask] = data => new SunriseTimerUpgrade(data);
             upgradeFactories[UpgradeKey.Pyjama] = data => new LightDamageUpgrade(data);
         }
 

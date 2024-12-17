@@ -10,6 +10,9 @@ namespace Assets.Scripts
         public int BasePrice { get; private set; }
 
         public int CurrentLevel { get; private set; }
+        
+        public float SleepMeterCapacityModifier { get; private set; }
+        private float sleepMeterCapacityIncreasePerLevel;
         public SleepMeterCapacityUpgrade(UpgradeData data)
         {
             if (data == null)
@@ -22,13 +25,14 @@ namespace Assets.Scripts
             Icon = data.icon;
             BasePrice = data.basePrice > 0 ? data.basePrice : 100;
             CurrentLevel = data.currentLevel;
+            sleepMeterCapacityIncreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
 
         }
 
         public void ApplyEffect()
         {
             Debug.Log($"{Name}: Sleep meter capacity increased!");
-            // Logic...
+            SleepMeterCapacityModifier = 1 + (CurrentLevel * sleepMeterCapacityIncreasePerLevel);
         }
 
         public void SetCurrentLevel(int level)

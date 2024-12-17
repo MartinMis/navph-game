@@ -9,6 +9,9 @@ namespace Assets.Scripts
         public Sprite Icon { get; private set; }
         public int BasePrice { get; private set; }
         public int CurrentLevel { get; private set; }
+        
+        public float LightDamageModifier { get; private set; }
+        private float lightDamageDecreasePerLevel;
 
         public LightDamageUpgrade(UpgradeData data)
         {
@@ -22,12 +25,13 @@ namespace Assets.Scripts
             Icon = data.icon;
             BasePrice = data.basePrice > 0 ? data.basePrice : 100;
             CurrentLevel = data.currentLevel;
+            lightDamageDecreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
         }
 
         public void ApplyEffect()
         {
             Debug.Log($"{Name}: Light damage reduced!");
-            // Logic...
+            LightDamageModifier = 1 - (CurrentLevel*lightDamageDecreasePerLevel); 
         }
 
         public void SetCurrentLevel(int level)

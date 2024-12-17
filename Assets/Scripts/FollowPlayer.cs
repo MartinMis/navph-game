@@ -12,6 +12,7 @@ public class FollowPlayer : MonoBehaviour
     public bool IgnoreHorizontal = true;
     [SerializeField] private float horizontalDeadzone = 0;
     [SerializeField] private float verticalDeadzone = 0;
+    [SerializeField] private float startPadding = 50;
 
     private float _hallwayLength;
     private Camera _camera;
@@ -80,7 +81,7 @@ public class FollowPlayer : MonoBehaviour
     Vector3 ClampPositionToHallway(Vector3 pos)
     {
         float maxYHallway = hallwayPrefab.transform.position.y + _hallwayLength/2;
-        float minYHallway = hallwayPrefab.transform.position.y - _hallwayLength/2;
+        float minYHallway = hallwayPrefab.transform.position.y - _hallwayLength/2 - startPadding;
         
         if (_camera != null)
         {

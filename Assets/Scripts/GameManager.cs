@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-
+        DontDestroyOnLoad(gameObject);
         //delete playerprefs
         //PlayerPrefs.DeleteAll();
 
