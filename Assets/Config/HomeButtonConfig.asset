@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4391c59ef629af0448c8333b19d728fa, type: 3}
+  m_Name: HomeButtonConfig
+  m_EditorClassIdentifier: 
+  normalSprite: {fileID: 21300000, guid: d7c5587f53744194db9dd5e4e00b2d13, type: 3}
+  activeSprite: {fileID: 21300000, guid: 59d8cd6c52dc52a409ce515b73ff3348, type: 3}
+  targetScene: HomeScene

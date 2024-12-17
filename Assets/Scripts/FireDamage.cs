@@ -8,9 +8,11 @@ public class FireDamage : MonoBehaviour
 
     private Transform playerTransform;
     private Rigidbody2D rb;
+    private AudioSource fireAudio;
 
     private void Start()
     {
+        fireAudio = GetComponent<AudioSource>();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -49,14 +51,15 @@ public class FireDamage : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            fireAudio.Play();
             PlayerController playerController = collision.GetComponent<PlayerController>();
             if (playerController != null)
             {
-                playerController.DamagePlayer(damageAmount);
+                playerController.DamagePlayer(damageAmount, DamageType.Fire);
             }
             Destroy(gameObject);
         }
-        else if (collision.gameObject.name == "Square")
+        else if (collision.CompareTag("Furniture"))
         {
             Destroy(gameObject);
         }

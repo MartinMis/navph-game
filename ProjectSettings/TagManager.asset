@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Dog
+  - Furniture
+  - UserInterfaceRoot
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -42,9 +45,9 @@ TagManager:
   - name: Background
     uniqueID: 402963951
     locked: 0
-  - name: Player
-    uniqueID: 3219351213
-    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Window
+    uniqueID: 3234465971
     locked: 0

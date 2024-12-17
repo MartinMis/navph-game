@@ -173,9 +173,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 2
-  angularSpeed: 50
+  angularSpeed: 100
   firePrefab: {fileID: 1775819407706392952, guid: f530f05da6937454abe1ea31bf7a277c, type: 3}
-  fireInterval: 3
+  fireInterval: 2
   maxFires: 10
   fireRange: 10
 --- !u!114 &7392966340836053989
