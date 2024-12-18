@@ -21,7 +21,7 @@ public class RoofLightController : MonoBehaviour
     {
         if (_dealDamage)
         {
-            _playerController.DamagePlayer(damage);
+            _playerController.DamagePlayer(damage, DamageType.Light);
         }
     }
 

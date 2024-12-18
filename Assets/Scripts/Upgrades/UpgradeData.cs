@@ -12,6 +12,7 @@ namespace Assets.Scripts
     {
         public UpgradeKey key;
         public string name;
+        public string description;
         public Sprite icon;
         public int basePrice;
         public int currentLevel;

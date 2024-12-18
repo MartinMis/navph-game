@@ -11,7 +11,7 @@ public class AlarmClockController : MonoBehaviour
             PlayerController playerController = collision.GetComponent<PlayerController>();
             if (playerController != null)
             {
-                playerController.DamagePlayer(damageAmount);
+                playerController.DamagePlayer(damageAmount, DamageType.Sound);
             }
             else
             {

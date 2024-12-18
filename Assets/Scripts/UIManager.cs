@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public Sprite defaultIcon;
     
     private RectTransform interactionRectTransform;
+    
 
     private void Awake()
     {

@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class LampBossController : MonoBehaviour, Boss
 {
     public int lightRayCount = 8;
     [SerializeField] GameObject lightRayPrefab;
-    [SerializeField] float maxHealth;
+    public float maxHealth;
     [Header("Initial attack settings")]
     [SerializeField] float timeBetweenAttacks = 4f;
     [SerializeField] float attackSafezoneTime = 2f;
@@ -25,13 +26,14 @@ public class LampBossController : MonoBehaviour, Boss
     private List<GameObject> _lightRays = new List<GameObject>();
 
 
-    private float _currentHealth = 100f;
+    private float _currentHealth;
     private float timeRemaining = 2;
     private float dimLightIntensity = 0.5f;
     private float _rotationTarget = 0f;
 
     void Start()
     {
+        _currentHealth = maxHealth;
         CreateLightRays();
     }
 

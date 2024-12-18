@@ -6,6 +6,7 @@ namespace Assets.Scripts
     {
         UpgradeKey Key { get; }
         string Name { get; }
+        string Description { get; }
         Sprite Icon { get; }
         int BasePrice { get; }
 

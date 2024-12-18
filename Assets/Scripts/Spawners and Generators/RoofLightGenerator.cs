@@ -15,8 +15,6 @@ public class RoofLightGenerator : MonoBehaviour
     void Start()
     {
         // Adjust initial values based on current difficulty level
-        minRadius *= DifficultyManager.Instance.LightSizeCoeficient;
-        maxRadius *= DifficultyManager.Instance.LightSizeCoeficient;
         lightCount = (int)(lightCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
         
         float hallwayWidth = GetComponent<GenerateHallway>().HallwayWidth;

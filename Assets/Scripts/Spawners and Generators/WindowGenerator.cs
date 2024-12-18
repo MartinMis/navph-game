@@ -14,10 +14,10 @@ public class WindowGenerator : MonoBehaviour
     
     void Start()
     {
-        minWindowCount = (int)(minWindowCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
-        maxWindowCount = (int)(maxWindowCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
-        minLightRange *= DifficultyManager.Instance.HallwaySpawnRateCoeficient;
-        maxLightRange *= DifficultyManager.Instance.HallwaySpawnRateCoeficient;
+        minWindowCount = (int)(minWindowCount * DifficultyManager.Instance.HallwayLengthCoeficient);
+        maxWindowCount = (int)(maxWindowCount * DifficultyManager.Instance.HallwayLengthCoeficient);
+        //minLightRange *= DifficultyManager.Instance.HallwaySpawnRateCoeficient;
+        //maxLightRange *= DifficultyManager.Instance.HallwaySpawnRateCoeficient;
         CreateWindows();
     }
 
