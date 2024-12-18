@@ -5,10 +5,21 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private UpgradeManager upgradeManager;
-
+    
+    public static GameManager Instance {get; private set;}
+    
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        
         //delete playerprefs
         //PlayerPrefs.DeleteAll();
 

@@ -17,4 +17,9 @@ public class RunCoinCounter : MonoBehaviour
         int coinCount = CoinManager.Instance.RunEarnings;
         coinText.text = coinCount.ToString("00");
     }
+
+    void OnDestroy()
+    {
+        CoinManager.Instance.OnRunEarningsChanged -= UpdateCount;
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -209,7 +210,7 @@ namespace Assets.Scripts
                 return;
             }
 
-            upgradeBlock.Initialize(upgrade.Icon, upgrade.Name, upgrade.BasePrice, upgrade.ApplyEffect, coinManager, upgrade);
+            upgradeBlock.Initialize(upgrade.Icon, upgrade.Name, upgrade.Description, upgrade.BasePrice, upgrade.ApplyEffect, coinManager, upgrade);
         }
 
         public IUpgrade GetUpgradeByKey(UpgradeKey key)

@@ -5,16 +5,17 @@ using Assets.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
     public float health = 0;
     [SerializeField] public float speed;
     [SerializeField] private float interactionRadius = 3;
-    [SerializeField] private float maxSleepMeter = 100;
+    public float maxSleepMeter = 100;
     [SerializeField] private GameObject decafCoffeePrefab; // dictionary
     [SerializeField] private GameObject stylishShadesPrefab;
-    [SerializeField] private bool godMode = false;
+    public bool GodMode = false;
     // Start is called before the first frame update
     
     private Rigidbody2D _rigidbody;
@@ -24,10 +25,14 @@ public class PlayerController : MonoBehaviour
     public DamageType reducedDamageType { get; set; }
     public GameObject equippedItemPrefab { get; set; }
     
+    private bool _canMove = true;
+    private bool _canInteract = true;
+    
     public event Action OnDeath;
     public event Action OnWakeUpMeterUpdated;
-    
+    public event Action<string> OnItemEquipped;
 
+    
     void Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player"); 
@@ -62,6 +67,20 @@ public class PlayerController : MonoBehaviour
         return 1;
     }
 
+    public void ToggleMovement()
+    {
+        _canMove = !_canMove;
+        _canInteract = !_canInteract;
+    }
+    
+
+    public void Heal(float healAmount)
+    {
+        health -= healAmount;
+        health = Mathf.Clamp(health, 0, maxSleepMeter);
+        OnWakeUpMeterUpdated?.Invoke();
+    }
+
     float GetDamageReduction()
     {
         var lightDamageUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Pyjama);
@@ -80,6 +99,9 @@ public class PlayerController : MonoBehaviour
 
     public void DamagePlayer(float damage, DamageType damageType = DamageType.None)
     {
+        // If player is currently invincible skip the body of the function
+        if (GodMode) return;
+        
         float finalDamage = damage;
         
         finalDamage *= GetDamageReduction();
@@ -93,7 +115,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"[PlayerController] Taking Damage: {finalDamage}");
         health += finalDamage;
 
-        if (health > maxSleepMeter && !godMode)
+        if (health > maxSleepMeter)
         {
             Debug.Log($"[PlayerController] Player is dead!");
             Die();
@@ -114,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputValue value)
     {
-        _moveInput = value.Get<Vector2>();
+        _moveInput = _canMove ? value.Get<Vector2>() : new Vector2(0, 0);
     }
     void Update()
     {
@@ -133,7 +155,7 @@ public class PlayerController : MonoBehaviour
             if (interactable != null)
             {
                 float distance = Vector2.Distance(transform.position, interactable.transform.position);
-                if (distance < minDistance && distance <= interactionRadius)
+                if (distance < minDistance && distance <= interactionRadius && distance <= interactable.interactionRadius)
                 {
                     minDistance = distance;
                     closestInteractable = interactable;
@@ -141,7 +163,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (closestInteractable != null)
+        if (closestInteractable != null && _canInteract)
         {
             UIManager.Instance.ToggleInteractionPopUp(true, closestInteractable.transform.position,
                 callback: (() => closestInteractable.Interact(this)));
@@ -163,12 +185,14 @@ public class PlayerController : MonoBehaviour
         // newItem onEquipItem - open close principle
         if (newItem is DecafCoffee decafCoffee)     // item class - onEquiItem: implmetuje oddelene
         {
+            OnItemEquipped?.Invoke($"Decreased coffee damage by {decafCoffee.GetDamageReduction()}");
             damageReduction = decafCoffee.GetDamageReduction();
             reducedDamageType = decafCoffee.GetAffectedDamageType();
             equippedItemPrefab = decafCoffeePrefab;
         }
         else if (newItem is StylishShades stylishShades)
         {
+            OnItemEquipped?.Invoke("Decrease damage taken");
             damageReduction = stylishShades.GetDamageReduction();
             reducedDamageType = stylishShades.GetAffectedDamageType();
             equippedItemPrefab = stylishShadesPrefab;

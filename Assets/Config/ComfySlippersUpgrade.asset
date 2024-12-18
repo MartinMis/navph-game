@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: 1
   name: COMFY slipperss
+  description: Increase player speed
   icon: {fileID: 21300000, guid: e47c91a8186ee044cb3a7a6e90abab26, type: 3}
   basePrice: 10
   currentLevel: 0
-  upgradeMultiplier: 10
+  upgradeMultiplier: 0.05

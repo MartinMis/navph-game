@@ -100,6 +100,6 @@ public class TeaCandleController : MonoBehaviour
         Gizmos.DrawWireSphere(centerPosition != Vector3.zero ? centerPosition : transform.position, radius);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, fireRange);
+        Gizmos.DrawWireSphere(transform.localPosition, fireRange);
     }
 }

@@ -11,6 +11,7 @@ namespace Assets.Scripts
         public Text upgradePrice;      
         public Text upgradeCount;      
         public Button upgradeButton;
+        public Text upgradeDescription;
         public Image progressBarFill;
         // can be an upgrade description in the future
 
@@ -45,7 +46,7 @@ namespace Assets.Scripts
             UpdateUI();
         }
 
-        public void Initialize(Sprite icon, string name, int basePrice, Action onUpgradeApplied, ICoinManager coinManager, IUpgrade upgrade)
+        public void Initialize(Sprite icon, string name, string description, int basePrice, Action onUpgradeApplied, ICoinManager coinManager, IUpgrade upgrade)
         {
             Debug.Log($"[UpgradeBlock] Initializing upgrade: {name}, Base Price: {basePrice}");
 
@@ -55,6 +56,7 @@ namespace Assets.Scripts
             upgradeName.text = name; 
             currentUpgradePrice = basePrice;
             baseUpgradePrice = basePrice;
+            upgradeDescription.text = description;
 
             // Invoked in ApplyUpgrade() method
             /** this is IUpgrade ApplyEffect() method which is implemented by
