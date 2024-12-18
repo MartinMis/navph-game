@@ -9,7 +9,8 @@ public class ZZZPointController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Collect();
+            CoinManager.Instance.AddRunEarnings(1);
+            Destroy(gameObject);
         }
     }
 

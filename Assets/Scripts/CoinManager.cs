@@ -10,9 +10,10 @@ public class CoinManager : MonoBehaviour, ICoinManager
     public static ICoinManager Instance { get; private set; }
 
     int totalCoins; // global total coins 
-    private int runEarnings = 0;  // in game run earnings
+    public int RunEarnings { get; private set; } = 0;  // in game run earnings
 
     public event Action OnCoinsChanged;
+    public event Action OnRunEarningsChanged;
 
     private const string TotalCoinsKey = "TotalCoins"; // for PlayerPrefs
 
@@ -74,16 +75,17 @@ public class CoinManager : MonoBehaviour, ICoinManager
     // will be called during the game run each time player collects coins
     public void AddRunEarnings(int amount)
     {
-        runEarnings += amount;
-        Debug.Log($"Run earnings: {runEarnings}");
+        RunEarnings += amount;
+        OnRunEarningsChanged?.Invoke();
+        Debug.Log($"Run earnings: {RunEarnings}");
     }
 
     // when player finishes the run, add the run earnings to the total
     public void FinalizeRunEarnings()
     {
-        totalCoins += runEarnings;
-        Debug.Log($"Run earnings {runEarnings} added to total. New total: {totalCoins}");
-        runEarnings = 0; // Reset earnings
+        totalCoins += RunEarnings;
+        Debug.Log($"Run earnings {RunEarnings} added to total. New total: {totalCoins}");
+        RunEarnings = 0; // Reset earnings
         SaveCoins(); // Ulož nový stav
         OnCoinsChanged?.Invoke();
     }

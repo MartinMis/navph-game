@@ -11,6 +11,7 @@ TagManager:
   - UserInterfaceRoot
   - Furniture
   - Dog
+  - GlobalLight
   layers:
   - Default
   - TransparentFX

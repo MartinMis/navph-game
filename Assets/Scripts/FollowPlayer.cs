@@ -1,38 +1,44 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Utility;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FollowPlayer : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform;
     [SerializeField] private GameObject hallwayPrefab;
-    public bool IgnoreVertical = false;
-    public bool IgnoreHorizontal = true;
     [SerializeField] private float horizontalDeadzone = 0;
     [SerializeField] private float verticalDeadzone = 0;
     [SerializeField] private float startPadding = 50;
-
+    public bool ignoreVertical = false;
+    public bool ignoreHorizontal = true;
+    
+    private Transform _playerTransform;
     private float _hallwayLength;
     private Camera _camera;
 
     void Start()
     {
         _camera = Camera.main;
+        _playerTransform = GameObject.FindGameObjectWithTag(Tags.Player).transform;
         _hallwayLength = hallwayPrefab.GetComponent<GenerateHallway>().HallwayCameraLength;
     }
     void Update()
     {
         // Helper variables
-        float playerY = playerTransform.position.y;
+        if (_playerTransform == null) return;
+
+        
+        float playerY = _playerTransform.position.y;
         float cameraY = transform.position.y;
-        float playerX = playerTransform.position.x;
+        float playerX = _playerTransform.position.x;
         float cameraX = transform.position.x;
         // Starting camera position
         Vector3 newPosition = new Vector3(0, 0, -10);
 
-        if (!IgnoreVertical)
+        if (!ignoreVertical)
         {
             if (Math.Abs(playerY - cameraY) > verticalDeadzone)
             {
@@ -46,7 +52,7 @@ public class FollowPlayer : MonoBehaviour
                 }
             }
         }
-        if (!IgnoreHorizontal)
+        if (!ignoreHorizontal)
         {
             
             if (Math.Abs(playerX - cameraX) > horizontalDeadzone)

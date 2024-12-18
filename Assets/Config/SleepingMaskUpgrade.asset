@@ -17,4 +17,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 7c87bf4bb84e09b42a25e021805d8f03, type: 3}
   basePrice: 13
   currentLevel: 0
-  upgradeMultiplier: 0.05
+  upgradeMultiplier: 10
