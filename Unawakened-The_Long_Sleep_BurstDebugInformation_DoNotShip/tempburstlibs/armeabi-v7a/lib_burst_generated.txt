@@ -11,7 +11,7 @@ Library: /Users/martin/Documents/01-University/03-NAVHP/Unawakened-The_Long_Slee
 --float-mode=Fast
 --generate-link-xml=Temp/burst.link.xml
 --temp-folder=/Users/martin/Documents/01-University/03-NAVHP/Unawakened-The_Long_Sleep/Temp/Burst
---key-folder=/Applications/Unity/Hub/Editor/2022.3.54f1/PlaybackEngines/AndroidPlayer
+--key-folder=/Applications/Unity/Hub/Editor/2022.3.50f1/PlaybackEngines/AndroidPlayer
 --decode-folder=/Users/martin/Documents/01-University/03-NAVHP/Unawakened-The_Long_Sleep/Library/Burst
 --output=/Users/martin/Documents/01-University/03-NAVHP/Unawakened-The_Long_Sleep/Temp/BurstOutput/tempburstlibs/armeabi-v7a/lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
@@ -28,7 +28,7 @@ Library: /Users/martin/Documents/01-University/03-NAVHP/Unawakened-The_Long_Slee
 --target-framework=NetFramework
 --generate-link-xml=Temp/burst.link.xml
 --temp-folder=/Users/martin/Documents/01-University/03-NAVHP/Unawakened-The_Long_Sleep/Temp/Burst
---key-folder=/Applications/Unity/Hub/Editor/2022.3.54f1/PlaybackEngines/AndroidPlayer
+--key-folder=/Applications/Unity/Hub/Editor/2022.3.50f1/PlaybackEngines/AndroidPlayer
 --decode-folder=/Users/martin/Documents/01-University/03-NAVHP/Unawakened-The_Long_Sleep/Library/Burst
 --output=/Users/martin/Documents/01-University/03-NAVHP/Unawakened-The_Long_Sleep/Temp/BurstOutput/tempburstlibs/armeabi-v7a/lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/

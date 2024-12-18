@@ -63,7 +63,7 @@ MonoBehaviour:
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
-  m_ShadowIntensityEnabled: 1
+  m_ShadowIntensityEnabled: 0
   m_ShadowIntensity: 1
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
@@ -131,6 +131,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993eef718987f4df9b5394316c251c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 3528723211947123960, guid: 10f803179d51846ff8f78c461862baf4, type: 3}
   radius: 2
   damage: 0.001

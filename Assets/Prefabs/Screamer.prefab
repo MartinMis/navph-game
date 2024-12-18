@@ -222,8 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6de83b2e754b5459448b871deca204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDamage: 1000
-  maxDistance: 20
+  maxDamage: 1
+  maxDistance: 5
   damageExponent: 2
   movementSpeed: 2.5
   audioSource: {fileID: 0}

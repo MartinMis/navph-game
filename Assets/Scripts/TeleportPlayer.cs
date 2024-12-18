@@ -28,7 +28,7 @@ public class TeleportPlayer : Interactable
         if (changeCameraHorizontalLock)
         {
             followingCamera.transform.position = targetPosition;
-            followingCamera.IgnoreHorizontal = !followingCamera.IgnoreHorizontal;
+            followingCamera.ignoreHorizontal = !followingCamera.ignoreHorizontal;
         }
     }
 }

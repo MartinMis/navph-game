@@ -1,30 +1,76 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float health = 0;
-    [SerializeField] private TextMeshProUGUI wakeupMeter;
+    public float health = 0;
     [SerializeField] public float speed;
     [SerializeField] private float interactionRadius = 3;
+    [SerializeField] private float maxSleepMeter = 100;
     [SerializeField] private GameObject decafCoffeePrefab; // dictionary
     [SerializeField] private GameObject stylishShadesPrefab;
+    [SerializeField] private bool godMode = false;
     // Start is called before the first frame update
     
     private Rigidbody2D _rigidbody;
     private Vector3 _moveInput;
 
-    private float damageReduction = 0f;
-    private DamageType reducedDamageType;
-    private GameObject equippedItemPrefab;
+    public float damageReduction { get; set; } = 0f;
+    public DamageType reducedDamageType { get; set; }
+    public GameObject equippedItemPrefab { get; set; }
+    
+    public event Action OnDeath;
+    public event Action OnWakeUpMeterUpdated;
+    
 
     void Start()
     {
+        var player = GameObject.FindGameObjectWithTag("Player"); 
+        if (player != null && player != gameObject)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(this);
         _rigidbody = GetComponent<Rigidbody2D>();
-        wakeupMeter.text = "Wakeup Meter: " + health;
+        CalculatePlayerSpeed();
+        maxSleepMeter *= GetSleepMeterModifier();
+    }
+
+    void CalculatePlayerSpeed()
+    {
+        var speedUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Slippers);
+        speedUpgrade?.ApplyEffect();
+        if (speedUpgrade is PlayerSpeedUpgrade psu)
+        {
+            speed *= psu.SpeedMultiplier;
+        }
+    }
+
+    float GetSleepMeterModifier()
+    {
+        var sleepMeterUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Bear);
+        sleepMeterUpgrade?.ApplyEffect();
+        if (sleepMeterUpgrade is SleepMeterCapacityUpgrade smcu)
+        {
+            return smcu.SleepMeterCapacityModifier;
+        }
+        return 1;
+    }
+
+    float GetDamageReduction()
+    {
+        var lightDamageUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Pyjama);
+        lightDamageUpgrade?.ApplyEffect();
+        if (lightDamageUpgrade is LightDamageUpgrade ldmg)
+        {
+            return ldmg.LightDamageModifier;
+        }
+        return 1;
     }
     
     void FixedUpdate()
@@ -36,16 +82,34 @@ public class PlayerController : MonoBehaviour
     {
         float finalDamage = damage;
         
-        
+        finalDamage *= GetDamageReduction();
         
         // Account for item effect
         if (equippedItemPrefab != null && damageType == reducedDamageType)
         {
             finalDamage *= (1 - damageReduction);
         }
-
+        
+        Debug.Log($"[PlayerController] Taking Damage: {finalDamage}");
         health += finalDamage;
-        wakeupMeter.text = "Wakeup Meter: " + health;
+
+        if (health > maxSleepMeter && !godMode)
+        {
+            Debug.Log($"[PlayerController] Player is dead!");
+            Die();
+        }
+        
+        OnWakeUpMeterUpdated?.Invoke();
+    }
+
+    public void RefreshWakeUpMeter()
+    {
+        OnWakeUpMeterUpdated?.Invoke();
+    }
+
+    public float GetCurrentWakeupMeter()
+    {
+        return health;
     }
 
     public void OnMove(InputValue value)
@@ -118,7 +182,7 @@ public class PlayerController : MonoBehaviour
         Destroy(newItem.gameObject);
     }
 
-    private void DropCurrentItem()
+    public void DropCurrentItem()
     {
         if (equippedItemPrefab != null)
         {
@@ -130,6 +194,14 @@ public class PlayerController : MonoBehaviour
 
             UIManager.Instance.UpdateEquippedItemUI(null);
         }
+    }
+    
+
+    private void Die()
+    {
+        OnDeath?.Invoke();
+        DropCurrentItem();
+        Destroy(gameObject);
     }
 
 

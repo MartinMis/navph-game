@@ -4,10 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Dog
-  - Furniture
-  - UserInterfaceRoot
+  - closeBtn
+  - sfxSlider
+  - musicSlider
   - Boss
+  - UserInterfaceRoot
+  - Furniture
+  - Dog
+  - GlobalLight
   layers:
   - Default
   - TransparentFX

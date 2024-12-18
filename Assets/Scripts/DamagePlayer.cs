@@ -40,7 +40,7 @@ public class DamagePlayer : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Player"))
                 {
-                    hit.collider.GetComponent<PlayerController>().DamagePlayer(damage * Time.deltaTime);
+                    hit.collider.GetComponent<PlayerController>().DamagePlayer(damage);
                 }
             }
             

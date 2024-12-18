@@ -69,7 +69,7 @@ public class ScreamerController : MonoBehaviour
             PlayerController playerController = playerTransform.GetComponent<PlayerController>();
             if (playerController != null)
             {
-                playerController.DamagePlayer(damage * Time.deltaTime, DamageType.Sound);
+                playerController.DamagePlayer(damage, DamageType.Sound);
             }
             else
             {

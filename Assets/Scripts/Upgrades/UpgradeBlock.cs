@@ -15,11 +15,12 @@ namespace Assets.Scripts
         // can be an upgrade description in the future
 
         private ICoinManager coinManager;
+        private IUpgrade associatedUpgrade;
 
         private int currentUpgradePrice;         
         private int currentUpgradeLevel;         
         private int maxUpgradeLevel = 10;
-        private int baseUpgradePrice = 10;
+        private int baseUpgradePrice;
         private int baseUpgradeLevel = 0;
         public string UpgradeName => upgradeName.text;
         public int CurrentLevel => currentUpgradeLevel;
@@ -44,7 +45,7 @@ namespace Assets.Scripts
             UpdateUI();
         }
 
-        public void Initialize(Sprite icon, string name, int basePrice, Action onUpgradeApplied, ICoinManager coinManager)
+        public void Initialize(Sprite icon, string name, int basePrice, Action onUpgradeApplied, ICoinManager coinManager, IUpgrade upgrade)
         {
             Debug.Log($"[UpgradeBlock] Initializing upgrade: {name}, Base Price: {basePrice}");
 
@@ -53,11 +54,13 @@ namespace Assets.Scripts
             upgradeImage.sprite = icon; 
             upgradeName.text = name; 
             currentUpgradePrice = basePrice;
+            baseUpgradePrice = basePrice;
 
             // Invoked in ApplyUpgrade() method
             /** this is IUpgrade ApplyEffect() method which is implemented by
             PlayerSpeedUpgrade, SleepMeterCapacityUpgrade, SleepMeterSpeedUpgrade, LightDamageUpgrade **/
             OnUpgradeApplied = onUpgradeApplied;
+            associatedUpgrade = upgrade;
 
             LoadUpgradeState();
             UpdateUI();                      
@@ -76,7 +79,7 @@ namespace Assets.Scripts
         {
             currentUpgradeLevel = baseUpgradeLevel;
             currentUpgradePrice = baseUpgradePrice;
-            SaveUpgradeState();
+            UpgradeStateStorage.SaveUpgradeState(associatedUpgrade.Key, currentUpgradeLevel, currentUpgradePrice);
             UpdateUI();
         }
 
@@ -94,8 +97,10 @@ namespace Assets.Scripts
             {
                 currentUpgradeLevel++;
                 NextUpgradePrice();
+
+                associatedUpgrade.SetCurrentLevel(currentUpgradeLevel);
                 //ApplyUpgrade();    
-                SaveUpgradeState(); 
+                UpgradeStateStorage.SaveUpgradeState(associatedUpgrade.Key, currentUpgradeLevel, currentUpgradePrice);
                 UpdateUI();        
                 Debug.Log($"[UpgradeBlock] Upgrade {UpgradeName} purchased. New Level: {currentUpgradeLevel}");
             }
@@ -126,29 +131,13 @@ namespace Assets.Scripts
 
         }
 
-        // saves the current state of the upgrade to PlayerPrefs.
-        private void SaveUpgradeState()
-        {
-            string keyLevel = $"Upgrade_{UpgradeName}_Level";
-            string keyPrice = $"Upgrade_{UpgradeName}_Price";
-
-            PlayerPrefs.SetInt(keyLevel, currentUpgradeLevel);
-            PlayerPrefs.SetInt(keyPrice, currentUpgradePrice);
-            PlayerPrefs.Save();
-
-            Debug.Log($"[UpgradeBlock] Saved {UpgradeName}: Level {currentUpgradeLevel}, Price {currentUpgradePrice}");
-        }
-
         /// loads the saved state of the upgrade from PlayerPrefs.
         private void LoadUpgradeState()
         {
-            string keyLevel = $"Upgrade_{UpgradeName}_Level";
-            string keyPrice = $"Upgrade_{UpgradeName}_Price";
-
-            if (PlayerPrefs.HasKey(keyLevel) && PlayerPrefs.HasKey(keyPrice))
+            if (UpgradeStateStorage.TryLoadUpgradeState(associatedUpgrade.Key, out var loadedLevel, out var loadedPrice))
             {
-                currentUpgradeLevel = PlayerPrefs.GetInt(keyLevel);
-                currentUpgradePrice = PlayerPrefs.GetInt(keyPrice);
+                currentUpgradeLevel = loadedLevel;
+                currentUpgradePrice = loadedPrice;
                 Debug.Log($"[UpgradeBlock] Loaded {UpgradeName}: Level {currentUpgradeLevel}, Price {currentUpgradePrice}");
             }
             else
@@ -156,6 +145,7 @@ namespace Assets.Scripts
                 ResetUpgrade();
                 Debug.Log($"[UpgradeBlock] No saved state for {UpgradeName}. Defaulting to Level 0, Price 10");
             }
+            associatedUpgrade.SetCurrentLevel(currentUpgradeLevel);
         }
     }
 }
