@@ -7,6 +7,8 @@ public class DogDamage : MonoBehaviour
     private Transform playerTransform;
     private DogController dogController;
 
+    private AudioSource audioSource;
+
     void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -23,6 +25,12 @@ public class DogDamage : MonoBehaviour
         if (dogController == null)
         {
             Debug.LogError("DogController script not found on the dog GameObject.");
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource component missing on DogDamage.");
         }
     }
 
@@ -43,6 +51,24 @@ public class DogDamage : MonoBehaviour
                 else
                 {
                     Debug.LogError("PlayerController script not found on the player.");
+                }
+
+                if (audioSource != null)
+                {
+                    float volume = Mathf.Clamp01(1 - (distance / damageRadius));
+                    audioSource.volume = volume;
+
+                    if (!audioSource.isPlaying)
+                    {
+                        audioSource.Play();
+                    }
+                }
+            }
+            else
+            {
+                if (audioSource != null && audioSource.isPlaying)
+                {
+                    audioSource.Stop();
                 }
             }
         }
