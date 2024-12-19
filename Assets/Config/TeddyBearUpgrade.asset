@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: 2
   name: Teddy bear
-  description: Increases time till sunrise
+  description: Increase Wake-Up Meter capacity
   icon: {fileID: 21300000, guid: abc433d1430063a4caa37c2a45a662b3, type: 3}
   basePrice: 10
   currentLevel: 0
