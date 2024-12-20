@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Scripts
+namespace Upgrades
 {
     public class UpgradeManager : MonoBehaviour
     {

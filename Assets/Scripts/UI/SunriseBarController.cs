@@ -1,40 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
 using Bosses;
+using Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SunriseBarController : MonoBehaviour
+namespace UI
 {
-    [SerializeField] Text percentageText;
-
-    void Awake()
+    public class SunriseBarController : MonoBehaviour
     {
-        if (RunTimer.Instance.Disabled)
+        [SerializeField] Text percentageText;
+
+        void Awake()
         {
-            Disable();
+            if (RunTimer.Instance.Disabled)
+            {
+                Disable();
+            }
+            else
+            {
+                GameObject.FindWithTag("Boss").GetComponent<LampBossController>().OnDeath += Disable;
+                RunTimer.Instance.OnUpdate += ChangePercentage;
+            }
         }
-        else
+
+        void ChangePercentage(float percentage)
         {
-            GameObject.FindWithTag("Boss").GetComponent<LampBossController>().OnDeath += Disable;
-            RunTimer.Instance.OnUpdate += ChangePercentage;
+            Debug.Log($"Percentage: {percentage}");
+            percentageText.text = Mathf.RoundToInt(percentage*100) + "%";
         }
-    }
 
-    void ChangePercentage(float percentage)
-    {
-        Debug.Log($"Percentage: {percentage}");
-        percentageText.text = Mathf.RoundToInt(percentage*100) + "%";
-    }
+        void Disable()
+        {
+            Destroy(gameObject);
+        }
 
-    void Disable()
-    {
-        Destroy(gameObject);
-    }
-
-    void OnDestroy()
-    {
-        RunTimer.Instance.OnUpdate -= ChangePercentage;
+        void OnDestroy()
+        {
+            RunTimer.Instance.OnUpdate -= ChangePercentage;
+        }
     }
 }

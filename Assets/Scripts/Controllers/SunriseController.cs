@@ -1,28 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class SunriseController : MonoBehaviour
+namespace Controllers
 {
-    private Light2D _light;
-    private float _lightLevel;
-    public float LightLevel
+    public class SunriseController : MonoBehaviour
     {
-        get => _lightLevel;
-        set
+        private Light2D _light;
+        private float _lightLevel;
+        public float LightLevel
         {
-            Debug.Log("Setting light level to " + value);
-            _lightLevel = value;
-            _light.intensity = _lightLevel;
+            get => _lightLevel;
+            set
+            {
+                Debug.Log("Setting light level to " + value);
+                _lightLevel = value;
+                _light.intensity = _lightLevel;
+            }
         }
-    }
-    void Awake()
-    {
-        _light = GetComponent<Light2D>();
-        LightLevel = _light.intensity;
-    }
+        void Awake()
+        {
+            _light = GetComponent<Light2D>();
+            LightLevel = _light.intensity;
+        }
 
     
     
+    }
 }

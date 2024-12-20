@@ -3,46 +3,49 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TabNavigationController : MonoBehaviour
+namespace UI
 {
-    // list of all buttons with configuration
-    public List<Tab> tabs; 
-
-    void Start()
+    public class TabNavigationController : MonoBehaviour
     {
-        string currentScene = SceneManager.GetActiveScene().name;
+        // list of all buttons with configuration
+        public List<Tab> tabs; 
 
-        // set button states based on current scene
-        foreach (var tab in tabs)
+        void Start()
         {
-            bool isActive = tab.config.targetScene == currentScene;
-            UpdateButtonState(tab, isActive);
+            string currentScene = SceneManager.GetActiveScene().name;
 
-            // button on click listener
-            tab.button.onClick.AddListener(() => LoadScene(tab.config.targetScene));
+            // set button states based on current scene
+            foreach (var tab in tabs)
+            {
+                bool isActive = tab.config.targetScene == currentScene;
+                UpdateButtonState(tab, isActive);
+
+                // button on click listener
+                tab.button.onClick.AddListener(() => LoadScene(tab.config.targetScene));
+            }
         }
-    }
 
-    private void UpdateButtonState(Tab tab, bool isActive)
-    {
-        UpdateButtonVisuals(tab, isActive);
-        UpdateButtonInteractivity(tab, isActive);
-    }
+        private void UpdateButtonState(Tab tab, bool isActive)
+        {
+            UpdateButtonVisuals(tab, isActive);
+            UpdateButtonInteractivity(tab, isActive);
+        }
 
-    private void UpdateButtonVisuals(Tab tab, bool isActive)
-    {
-        // swap sprite
-        Image buttonImage = tab.button.GetComponent<Image>();
-        buttonImage.sprite = isActive ? tab.config.activeSprite : tab.config.normalSprite;
-    }
+        private void UpdateButtonVisuals(Tab tab, bool isActive)
+        {
+            // swap sprite
+            Image buttonImage = tab.button.GetComponent<Image>();
+            buttonImage.sprite = isActive ? tab.config.activeSprite : tab.config.normalSprite;
+        }
 
-    private void UpdateButtonInteractivity(Tab tab, bool isActive)
-    {
-        tab.button.interactable = !isActive;
-    }
+        private void UpdateButtonInteractivity(Tab tab, bool isActive)
+        {
+            tab.button.interactable = !isActive;
+        }
 
-    private void LoadScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
+        private void LoadScene(string sceneName)
+        {
+            SceneManager.LoadScene(sceneName);
+        }
     }
 }

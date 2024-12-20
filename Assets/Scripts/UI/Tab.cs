@@ -1,9 +1,11 @@
-using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class Tab
+namespace UI
 {
-    public Button button;        
-    public ButtonConfig config;
+    [System.Serializable]
+    public class Tab
+    {
+        public Button button;        
+        public ButtonConfig config;
+    }
 }

@@ -1,8 +1,11 @@
-public enum DamageType
+namespace Utility
 {
-    None,
-    Coffee,
-    Sound,
-    Light,
-    Fire
+    public enum DamageType
+    {
+        None,
+        Coffee,
+        Sound,
+        Light,
+        Fire
+    }
 }

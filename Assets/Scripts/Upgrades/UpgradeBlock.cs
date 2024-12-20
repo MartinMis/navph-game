@@ -1,8 +1,9 @@
+using System;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
-namespace Assets.Scripts
+namespace Upgrades
 {
     public class UpgradeBlock : MonoBehaviour, IUpgradeBlock
     {

@@ -3,84 +3,87 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+namespace UI
 {
-    public static UIManager Instance;
-
-    [FormerlySerializedAs("interaction")] [Header("Interaction")]
-    public GameObject interactionPopUp;
-    public Image image;
-
-    [Header("Equipped Item")]
-    public Image itemIcon;
-    public Sprite defaultIcon;
-    
-    private RectTransform interactionRectTransform;
-    
-
-    private void Awake()
+    public class UIManager : MonoBehaviour
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+        public static UIManager Instance;
 
-            if (interactionPopUp != null)
-            {
-                interactionRectTransform = interactionPopUp.GetComponent<RectTransform>();
-            }
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+        [FormerlySerializedAs("interaction")] [Header("Interaction")]
+        public GameObject interactionPopUp;
+        public Image image;
 
-    public void ToggleInteractionPopUp(bool show, Vector3 popUpWorldPosition, Sprite sprite = null, Action callback = null) // DELEGATES ????
-    {
-        if (interactionPopUp != null)
-        {
-            interactionPopUp.SetActive(show);
-            if (image != null && sprite != null)
-            {
-                image.sprite = sprite;
-            }
-
-            if (show && interactionRectTransform != null)
-            {
-                Vector3 screenPos = Camera.main.WorldToScreenPoint(popUpWorldPosition);
-
-                interactionRectTransform.position = screenPos;
-            }
-
-            EnterButtonController buttonController = interactionPopUp.gameObject.GetComponent<EnterButtonController>();
-            if (show && !buttonController.InteractionIsAssigned())
-            {
-                Debug.Log("[UIManager] Assigning callback");
-                buttonController.ButtonPressed += callback;
-            }
-            else if (!show && buttonController.InteractionIsAssigned())
-            {
-                Debug.Log("[UIManager] Unassigning callback");
-                buttonController.ResetAllListeners();
-            }
-        }
-    }
+        [Header("Equipped Item")]
+        public Image itemIcon;
+        public Sprite defaultIcon;
     
-    
+        private RectTransform interactionRectTransform;
     
 
-    public void UpdateEquippedItemUI(Sprite itemSprite)
-    {
-        if (itemIcon != null)
+        private void Awake()
         {
-            if (itemSprite != null)
+            if (Instance == null)
             {
-                itemIcon.sprite = itemSprite;
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+
+                if (interactionPopUp != null)
+                {
+                    interactionRectTransform = interactionPopUp.GetComponent<RectTransform>();
+                }
             }
             else
             {
-                itemIcon.sprite = defaultIcon;
+                Destroy(gameObject);
+            }
+        }
+
+        public void ToggleInteractionPopUp(bool show, Vector3 popUpWorldPosition, Sprite sprite = null, Action callback = null) // DELEGATES ????
+        {
+            if (interactionPopUp != null)
+            {
+                interactionPopUp.SetActive(show);
+                if (image != null && sprite != null)
+                {
+                    image.sprite = sprite;
+                }
+
+                if (show && interactionRectTransform != null)
+                {
+                    Vector3 screenPos = UnityEngine.Camera.main.WorldToScreenPoint(popUpWorldPosition);
+
+                    interactionRectTransform.position = screenPos;
+                }
+
+                EnterButtonController buttonController = interactionPopUp.gameObject.GetComponent<EnterButtonController>();
+                if (show && !buttonController.InteractionIsAssigned())
+                {
+                    Debug.Log("[UIManager] Assigning callback");
+                    buttonController.ButtonPressed += callback;
+                }
+                else if (!show && buttonController.InteractionIsAssigned())
+                {
+                    Debug.Log("[UIManager] Unassigning callback");
+                    buttonController.ResetAllListeners();
+                }
+            }
+        }
+    
+    
+    
+
+        public void UpdateEquippedItemUI(Sprite itemSprite)
+        {
+            if (itemIcon != null)
+            {
+                if (itemSprite != null)
+                {
+                    itemIcon.sprite = itemSprite;
+                }
+                else
+                {
+                    itemIcon.sprite = defaultIcon;
+                }
             }
         }
     }

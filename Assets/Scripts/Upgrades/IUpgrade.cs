@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts
+namespace Upgrades
 {
     public interface IUpgrade
     {

@@ -1,112 +1,114 @@
-using System.Collections;
-using System.Collections.Generic;
+using Spawners_and_Generators;
 using UnityEngine;
 
-public class DogController : MonoBehaviour
+namespace Enemies
 {
-    [SerializeField] private float speed = 2f;
-    public bool IsMoving { get; private set; } = true;
-
-    private bool movingRight = true;
-
-    private float minX;
-    private float maxX;
-
-    private float hallwayWidth;
-    private float dogWidth;
-
-    private SpriteRenderer sr;
-    private Animator animator;
-
-    void Start()
+    public class DogController : MonoBehaviour
     {
-        GameObject hallway = GameObject.FindObjectOfType<GenerateHallway>().gameObject;
-        if (hallway != null)
-        {
-            GenerateHallway generateHallway = hallway.GetComponent<GenerateHallway>();
-            hallwayWidth = generateHallway.HallwayWidth;
-        }
-        else
-        {
-            Debug.LogError("Hallway not found!");
-        }
+        [SerializeField] private float speed = 2f;
+        public bool IsMoving { get; private set; } = true;
 
-        sr = GetComponent<SpriteRenderer>();
-        if (sr != null)
+        private bool movingRight = true;
+
+        private float minX;
+        private float maxX;
+
+        private float hallwayWidth;
+        private float dogWidth;
+
+        private SpriteRenderer sr;
+        private Animator animator;
+
+        void Start()
         {
-            dogWidth = sr.bounds.size.x;
-        }
-        else
-        {
-            Debug.LogError("Dog SpriteRenderer not found!");
-        }
-
-        animator = GetComponent<Animator>();
-        if (animator == null)
-        {
-            Debug.LogError("Animator not found on Dog!");
-        }
-
-        minX = -hallwayWidth / 2;
-        maxX = hallwayWidth / 2;
-
-        UpdateSpriteDirection();
-        UpdateAnimatorParameters();
-    }
-
-    public void SetDirection(bool right)
-    {
-        movingRight = right;
-        UpdateSpriteDirection();
-    }
-
-    void Update()
-    {
-        if (IsMoving)
-        {
-            float moveDirection = movingRight ? 1 : -1;
-            transform.Translate(Vector2.right * moveDirection * speed * Time.deltaTime);
-            
-            if (movingRight && transform.position.x > maxX)
+            GameObject hallway = GameObject.FindObjectOfType<GenerateHallway>().gameObject;
+            if (hallway != null)
             {
-                movingRight = false;
-                UpdateSpriteDirection();
+                GenerateHallway generateHallway = hallway.GetComponent<GenerateHallway>();
+                hallwayWidth = generateHallway.HallwayWidth;
             }
-            else if (!movingRight && transform.position.x < minX)
+            else
             {
-                movingRight = true;
-                UpdateSpriteDirection();
+                Debug.LogError("Hallway not found!");
             }
-        }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            IsMoving = false;
+            sr = GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                dogWidth = sr.bounds.size.x;
+            }
+            else
+            {
+                Debug.LogError("Dog SpriteRenderer not found!");
+            }
+
+            animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                Debug.LogError("Animator not found on Dog!");
+            }
+
+            minX = -hallwayWidth / 2;
+            maxX = hallwayWidth / 2;
+
+            UpdateSpriteDirection();
             UpdateAnimatorParameters();
         }
-        else
+
+        public void SetDirection(bool right)
         {
-            movingRight = !movingRight;
+            movingRight = right;
             UpdateSpriteDirection();
         }
-    }
 
-    private void UpdateSpriteDirection()
-    {
-        if (sr != null)
+        void Update()
         {
-            sr.flipX = !movingRight;
+            if (IsMoving)
+            {
+                float moveDirection = movingRight ? 1 : -1;
+                transform.Translate(Vector2.right * moveDirection * speed * Time.deltaTime);
+            
+                if (movingRight && transform.position.x > maxX)
+                {
+                    movingRight = false;
+                    UpdateSpriteDirection();
+                }
+                else if (!movingRight && transform.position.x < minX)
+                {
+                    movingRight = true;
+                    UpdateSpriteDirection();
+                }
+            }
         }
-    }
 
-    private void UpdateAnimatorParameters()
-    {
-        if (animator != null)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            animator.SetBool("IsMoving", IsMoving);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                IsMoving = false;
+                UpdateAnimatorParameters();
+            }
+            else
+            {
+                movingRight = !movingRight;
+                UpdateSpriteDirection();
+            }
+        }
+
+        private void UpdateSpriteDirection()
+        {
+            if (sr != null)
+            {
+                sr.flipX = !movingRight;
+            }
+        }
+
+        private void UpdateAnimatorParameters()
+        {
+            if (animator != null)
+            {
+                animator.SetBool("IsMoving", IsMoving);
+            }
         }
     }
 }

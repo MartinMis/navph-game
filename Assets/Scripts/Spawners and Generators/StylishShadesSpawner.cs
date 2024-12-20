@@ -1,70 +1,74 @@
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
-public class StylishShadesSpawner : MonoBehaviour
+namespace Spawners_and_Generators
 {
-    [SerializeField] private GameObject stylishShadesPrefab;
-    [SerializeField] private int minStylishShades = 1;
-    [SerializeField] private int maxStylishShades = 5;
-    [SerializeField] private float minSeparation = 2f;
-
-    void Start()
+    public class StylishShadesSpawner : MonoBehaviour
     {
-        minStylishShades = (int)(minStylishShades * DifficultyManager.Instance.HallwayLengthCoeficient);
-        maxStylishShades = (int)(maxStylishShades * DifficultyManager.Instance.HallwayLengthCoeficient);
-        SpawnStylishShades();
-    }
+        [SerializeField] private GameObject stylishShadesPrefab;
+        [SerializeField] private int minStylishShades = 1;
+        [SerializeField] private int maxStylishShades = 5;
+        [SerializeField] private float minSeparation = 2f;
 
-    void SpawnStylishShades()
-    {
-        int shadesCount = Random.Range(minStylishShades, maxStylishShades + 1);
-
-        GenerateHallway hallwayGenerator = GetComponent<GenerateHallway>();
-        if (hallwayGenerator == null)
+        void Start()
         {
-            Debug.LogError("GenerateHallway component not found on the hallway GameObject.");
-            return;
+            minStylishShades = (int)(minStylishShades * DifficultyManager.Instance.HallwayLengthCoeficient);
+            maxStylishShades = (int)(maxStylishShades * DifficultyManager.Instance.HallwayLengthCoeficient);
+            SpawnStylishShades();
         }
 
-        float hallwayWidth = hallwayGenerator.HallwayWidth;
-        float hallwayLength = hallwayGenerator.HallwayLength;
-
-        List<Vector2> spawnedPositions = new List<Vector2>();
-
-        int attempts = 0;
-        int maxAttempts = 100;
-
-        while (spawnedPositions.Count < shadesCount && attempts < maxAttempts)
+        void SpawnStylishShades()
         {
-            attempts++;
+            int shadesCount = Random.Range(minStylishShades, maxStylishShades + 1);
 
-            float xPosition = Random.Range(-hallwayWidth / 2, hallwayWidth / 2);
-            float yPosition = Random.Range(-hallwayLength / 2, hallwayLength / 2);
-            Vector2 spawnPosition = new Vector2(xPosition, yPosition);
-
-            bool tooClose = false;
-
-            foreach (Vector2 existingPosition in spawnedPositions)
+            GenerateHallway hallwayGenerator = GetComponent<GenerateHallway>();
+            if (hallwayGenerator == null)
             {
-                if (Vector2.Distance(spawnPosition, existingPosition) < minSeparation)
+                Debug.LogError("GenerateHallway component not found on the hallway GameObject.");
+                return;
+            }
+
+            float hallwayWidth = hallwayGenerator.HallwayWidth;
+            float hallwayLength = hallwayGenerator.HallwayLength;
+
+            List<Vector2> spawnedPositions = new List<Vector2>();
+
+            int attempts = 0;
+            int maxAttempts = 100;
+
+            while (spawnedPositions.Count < shadesCount && attempts < maxAttempts)
+            {
+                attempts++;
+
+                float xPosition = Random.Range(-hallwayWidth / 2, hallwayWidth / 2);
+                float yPosition = Random.Range(-hallwayLength / 2, hallwayLength / 2);
+                Vector2 spawnPosition = new Vector2(xPosition, yPosition);
+
+                bool tooClose = false;
+
+                foreach (Vector2 existingPosition in spawnedPositions)
                 {
-                    tooClose = true;
-                    break;
+                    if (Vector2.Distance(spawnPosition, existingPosition) < minSeparation)
+                    {
+                        tooClose = true;
+                        break;
+                    }
+                }
+
+                if (!tooClose)
+                {
+                    GameObject newStylishShades = Instantiate(stylishShadesPrefab, transform);
+                    newStylishShades.transform.localPosition = new Vector3(spawnPosition.x, spawnPosition.y, 0);
+
+                    spawnedPositions.Add(spawnPosition);
                 }
             }
 
-            if (!tooClose)
+            if (attempts >= maxAttempts)
             {
-                GameObject newStylishShades = Instantiate(stylishShadesPrefab, transform);
-                newStylishShades.transform.localPosition = new Vector3(spawnPosition.x, spawnPosition.y, 0);
-
-                spawnedPositions.Add(spawnPosition);
+                Debug.LogWarning("Reached maximum attempts while spawning Stylish Shades. Some Stylish Shades may not have been spawned.");
             }
-        }
-
-        if (attempts >= maxAttempts)
-        {
-            Debug.LogWarning("Reached maximum attempts while spawning Stylish Shades. Some Stylish Shades may not have been spawned.");
         }
     }
 }

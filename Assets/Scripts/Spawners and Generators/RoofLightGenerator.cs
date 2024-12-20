@@ -1,66 +1,69 @@
-using System.Collections;
 using System.Collections.Generic;
+using Controllers;
+using Managers;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
-public class RoofLightGenerator : MonoBehaviour
+namespace Spawners_and_Generators
 {
-    [SerializeField] private GameObject roofLightPrefab;
-    [SerializeField] private float minRadius;
-    [SerializeField] private float maxRadius;
-    [SerializeField] private int lightCount;
-    [SerializeField] private float lightDistance;
-    [SerializeField] private int maxSpawnAttempts = 10;
-    
-    void Start()
+    public class RoofLightGenerator : MonoBehaviour
     {
-        // Adjust initial values based on current difficulty level
-        lightCount = (int)(lightCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
-        
-        float hallwayWidth = GetComponent<GenerateHallway>().HallwayWidth;
-        float hallwayLength = GetComponent<GenerateHallway>().HallwayLength;
-        Debug.Log("Hallway width: " + hallwayWidth);
-        Debug.Log("Hallway length: " + hallwayLength);
-        List<Vector3> roofLightPositions = new List<Vector3>();
-
-        for (int j = 0; j < lightCount; j++)
+        [SerializeField] private GameObject roofLightPrefab;
+        [SerializeField] private float minRadius;
+        [SerializeField] private float maxRadius;
+        [SerializeField] private int lightCount;
+        [SerializeField] private float lightDistance;
+        [SerializeField] private int maxSpawnAttempts = 10;
+    
+        void Start()
         {
-            Vector3 roofLightPosition = new Vector3(0, 0, 0);
-            float radius = Random.Range(minRadius, maxRadius);
-            for (int i = 0; i < maxSpawnAttempts; i++)
+            // Adjust initial values based on current difficulty level
+            lightCount = (int)(lightCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
+        
+            float hallwayWidth = GetComponent<GenerateHallway>().HallwayWidth;
+            float hallwayLength = GetComponent<GenerateHallway>().HallwayLength;
+            Debug.Log("Hallway width: " + hallwayWidth);
+            Debug.Log("Hallway length: " + hallwayLength);
+            List<Vector3> roofLightPositions = new List<Vector3>();
+
+            for (int j = 0; j < lightCount; j++)
             {
-                float xPos = Random.Range(-hallwayWidth/2 + radius, hallwayWidth/2 - radius);
-                float yPos = Random.Range(-hallwayLength/2 + radius, hallwayLength/2 - radius);
-                roofLightPosition = new Vector3(xPos, yPos, 0);
-            
-                bool validPosition = true;
-                foreach (Vector3 roofLight in roofLightPositions)
+                Vector3 roofLightPosition = new Vector3(0, 0, 0);
+                float radius = Random.Range(minRadius, maxRadius);
+                for (int i = 0; i < maxSpawnAttempts; i++)
                 {
-                    if (Vector3.Distance(roofLight, roofLightPosition) < lightDistance)
+                    float xPos = Random.Range(-hallwayWidth/2 + radius, hallwayWidth/2 - radius);
+                    float yPos = Random.Range(-hallwayLength/2 + radius, hallwayLength/2 - radius);
+                    roofLightPosition = new Vector3(xPos, yPos, 0);
+            
+                    bool validPosition = true;
+                    foreach (Vector3 roofLight in roofLightPositions)
                     {
-                        validPosition = false;
-                        xPos = Random.Range(-hallwayWidth/2 + radius, hallwayWidth/2 - radius);
-                        yPos = Random.Range(-hallwayLength/2 + radius, hallwayLength/2 - radius);
-                        roofLightPosition = new Vector3(xPos, yPos, 0);
+                        if (Vector3.Distance(roofLight, roofLightPosition) < lightDistance)
+                        {
+                            validPosition = false;
+                            xPos = Random.Range(-hallwayWidth/2 + radius, hallwayWidth/2 - radius);
+                            yPos = Random.Range(-hallwayLength/2 + radius, hallwayLength/2 - radius);
+                            roofLightPosition = new Vector3(xPos, yPos, 0);
+                        }
+                    }
+
+                    if (validPosition)
+                    {
+                        break;
+                    }
+
+                    if (i == maxSpawnAttempts - 1)
+                    {
+                        return;
                     }
                 }
-
-                if (validPosition)
-                {
-                    break;
-                }
-
-                if (i == maxSpawnAttempts - 1)
-                {
-                    return;
-                }
+                roofLightPositions.Add(roofLightPosition);
+                GameObject rl = Instantiate(roofLightPrefab, transform);
+                rl.GetComponent<RoofLightController>().ModifyRadius(radius);
+                Debug.Log("Radius: " + radius);
+                rl.transform.localPosition = roofLightPosition;
             }
-            roofLightPositions.Add(roofLightPosition);
-            GameObject rl = Instantiate(roofLightPrefab, transform);
-            rl.GetComponent<RoofLightController>().ModifyRadius(radius);
-            Debug.Log("Radius: " + radius);
-            rl.transform.localPosition = roofLightPosition;
         }
-    }
     
+    }
 }

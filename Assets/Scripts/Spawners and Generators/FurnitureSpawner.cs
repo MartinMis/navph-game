@@ -1,96 +1,99 @@
-using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using Utility;
 
-public class FurnitureSpawner : MonoBehaviour
+namespace Spawners_and_Generators
 {
-    [SerializeField] List<GameObject> furniturePrefab;
-    [SerializeField] GameObject couchPrefab;
-    [SerializeField] float couchSpawnRate;
-    [SerializeField] float furnitureDistance = 5;
-    [SerializeField] int spawnAttempts = 20;
-    [SerializeField] int furnitureCount;
-    [SerializeField] float wallSnapDistance;
-    
-    private List<Vector3> furniturePositions = new ();
-    void Start()
+    public class FurnitureSpawner : MonoBehaviour
     {
-        furnitureCount = (int)(furnitureCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
-        
-        GenerateHallway hallway = GetComponent<GenerateHallway>();
-        float hallwayLength = hallway.HallwayLength;
-        float hallwayWidth = hallway.HallwayWidth;
-
-        for (int i = 0; i < furnitureCount; i++)
+        [SerializeField] List<GameObject> furniturePrefab;
+        [SerializeField] GameObject couchPrefab;
+        [SerializeField] float couchSpawnRate;
+        [SerializeField] float furnitureDistance = 5;
+        [SerializeField] int spawnAttempts = 20;
+        [SerializeField] int furnitureCount;
+        [SerializeField] float wallSnapDistance;
+    
+        private List<Vector3> furniturePositions = new ();
+        void Start()
         {
-            GameObject randomFurniture;
-            if (Random.Range(0.0f, 1.0f) <= couchSpawnRate)
-            {
-                randomFurniture = couchPrefab;
-            }
-            else
-            {
-                randomFurniture = furniturePrefab[Random.Range(0, furniturePrefab.Count)];
-            }
-            Vector3 spawnPosition = new Vector3(0, 0, 0);
-            for (int j = 0; j < spawnAttempts; j++)
-            {
-                spawnPosition = HallwaySpawner.SpawnPosition(hallwayWidth, hallwayLength, 0, 5);
+            furnitureCount = (int)(furnitureCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
+        
+            GenerateHallway hallway = GetComponent<GenerateHallway>();
+            float hallwayLength = hallway.HallwayLength;
+            float hallwayWidth = hallway.HallwayWidth;
 
-                if (spawnPosition.x > hallwayWidth/2 - wallSnapDistance)
+            for (int i = 0; i < furnitureCount; i++)
+            {
+                GameObject randomFurniture;
+                if (Random.Range(0.0f, 1.0f) <= couchSpawnRate)
                 {
-                    spawnPosition.x = hallwayWidth/2;
+                    randomFurniture = couchPrefab;
                 }
-                else if (spawnPosition.x < -hallwayWidth/2 + wallSnapDistance)
+                else
                 {
-                    spawnPosition.x = -hallwayWidth/2;
+                    randomFurniture = furniturePrefab[Random.Range(0, furniturePrefab.Count)];
                 }
-                
-                bool tooClose = false;
-                if (furniturePositions.Count > 0)
+                Vector3 spawnPosition = new Vector3(0, 0, 0);
+                for (int j = 0; j < spawnAttempts; j++)
                 {
-                    foreach (Vector3 pos in furniturePositions)
+                    spawnPosition = HallwaySpawner.SpawnPosition(hallwayWidth, hallwayLength, 0, 5);
+
+                    if (spawnPosition.x > hallwayWidth/2 - wallSnapDistance)
                     {
-                        if (Vector3.Distance(spawnPosition, pos) < furnitureDistance)
+                        spawnPosition.x = hallwayWidth/2;
+                    }
+                    else if (spawnPosition.x < -hallwayWidth/2 + wallSnapDistance)
+                    {
+                        spawnPosition.x = -hallwayWidth/2;
+                    }
+                
+                    bool tooClose = false;
+                    if (furniturePositions.Count > 0)
+                    {
+                        foreach (Vector3 pos in furniturePositions)
+                        {
+                            if (Vector3.Distance(spawnPosition, pos) < furnitureDistance)
+                            {
+                                tooClose = true;
+                            }
+                        }
+
+                    }
+                    /*
+                * Check if there isn't anything else in the area, to reduce the likelihood of furniture spawning over
+                * the items. There is still a small chance physics interactions will cause items very close together.
+                */
+                    Collider2D[] colliders = Physics2D.OverlapCircleAll(spawnPosition, furnitureDistance);
+                    foreach (Collider2D collider in colliders)
+                    {
+                        Debug.Log($"[FurnitureSpawner] {collider.gameObject.name}");
+                        if (!collider.gameObject.CompareTag(Tags.Background))
                         {
                             tooClose = true;
                         }
                     }
-
-                }
-                /*
-                * Check if there isn't anything else in the area, to reduce the likelihood of furniture spawning over
-                * the items. There is still a small chance physics interactions will cause items very close together.
-                */
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(spawnPosition, furnitureDistance);
-                foreach (Collider2D collider in colliders)
-                {
-                    Debug.Log($"[FurnitureSpawner] {collider.gameObject.name}");
-                    if (!collider.gameObject.CompareTag(Tags.Background))
+                
+                    if (!tooClose)
                     {
-                        tooClose = true;
+                        furniturePositions.Add(spawnPosition);
+                        break;
+                    }
+
+                    if (j == spawnAttempts - 1)
+                    {
+                        return;
                     }
                 }
-                
-                if (!tooClose)
-                {
-                    furniturePositions.Add(spawnPosition);
-                    break;
-                }
-
-                if (j == spawnAttempts - 1)
-                {
-                    return;
-                }
-            }
             
-            GameObject newFurniture  = Instantiate(randomFurniture, transform);
-            newFurniture.transform.localPosition = spawnPosition;
+                GameObject newFurniture  = Instantiate(randomFurniture, transform);
+                newFurniture.transform.localPosition = spawnPosition;
 
+            }
+        
+        
+        
         }
-        
-        
-        
     }
 }

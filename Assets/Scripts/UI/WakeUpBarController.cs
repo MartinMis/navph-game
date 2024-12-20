@@ -1,38 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
+using Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
 
-public class WakeUpBarController : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private Text maxValue;
-    [SerializeField] private Image fill;
-    
-    private PlayerController _playerController;
-    void Start()
+    public class WakeUpBarController : MonoBehaviour
     {
-        _playerController = GameObject.FindGameObjectWithTag(Tags.Player)?.GetComponent<PlayerController>();
-        if (_playerController == null)
+        [SerializeField] private Text maxValue;
+        [SerializeField] private Image fill;
+    
+        private PlayerController _playerController;
+        void Start()
         {
-            Debug.LogError("[WakeUpBarController] No player with controller found");
-            return;
+            _playerController = GameObject.FindGameObjectWithTag(Tags.Player)?.GetComponent<PlayerController>();
+            if (_playerController == null)
+            {
+                Debug.LogError("[WakeUpBarController] No player with controller found");
+                return;
+            }
+
+            maxValue.text = _playerController.maxSleepMeter.ToString("000");
+            _playerController.OnWakeUpMeterUpdated += FillBar;
+            FillBar();
         }
 
-        maxValue.text = _playerController.maxSleepMeter.ToString("000");
-        _playerController.OnWakeUpMeterUpdated += FillBar;
-        FillBar();
-    }
+        void FillBar()
+        {
+            if (_playerController == null) return;
+            fill.fillAmount = _playerController.GetCurrentWakeupMeter()/_playerController.maxSleepMeter;
+        }
 
-    void FillBar()
-    {
-        if (_playerController == null) return;
-        fill.fillAmount = _playerController.GetCurrentWakeupMeter()/_playerController.maxSleepMeter;
-    }
-
-    void OnDestroy()
-    {
-        if (_playerController == null) return;
-        _playerController.OnWakeUpMeterUpdated -= FillBar;
+        void OnDestroy()
+        {
+            if (_playerController == null) return;
+            _playerController.OnWakeUpMeterUpdated -= FillBar;
+        }
     }
 }

@@ -1,74 +1,78 @@
-using System.Collections;
 using System.Collections.Generic;
+using Enemies;
+using Managers;
 using UnityEngine;
 
-public class DogSpawnerScript : MonoBehaviour
+namespace Spawners_and_Generators
 {
-    [SerializeField] private GameObject dogPrefab;
-    [SerializeField] private int minDogCount = 5;
-    [SerializeField] private int maxDogCount = 15;
-    [SerializeField] private float minYSeparation = 1f;
-
-    void Start()
+    public class DogSpawnerScript : MonoBehaviour
     {
-        minDogCount = (int)(minDogCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
-        maxDogCount = (int)(maxDogCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
-        CreateDogs();
-    }
+        [SerializeField] private GameObject dogPrefab;
+        [SerializeField] private int minDogCount = 5;
+        [SerializeField] private int maxDogCount = 15;
+        [SerializeField] private float minYSeparation = 1f;
 
-    void CreateDogs()
-    {
-        int dogCount = Random.Range(minDogCount, maxDogCount);
-
-        GenerateHallway hallwayGenerator = GetComponent<GenerateHallway>();
-        float hallwayWidth = hallwayGenerator.HallwayWidth;
-        float hallwayLength = hallwayGenerator.HallwayLength;
-
-        List<float> spawnedDogYPositions = new List<float>();
-
-        for (int i = 0; i < dogCount; i++)
+        void Start()
         {
-            float xPosition = Random.Range(-hallwayWidth / 2, hallwayWidth / 2);
-            float yPosition = 0f;
-            bool validPositionFound = false;
-            int maxAttempts = 10;
-            int attempt = 0;
+            minDogCount = (int)(minDogCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
+            maxDogCount = (int)(maxDogCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
+            CreateDogs();
+        }
 
-            while (!validPositionFound && attempt < maxAttempts)
+        void CreateDogs()
+        {
+            int dogCount = Random.Range(minDogCount, maxDogCount);
+
+            GenerateHallway hallwayGenerator = GetComponent<GenerateHallway>();
+            float hallwayWidth = hallwayGenerator.HallwayWidth;
+            float hallwayLength = hallwayGenerator.HallwayLength;
+
+            List<float> spawnedDogYPositions = new List<float>();
+
+            for (int i = 0; i < dogCount; i++)
             {
-                yPosition = Random.Range(-hallwayLength / 2, hallwayLength / 2);
-                validPositionFound = true;
+                float xPosition = Random.Range(-hallwayWidth / 2, hallwayWidth / 2);
+                float yPosition = 0f;
+                bool validPositionFound = false;
+                int maxAttempts = 10;
+                int attempt = 0;
 
-                foreach (float existingY in spawnedDogYPositions)
+                while (!validPositionFound && attempt < maxAttempts)
                 {
-                    if (Mathf.Abs(yPosition - existingY) < minYSeparation)
+                    yPosition = Random.Range(-hallwayLength / 2, hallwayLength / 2);
+                    validPositionFound = true;
+
+                    foreach (float existingY in spawnedDogYPositions)
                     {
-                        validPositionFound = false;
-                        break;
+                        if (Mathf.Abs(yPosition - existingY) < minYSeparation)
+                        {
+                            validPositionFound = false;
+                            break;
+                        }
                     }
+                    attempt++;
                 }
-                attempt++;
-            }
 
-            if (validPositionFound)
-            {
-                Vector3 dogPosition = new Vector3(xPosition, yPosition, 0);
-
-                GameObject newDog = Instantiate(dogPrefab, transform);
-                newDog.transform.localPosition = dogPosition;
-
-                DogController dogController = newDog.GetComponent<DogController>();
-                if (dogController != null)
+                if (validPositionFound)
                 {
-                    bool movingRight = Random.Range(0, 2) == 0;
-                    dogController.SetDirection(movingRight);
-                }
+                    Vector3 dogPosition = new Vector3(xPosition, yPosition, 0);
 
-                spawnedDogYPositions.Add(yPosition);
-            }
-            else
-            {
-                Debug.LogWarning($"Could not find a valid position for dog {i + 1} after {maxAttempts} attempts.");
+                    GameObject newDog = Instantiate(dogPrefab, transform);
+                    newDog.transform.localPosition = dogPosition;
+
+                    DogController dogController = newDog.GetComponent<DogController>();
+                    if (dogController != null)
+                    {
+                        bool movingRight = Random.Range(0, 2) == 0;
+                        dogController.SetDirection(movingRight);
+                    }
+
+                    spawnedDogYPositions.Add(yPosition);
+                }
+                else
+                {
+                    Debug.LogWarning($"Could not find a valid position for dog {i + 1} after {maxAttempts} attempts.");
+                }
             }
         }
     }

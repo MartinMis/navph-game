@@ -1,24 +1,24 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class LightControl : MonoBehaviour
+namespace Controllers
 {
-    public void setLightRange(float range)
+    public class LightControl : MonoBehaviour
     {
-        Debug.Log("Called");
-        GameObject lightObject = transform.Find("Light 2D").gameObject;
-        if (lightObject != null)
+        public void setLightRange(float range)
         {
-            Light2D light = lightObject.GetComponent<Light2D>();
-            if (light != null)
+            Debug.Log("Called");
+            GameObject lightObject = transform.Find("Light 2D").gameObject;
+            if (lightObject != null)
             {
-                light.pointLightOuterRadius = range;
-                Debug.Log(light.pointLightOuterRadius);
+                Light2D light = lightObject.GetComponent<Light2D>();
+                if (light != null)
+                {
+                    light.pointLightOuterRadius = range;
+                    Debug.Log(light.pointLightOuterRadius);
+                }
             }
-        }
         
+        }
     }
 }

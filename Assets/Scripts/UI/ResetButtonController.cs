@@ -1,14 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
+using Managers;
 using UnityEngine;
+using Upgrades;
 
-public class ResetButtonController : MonoBehaviour
+namespace UI
 {
-    public void Reset()
+    public class ResetButtonController : MonoBehaviour
     {
-        PlayerPrefs.DeleteAll();
-        CoinManager.Instance.ResetCoins();
-        UpgradeManager.Instance.ReloadUpgrades();
+        public void Reset()
+        {
+            PlayerPrefs.DeleteAll();
+            CoinManager.Instance.ResetCoins();
+            UpgradeManager.Instance.ReloadUpgrades();
+        }
     }
 }

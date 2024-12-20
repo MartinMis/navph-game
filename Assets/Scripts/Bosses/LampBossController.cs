@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Light;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Utility;

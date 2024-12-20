@@ -1,36 +1,38 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Camera;
 using UnityEngine;
 
-public class EnterButtonController : MonoBehaviour
+namespace UI
 {
-    [SerializeField] bool changeCameraHorizontalLock = true;
+    public class EnterButtonController : MonoBehaviour
+    {
+        [SerializeField] bool changeCameraHorizontalLock = true;
     
-    private Vector3 _targetPosition;
-    private Transform _player;
-    private FollowPlayer _followingCamera;
+        private Vector3 _targetPosition;
+        private Transform _player;
+        private FollowPlayer _followingCamera;
     
-    public event Action ButtonPressed;
+        public event Action ButtonPressed;
 
-    public void ExecuteInteraction()
-    {
-        ButtonPressed?.Invoke();
-        ResetAllListeners();
-    }
-
-    public void ResetAllListeners()
-    {
-        ButtonPressed = null;
-    }
-
-    public bool InteractionIsAssigned()
-    {
-        if (ButtonPressed == null)
+        public void ExecuteInteraction()
         {
-            return false;
+            ButtonPressed?.Invoke();
+            ResetAllListeners();
         }
-        return true;
-    }
+
+        public void ResetAllListeners()
+        {
+            ButtonPressed = null;
+        }
+
+        public bool InteractionIsAssigned()
+        {
+            if (ButtonPressed == null)
+            {
+                return false;
+            }
+            return true;
+        }
     
+    }
 }

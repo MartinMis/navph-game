@@ -1,22 +1,26 @@
 using System;
+using Managers;
 using UnityEngine;
 
-public class ZZZPointController : MonoBehaviour
+namespace Items_and_Consumables
 {
-    public event Action<ZZZPointController> OnCollected;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class ZZZPointController : MonoBehaviour
     {
-        if (collision.CompareTag("Player"))
+        public event Action<ZZZPointController> OnCollected;
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            CoinManager.Instance.AddRunEarnings(1);
+            if (collision.CompareTag("Player"))
+            {
+                CoinManager.Instance.AddRunEarnings(1);
+                Destroy(gameObject);
+            }
+        }
+
+        private void Collect()
+        {
+            OnCollected?.Invoke(this);
             Destroy(gameObject);
         }
-    }
-
-    private void Collect()
-    {
-        OnCollected?.Invoke(this);
-        Destroy(gameObject);
     }
 }

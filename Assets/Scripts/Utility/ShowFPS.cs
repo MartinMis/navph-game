@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ShowFPS : MonoBehaviour
+namespace Utility
 {
-    private TextMeshProUGUI _text;
-    void Start()
+    public class ShowFPS : MonoBehaviour
     {
-        _text = GetComponent<TextMeshProUGUI>();
-    }
-    void Update()
-    {
-        _text.text = "FPS: " + ((int)(1f / Time.unscaledDeltaTime));
+        private TextMeshProUGUI _text;
+        void Start()
+        {
+            _text = GetComponent<TextMeshProUGUI>();
+        }
+        void Update()
+        {
+            _text.text = "FPS: " + ((int)(1f / Time.unscaledDeltaTime));
+        }
     }
 }

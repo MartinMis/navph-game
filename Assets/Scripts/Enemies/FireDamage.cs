@@ -1,67 +1,72 @@
+using Controllers;
 using UnityEngine;
+using Utility;
 
-public class FireDamage : MonoBehaviour
+namespace Enemies
 {
-    [SerializeField] private float damageAmount = 1f;
-    [SerializeField] private float lifetime = 5f;
-    [SerializeField] private float speed = 5f;
-
-    private Transform playerTransform;
-    private Rigidbody2D rb;
-    private AudioSource fireAudio;
-
-    private void Start()
+    public class FireDamage : MonoBehaviour
     {
-        fireAudio = GetComponent<AudioSource>();
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerTransform = player.transform;
-        }
+        [SerializeField] private float damageAmount = 1f;
+        [SerializeField] private float lifetime = 5f;
+        [SerializeField] private float speed = 5f;
 
-        Destroy(gameObject, lifetime);
+        private Transform playerTransform;
+        private Rigidbody2D rb;
+        private AudioSource fireAudio;
 
-        rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
+        private void Start()
         {
-            Debug.LogError("Rigidbody2D component missing from fire prefab.");
-        }
-    }
-
-    private void Update()
-    {
-        if (playerTransform != null)
-        {
-            Vector2 direction = (playerTransform.position - transform.position).normalized;
-            if (rb != null)
+            fireAudio = GetComponent<AudioSource>();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
             {
-                rb.velocity = direction * speed;
+                playerTransform = player.transform;
+            }
+
+            Destroy(gameObject, lifetime);
+
+            rb = GetComponent<Rigidbody2D>();
+            if (rb == null)
+            {
+                Debug.LogError("Rigidbody2D component missing from fire prefab.");
             }
         }
-        else
-        {
-            if (rb != null)
-            {
-                rb.velocity = Vector2.zero;
-            }
-        }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        private void Update()
         {
-            fireAudio.Play();
-            PlayerController playerController = collision.GetComponent<PlayerController>();
-            if (playerController != null)
+            if (playerTransform != null)
             {
-                playerController.DamagePlayer(damageAmount, DamageType.Fire);
+                Vector2 direction = (playerTransform.position - transform.position).normalized;
+                if (rb != null)
+                {
+                    rb.velocity = direction * speed;
+                }
             }
-            Destroy(gameObject);
+            else
+            {
+                if (rb != null)
+                {
+                    rb.velocity = Vector2.zero;
+                }
+            }
         }
-        else if (collision.CompareTag("Furniture"))
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            Destroy(gameObject);
+            if (collision.CompareTag("Player"))
+            {
+                fireAudio.Play();
+                PlayerController playerController = collision.GetComponent<PlayerController>();
+                if (playerController != null)
+                {
+                    playerController.DamagePlayer(damageAmount, DamageType.Fire);
+                }
+                Destroy(gameObject);
+            }
+            else if (collision.CompareTag("Furniture"))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

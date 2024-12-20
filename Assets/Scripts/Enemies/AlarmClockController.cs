@@ -1,24 +1,29 @@
+using Controllers;
 using UnityEngine;
+using Utility;
 
-public class AlarmClockController : MonoBehaviour
+namespace Enemies
 {
-    [SerializeField] private float damageAmount = 1000f;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class AlarmClockController : MonoBehaviour
     {
-        if (collision.CompareTag("Player"))
-        {
-            PlayerController playerController = collision.GetComponent<PlayerController>();
-            if (playerController != null)
-            {
-                playerController.DamagePlayer(damageAmount, DamageType.Sound);
-            }
-            else
-            {
-                Debug.LogError("PlayerController script not found on the player.");
-            }
+        [SerializeField] private float damageAmount = 1000f;
 
-            Destroy(gameObject);
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                PlayerController playerController = collision.GetComponent<PlayerController>();
+                if (playerController != null)
+                {
+                    playerController.DamagePlayer(damageAmount, DamageType.Sound);
+                }
+                else
+                {
+                    Debug.LogError("PlayerController script not found on the player.");
+                }
+
+                Destroy(gameObject);
+            }
         }
     }
 }
