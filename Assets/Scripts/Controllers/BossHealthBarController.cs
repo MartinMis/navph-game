@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
 using Bosses;
+using Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 

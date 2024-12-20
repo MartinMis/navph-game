@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Utility;
+using Triggers;
 using Random = UnityEngine.Random;
 
 namespace Bosses
@@ -138,7 +139,11 @@ namespace Bosses
                 lightDamage.enabled = dealDamage; 
             }
         }
-
+        
+        /// <summary>
+        /// Method for rotating the light rays by the given angle
+        /// </summary>
+        /// <param name="angle">Angle to rotate light rays by</param>
         void RotateLightRays(float angle)
         {
             foreach (var lightRay in _lightRays)

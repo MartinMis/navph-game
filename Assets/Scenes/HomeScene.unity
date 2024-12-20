@@ -207,8 +207,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 13360616}
-        m_TargetAssemblyTypeName: DisplayCredits, Assembly-CSharp
-        m_MethodName: ShowCredits
+        m_TargetAssemblyTypeName: Utility.SceneChanger, Assembly-CSharp
+        m_MethodName: LoadCredits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 13360611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3162a867598d0440e953d5e07734d319, type: 3}
+  m_Script: {fileID: 11500000, guid: 18d0513dace6e41f1a2de7b05f00420c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &84473871
@@ -952,8 +952,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 678544282}
-        m_TargetAssemblyTypeName: startNewGame, Assembly-CSharp
-        m_MethodName: StartGame
+        m_TargetAssemblyTypeName: Utility.SceneChanger, Assembly-CSharp
+        m_MethodName: LoadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1010,7 +1010,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 678544277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdfeb71e2234b44e2a71d4c4d6d248c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 18d0513dace6e41f1a2de7b05f00420c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &706176686
