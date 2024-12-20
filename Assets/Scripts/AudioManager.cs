@@ -11,8 +11,8 @@ public class AudioManager : MonoBehaviour, IAudioManager
     public static IAudioManager Instance { get; private set; }
     
     // Private variables
-    private float _musicVolume = 1f;
-    private float _sfxVolume = 1f;
+    private float _musicVolume = 0f;
+    private float _sfxVolume = 0f;
     
     // Initialize as an Singleton
     private void Awake()
@@ -26,6 +26,14 @@ public class AudioManager : MonoBehaviour, IAudioManager
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        _musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0f);
+        _sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0f);
+        audioMixer.SetFloat("MusicVolume", CalculateDecibels(_musicVolume));
+        audioMixer.SetFloat("SFXVolume", CalculateDecibels(_sfxVolume));
     }
 
     public float GetMusicVolume() => _musicVolume;
