@@ -15,7 +15,8 @@ public class ScreamerTrigger : MonoBehaviour
             var existingScreamer = GameObject.FindGameObjectWithTag(Tags.Screamer);
             if (existingScreamer == null)
             {
-                Instantiate(screamerPrefab, spawnObject);
+                var screamer = Instantiate(screamerPrefab, spawnObject);
+                screamer.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
     }

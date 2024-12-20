@@ -185,14 +185,14 @@ public class PlayerController : MonoBehaviour
         // newItem onEquipItem - open close principle
         if (newItem is DecafCoffee decafCoffee)     // item class - onEquiItem: implmetuje oddelene
         {
-            OnItemEquipped?.Invoke($"Decreased coffee damage by {decafCoffee.GetDamageReduction()}");
+            OnItemEquipped?.Invoke($"Decreased coffee damage taken");
             damageReduction = decafCoffee.GetDamageReduction();
             reducedDamageType = decafCoffee.GetAffectedDamageType();
             equippedItemPrefab = decafCoffeePrefab;
         }
         else if (newItem is StylishShades stylishShades)
         {
-            OnItemEquipped?.Invoke("Decrease damage taken");
+            OnItemEquipped?.Invoke("Decrease light damage taken");
             damageReduction = stylishShades.GetDamageReduction();
             reducedDamageType = stylishShades.GetAffectedDamageType();
             equippedItemPrefab = stylishShadesPrefab;

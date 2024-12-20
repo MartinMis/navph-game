@@ -163,5 +163,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionRadius: 3
   itemSprite: {fileID: 21300000, guid: 9fa7b5f767575f94899b833d03f055b7, type: 3}
-  damageReduction: 0.3
+  damageReduction: 1
   affectedDamageType: 1
