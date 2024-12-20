@@ -175,8 +175,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  wakeupMeter: {fileID: 0}
   speed: 40
+  interactionRadius: 3
+  maxSleepMeter: 100
+  decafCoffeePrefab: {fileID: 7202550394103050049, guid: 7a4e1662350a0874eacb783b01411b8b, type: 3}
+  stylishShadesPrefab: {fileID: 8680098721192914048, guid: 5fbc34c4d7d9ac54784e1ce48d703443, type: 3}
+  GodMode: 0
 --- !u!114 &2531707149999615892
 MonoBehaviour:
   m_ObjectHideFlags: 0

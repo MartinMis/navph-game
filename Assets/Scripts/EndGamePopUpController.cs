@@ -4,27 +4,28 @@ using Assets.Scripts;
 using Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EndGamePopUpController : MonoBehaviour
 {
     [SerializeField] GameObject uiElements;
+    [SerializeField] private Text text;
     private GameObject _finalBoss;
     void Awake()
     {
         _finalBoss = GameObject.FindWithTag("Boss");
-        _finalBoss.GetComponent<Boss>().OnDeath += ToggleVisibility;
+        _finalBoss.GetComponent<LampBossController>().OnDeath += ToggleVisibility;
     }
 
-    void ToggleVisibility()
+    void ToggleVisibility(int reward = 0)
     {
+        text.text = $"Sunrise has been ended! You gain {reward} coins";
         uiElements.SetActive(!uiElements.activeSelf);
     }
 
     public void BackToMainMenu()
     {
-        RunTimer.Instance.Disabled = false;
-        CoinManager.Instance.FinalizeRunEarnings();
-        SceneManager.LoadScene("HomeScene");
+        EndGame.ResetStatsAndEnd();
     }
 
     public void ContinueGame()
@@ -32,7 +33,7 @@ public class EndGamePopUpController : MonoBehaviour
         ToggleVisibility();
         SceneManager.LoadScene("GameScene");
         RunTimer.Instance.Disabled = true;
-        GameObject.FindWithTag(Tags.Player).transform.position = new Vector3(0, -4, 0);
+        GameObject.FindWithTag(Tags.Player).transform.position = new Vector3(0, -9, 0);
         _finalBoss = GameObject.FindWithTag("Boss");
     }
 }

@@ -11,6 +11,7 @@ public class WindowGenerator : MonoBehaviour
     [SerializeField] private float windowDistance = 5;
     [SerializeField] private float minLightRange = 5;
     [SerializeField] private float maxLightRange = 12;
+    [SerializeField] private bool forbidOppositeWindows = false;
     
     void Start()
     {
@@ -96,10 +97,18 @@ public class WindowGenerator : MonoBehaviour
             if (side == 0)
             {
                 leftWallWindowPositions.Add(windowY);
+                if (forbidOppositeWindows)
+                {
+                    rightWallWindowPositions.Add(windowY);
+                }
             }
             else
             {
                 rightWallWindowPositions.Add(windowY);
+                if (forbidOppositeWindows)
+                {
+                    leftWallWindowPositions.Add(windowY);
+                }
             }
 
             newWindowLocalPosition += new Vector3(0, windowY, 0);

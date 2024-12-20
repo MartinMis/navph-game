@@ -12,6 +12,8 @@ TagManager:
   - Furniture
   - Dog
   - GlobalLight
+  - Screamer
+  - Background
   layers:
   - Default
   - TransparentFX

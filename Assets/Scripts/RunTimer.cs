@@ -36,7 +36,7 @@ public class RunTimer : MonoBehaviour
     
     void Start()
     {
-        Boss boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
+        LampBossController boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<LampBossController>();
         boss.OnDeath += DisableTimer;
         
         var sunriseTimerUpgrade = UpgradeManager.Instance.GetUpgradeByKey(UpgradeKey.Mask);
@@ -72,7 +72,7 @@ public class RunTimer : MonoBehaviour
         
     }
 
-    void DisableTimer()
+    void DisableTimer(int reward = 0)
     {
         Disabled = true;
     }

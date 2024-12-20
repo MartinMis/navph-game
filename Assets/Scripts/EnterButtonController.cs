@@ -16,6 +16,7 @@ public class EnterButtonController : MonoBehaviour
     public void ExecuteInteraction()
     {
         ButtonPressed?.Invoke();
+        ResetAllListeners();
     }
 
     public void ResetAllListeners()
@@ -29,10 +30,7 @@ public class EnterButtonController : MonoBehaviour
         {
             return false;
         }
-        else
-        {
-            return true;
-        }
+        return true;
     }
     
 }

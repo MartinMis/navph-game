@@ -722,6 +722,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpgradeContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 6079571222374600090, guid: e10323960434a4ca185e8fda444ce610, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079571222374600090, guid: e10323960434a4ca185e8fda444ce610, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079571222374600090, guid: e10323960434a4ca185e8fda444ce610, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079571222374600090, guid: e10323960434a4ca185e8fda444ce610, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079571222374600090, guid: e10323960434a4ca185e8fda444ce610, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -818,6 +838,18 @@ PrefabInstance:
     - target: {fileID: 1597740392038918626, guid: c9b228a11d4f84fa6b91ccb59d78a927, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926158839826328285, guid: c9b228a11d4f84fa6b91ccb59d78a927, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 92.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926158839826328285, guid: c9b228a11d4f84fa6b91ccb59d78a927, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 336.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6476807770110131891, guid: c9b228a11d4f84fa6b91ccb59d78a927, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 388.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

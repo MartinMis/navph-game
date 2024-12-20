@@ -14,5 +14,7 @@ namespace Utility
         public const string UserInterfaceRoot = "UserInterfaceRoot";
         public const string Dog = "Dog";
         public const string Furniture = "Furniture";
+        public const string Screamer = "Screamer";
+        public const string Background = "Background";
     }
 }

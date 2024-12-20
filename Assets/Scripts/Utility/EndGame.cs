@@ -12,6 +12,11 @@ namespace Utility
             Object.Destroy(UIManager.Instance.gameObject);
             RunTimer.Instance.Disabled = false;
             CoinManager.Instance.FinalizeRunEarnings();
+            var player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            { 
+                Object.Destroy(player);
+            }
             SceneManager.LoadScene("HomeScene");
         }
     }
