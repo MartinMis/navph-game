@@ -291,7 +291,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -538,9 +538,41 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4169318127753400208, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219025462150347434, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 454
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086654266438977860, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
+      propertyPath: m_Size
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086654266438977860, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832063323658515147, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
+      propertyPath: m_Size
+      value: 0.78990203
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832063323658515147, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
+      propertyPath: m_Value
+      value: 0.9999995
+      objectReference: {fileID: 0}
     - target: {fileID: 6737992924538498586, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
       propertyPath: m_Name
       value: Scroll View
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267800511807433635, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -0.9205933
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267800511807433635, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.9102174
       objectReference: {fileID: 0}
     - target: {fileID: 9118794390528944181, guid: af296a196d4e44662a9613b1c5c40f1b, type: 3}
       propertyPath: m_AnchorMax.y
