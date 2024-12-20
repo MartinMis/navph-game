@@ -46,18 +46,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66d0b5200a2042c68f78e7ed9e28791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossPrefab: {fileID: 0}
+  maxHealth: 100
+  coinReward: 30
   lightRayCount: 12
   lightRayPrefab: {fileID: 6633783175053554396, guid: 0a0cd0a6bb3b54723ab83e2d0ee2167c, type: 3}
   playerEnterTrigger: {fileID: 0}
-  maxHealth: 100
-  timeBeforeFirstAttack: 2
+  timeBeforeFirstAttack: 1
   timeBetweenAttacks: 4
   attackSafezoneTime: 2
   rotationWindowBegining: 1.5
   rotationWindowEnding: 1
   minRotation: -5
   maxRotation: 5
-  coinReward: 30
 --- !u!212 &3001625230719503954
 SpriteRenderer:
   m_ObjectHideFlags: 0
