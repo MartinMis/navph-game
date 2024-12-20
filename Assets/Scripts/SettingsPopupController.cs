@@ -32,6 +32,7 @@ public class SettingsPopupController : MonoBehaviour
             if (musicSlider != null)
             {
                 musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", audioManager.GetMusicVolume());
+                audioManager.SetMusicVolume(musicSlider.value);
                 musicSlider.onValueChanged.AddListener(volume => {
                     audioManager.SetMusicVolume(volume);
                     PlayerPrefs.SetFloat("MusicVolume", volume);
@@ -46,6 +47,7 @@ public class SettingsPopupController : MonoBehaviour
             if (sfxSlider != null)
             {
                 sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", audioManager.GetSFXVolume());
+                audioManager.SetSFXVolume(sfxSlider.value);
                 sfxSlider.onValueChanged.AddListener(volume => {
                     audioManager.SetSFXVolume(volume);
                     PlayerPrefs.SetFloat("SFXVolume", volume);

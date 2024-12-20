@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Assets.Scripts;
 using Utility;
 using UnityEngine;
+using Bosses;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.Rendering.Universal;

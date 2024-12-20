@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Bosses;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(BoxCollider2D))]
