@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 1181531195235780810}
   - component: {fileID: 1506039091336778340}
   - component: {fileID: 4395813830344067601}
+  - component: {fileID: 7546913024621460603}
   m_Layer: 0
   m_Name: Hallway
   m_TagString: Untagged
@@ -206,12 +207,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2193ed46e22447b84d6e508d1d3155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: {fileID: 0}
   hallwayStart: {fileID: 990996313355637968}
   bedSprite: {fileID: 3510636570270607737}
   hallwayEnd: {fileID: 6816736945057177534}
   minLength: 200
   maxLength: 300
+  spawnableWidthOffset: 8
 --- !u!114 &6739023198453374605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,8 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14fbca8e6c59a486cad10eca0b24248b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: {fileID: 0}
   windowPrefab: {fileID: 3948986601963073077, guid: a693765a743d64cdebd2336c36074e4c, type: 3}
+  windowOffset: 8
   minWindowCount: 20
   maxWindowCount: 30
   maxSpawnAttempts: 20
@@ -313,7 +314,12 @@ MonoBehaviour:
   furniturePrefab:
   - {fileID: 6099519288902096589, guid: 43703f9f9a89444a2825ebd205cbe1b4, type: 3}
   - {fileID: 634091137697306406, guid: e789762a8af414926b7d0f6dbf481b18, type: 3}
+  couchPrefab: {fileID: 0}
+  couchSpawnRate: 0
+  furnitureDistance: 5
+  spawnAttempts: 20
   furnitureCount: 40
+  wallSnapDistance: 0
 --- !u!114 &9096425526077707173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +494,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7546913024621460603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322147234446318103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6496279c876a6e459fc0a8e1af1f0db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackOfPillsPrefab: {fileID: 6045651466073926009, guid: 0fe4ce65e0a4a5c4faf9fe89bf672dd4, type: 3}
+  minPillsStacks: 1
+  maxPillsStacks: 5
+  minYSeparation: 2
 --- !u!1001 &966746227300109735
 PrefabInstance:
   m_ObjectHideFlags: 0
