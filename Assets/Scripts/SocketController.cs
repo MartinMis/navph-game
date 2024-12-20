@@ -1,3 +1,5 @@
+using Bosses;
+
 public class SocketController : Interactable
 {
     private LampBossController _lampBoss;

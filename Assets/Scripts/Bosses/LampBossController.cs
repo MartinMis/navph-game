@@ -1,146 +1,151 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Serialization;
 using Utility;
 using Random = UnityEngine.Random;
 
-public class LampBossController : MonoBehaviour
+namespace Bosses
 {
-    public int lightRayCount = 8;
-    [SerializeField] GameObject lightRayPrefab;
-    [SerializeField] PlayerEnterTrigger playerEnterTrigger;
-    public float maxHealth;
-    [SerializeField] float timeBeforeFirstAttack = 2f;
-    [Header("Initial attack settings")]
-    [SerializeField] float timeBetweenAttacks = 4f;
-    [SerializeField] float attackSafezoneTime = 2f;
-    [SerializeField] float rotationWindowBegining = 1.5f;
-    [SerializeField] float rotationWindowEnding = 1f;
-    [SerializeField] float minRotation = -5f;
-    [SerializeField] float maxRotation = 5f;
-    [SerializeField] int coinReward = 30;
-
-    public event Action<int> OnDeath;
-    public event Action OnDamageTaken;
-    
-    private float _rayWidth = 0;
-    private List<GameObject> _lightRays = new List<GameObject>();
-
-
-    private float _currentHealth;
-    private float timeRemaining = 2;
-    private float dimLightIntensity = 0.5f;
-    private float _rotationTarget = 0f;
-    private bool _playerInRoom = false;
-
-    void Start()
+    public class LampBossController : Boss
     {
-        _currentHealth = maxHealth;
-        CreateLightRays();
-        ChangeLightStrength(dimLightIntensity, false);
-        playerEnterTrigger.OnTriggered += TriggeredCallback;
-    }
+        [Tooltip("Number of light rays Lamp should spawn")]
+        [SerializeField] private int lightRayCount = 8;
+        
+        [Tooltip("Light ray prefab")]
+        [SerializeField] private GameObject lightRayPrefab;
+        
+        [Tooltip("Trigger for when player enters the boss room")]
+        [SerializeField] private PlayerEnterTrigger playerEnterTrigger;
+        
+        [Tooltip("How much should the lights dim")]
+        [SerializeField] private float dimLightIntensity = 0.5f;
+        
+        [Tooltip("Combined angle of all the light rays next to each other")]
+        [SerializeField] private float combinedLightAngle = 180.0f;
+        
+        [Tooltip("How much should the light drop off in each ray")]
+        [SerializeField] private float innerLightDropOff = 0.9f;
+        
+        [Header("Initial attack settings")]
+        [Tooltip("Safe time before the boss first attacks")]
+        [SerializeField] float timeBeforeFirstAttack = 2f;
+        
+        [Tooltip("Time between individual attacks")]
+        [SerializeField] float timeBetweenAttacks = 4f;
+        
+        [Tooltip("Time when the safe zone begins")]
+        [SerializeField] float attackSafezoneTime = 2f;
+        
+        [Tooltip("Time when the boss starts rotating")]
+        [SerializeField] float rotationWindowBegining = 1.5f;
+        
+        [Tooltip("Time when the boss stops rotating")]
+        [SerializeField] float rotationWindowEnding = 1f;
+        
+        [Tooltip("Minimal rotation")]
+        [SerializeField] float minRotation = -5f;
+        
+        [Tooltip("Maximal rotation")]
+        [SerializeField] float maxRotation = 5f;
+        
+        private readonly List<GameObject> _lightRays = new ();
+        private float _rayWidth;
+        private float _timeRemaining = 2;
+        private float _rotationTarget;
+        private bool _playerInRoom;
 
-    
-    void Update()
-    {
-        if (!_playerInRoom) return;
-        if (timeRemaining > 0)
+        void Start()
         {
-            timeRemaining -= Time.deltaTime;
-        }
-
-        if (timeRemaining < attackSafezoneTime)
-        {
+            CreateLightRays();
             ChangeLightStrength(dimLightIntensity, false);
+            _timeRemaining = timeBetweenAttacks;
+            playerEnterTrigger.OnTriggered += TriggeredCallback;
         }
 
-        if (timeRemaining <= 1.5 && timeRemaining > 1)
+        
+        void Update()
         {
-            RotateLightRays(_rotationTarget);
+            // If player is not in the room don't do anything
+            if (!_playerInRoom) return;
+            if (_timeRemaining > 0)
+            {
+                _timeRemaining -= Time.deltaTime;
+            }
+
+            if (_timeRemaining < attackSafezoneTime)
+            {
+                ChangeLightStrength(dimLightIntensity, false);
+            }
+
+            if (_timeRemaining <= 1.5 && _timeRemaining > 1)
+            {
+                RotateLightRays(_rotationTarget);
+            }
+
+            if (_timeRemaining < 0)
+            {
+                _rotationTarget = Random.Range(-5f, 5f);
+                ChangeLightStrength(1, true);
+                _timeRemaining = timeBetweenAttacks;
+            }
         }
 
-        if (timeRemaining < 0)
+        void TriggeredCallback()
         {
-            _rotationTarget = Random.Range(-5f, 5f);
-            ChangeLightStrength(1, true);
-            timeRemaining = 4;
+            var waiter = new Waiter();
+            StartCoroutine(waiter.WaitAndExecuteCoroutine(timeBeforeFirstAttack, StartFight));
         }
-    }
-
-    public float GetCurrentHealth()
-    {
-        return _currentHealth;
-    }
-
-    void TriggeredCallback()
-    {
-        var waiter = new Waiter();
-        StartCoroutine(waiter.WaitAndExecuteCoroutine(timeBeforeFirstAttack, StartFight));
-    }
-    
-    void StartFight()
-    {
-        _playerInRoom = true;
-    }
-    
-    /// <summary>
-    /// Function initializing lightrays when the boss spawns
-    /// </summary>
-    void CreateLightRays()
-    {
-        _rayWidth = 180/lightRayCount;
-        float rayAngle = _rayWidth * 2;
-        for (int i = 0; i < lightRayCount; i++)
+        
+        void StartFight()
         {
-            GameObject newLightRay = Instantiate(lightRayPrefab, transform);
-            newLightRay.transform.localEulerAngles = new Vector3(0, 0, rayAngle*i);
-            Light2D newLightRayLight2D = newLightRay.GetComponent<Light2D>();
-            newLightRayLight2D.pointLightOuterAngle = _rayWidth;
-            newLightRayLight2D.pointLightInnerAngle = _rayWidth * 0.9f;
-            _lightRays.Add(newLightRay);
+            _playerInRoom = true;
         }
-    }
-
-    void ChangeLightStrength(float intensity, bool dealDamage = true)
-    {
-        foreach (var lightRay in _lightRays)
+        
+        /// <summary>
+        /// Function initializing light rays when the boss spawns.
+        /// </summary>
+        void CreateLightRays()
         {
-            var lightEmitter = lightRay.GetComponent<Light2D>();
-            var lightDamage = lightRay.GetComponent<DamagePlayer>();
-            lightEmitter.intensity = intensity;
-            lightDamage.enabled = dealDamage; 
+            // Calculate how wide the ray should be. Rays can never fill more than half the room
+            _rayWidth = combinedLightAngle/lightRayCount;
+            var rayAngle = _rayWidth * 2;
+            for (var i = 0; i < lightRayCount; i++)
+            {
+                // Instantiate new light ray and orient it correctly
+                GameObject newLightRay = Instantiate(lightRayPrefab, transform);
+                newLightRay.transform.localEulerAngles = new Vector3(0, 0, rayAngle*i);
+                // Set Light2D component to output light in the calculated ray width
+                Light2D newLightRayLight2D = newLightRay.GetComponent<Light2D>();
+                newLightRayLight2D.pointLightOuterAngle = _rayWidth;
+                newLightRayLight2D.pointLightInnerAngle = _rayWidth * innerLightDropOff;
+                // Add the new ray to the list
+                _lightRays.Add(newLightRay);
+            }
         }
-    }
-
-    void RotateLightRays(float angle)
-    {
-        foreach (var lightRay in _lightRays)
+        
+        /// <summary>
+        /// Method for changing the intensity of all the light rays and turning on or off their damage component.
+        /// </summary>
+        /// <param name="intensity">Light intensity of the light rays</param>
+        /// <param name="dealDamage">Turns the damage on and off</param>
+        void ChangeLightStrength(float intensity, bool dealDamage = true)
         {
-            var currentRotation = lightRay.transform.localEulerAngles;
-            lightRay.transform.localEulerAngles = currentRotation + new Vector3(0, 0, angle);
+            foreach (var lightRay in _lightRays)
+            {
+                var lightEmitter = lightRay.GetComponent<Light2D>();
+                var lightDamage = lightRay.GetComponent<DamagePlayer>();
+                lightEmitter.intensity = intensity;
+                lightDamage.enabled = dealDamage; 
+            }
         }
-    }
 
-    public void TakeDamage(float damage)
-    {
-        _currentHealth -= damage;
-        OnDamageTaken?.Invoke();
-        if (_currentHealth <= 0)
+        void RotateLightRays(float angle)
         {
-            Die();
+            foreach (var lightRay in _lightRays)
+            {
+                var currentRotation = lightRay.transform.localEulerAngles;
+                lightRay.transform.localEulerAngles = currentRotation + new Vector3(0, 0, angle);
+            }
         }
-    }
-
-    void Die()
-    {
-        CoinManager.Instance.AddRunEarnings(coinReward);
-        DifficultyManager.Instance.IncreaseDifficulty();
-        OnDeath?.Invoke(coinReward);
-        Destroy(gameObject);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using Bosses;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +34,7 @@ public class BossHealthBarController : MonoBehaviour
     
     void ChangeBar()
     {
-        fill.fillAmount = boss.GetCurrentHealth()/boss.maxHealth;
+        fill.fillAmount = boss.Health/boss.MaxHealth;
     }
 
     void OnDestroy()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using Bosses;
 using Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,7 +15,7 @@ public class EndGamePopUpController : MonoBehaviour
     void Awake()
     {
         _finalBoss = GameObject.FindWithTag("Boss");
-        _finalBoss.GetComponent<LampBossController>().OnDeath += ToggleVisibility;
+        _finalBoss.GetComponent<LampBossController>().OnVictory += ToggleVisibility;
     }
 
     void ToggleVisibility(int reward = 0)

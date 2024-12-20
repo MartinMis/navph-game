@@ -12,22 +12,11 @@ public class DogController : MonoBehaviour
     private float minX;
     private float maxX;
 
-    [SerializeField] private GameObject dogSoundPrefab;
-
-    private GameObject dogSoundInstance;
-
     private float hallwayWidth;
     private float dogWidth;
 
     private SpriteRenderer sr;
-
-    void Awake()
-    {
-        if (dogSoundPrefab == null)
-        {
-            Debug.LogError("DogSound prefab is not assigned in the inspector!");
-        }
-    }
+    private Animator animator;
 
     void Start()
     {
@@ -52,10 +41,17 @@ public class DogController : MonoBehaviour
             Debug.LogError("Dog SpriteRenderer not found!");
         }
 
-        minX = -hallwayWidth / 2 + dogWidth / 2;
-        maxX = hallwayWidth / 2 - dogWidth / 2;
+        animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            Debug.LogError("Animator not found on Dog!");
+        }
+
+        minX = -hallwayWidth / 2;
+        maxX = hallwayWidth / 2;
 
         UpdateSpriteDirection();
+        UpdateAnimatorParameters();
     }
 
     public void SetDirection(bool right)
@@ -71,7 +67,6 @@ public class DogController : MonoBehaviour
             float moveDirection = movingRight ? 1 : -1;
             transform.Translate(Vector2.right * moveDirection * speed * Time.deltaTime);
             
-            /*
             if (movingRight && transform.position.x > maxX)
             {
                 movingRight = false;
@@ -82,7 +77,6 @@ public class DogController : MonoBehaviour
                 movingRight = true;
                 UpdateSpriteDirection();
             }
-            */
         }
     }
 
@@ -91,15 +85,7 @@ public class DogController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             IsMoving = false;
-
-            if (dogSoundPrefab != null)
-            {
-                dogSoundInstance = Instantiate(dogSoundPrefab, transform.position, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogError("DogSound prefab is not assigned!");
-            }
+            UpdateAnimatorParameters();
         }
         else
         {
@@ -113,6 +99,14 @@ public class DogController : MonoBehaviour
         if (sr != null)
         {
             sr.flipX = !movingRight;
+        }
+    }
+
+    private void UpdateAnimatorParameters()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", IsMoving);
         }
     }
 }
