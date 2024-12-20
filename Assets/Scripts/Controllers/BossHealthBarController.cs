@@ -33,7 +33,7 @@ public class BossHealthBarController : MonoBehaviour
     
     void ChangeBar()
     {
-        fill.fillAmount = boss.GetCurrentHealth()/boss.maxHealth;
+        fill.fillAmount = boss.Health/boss.MaxHealth;
     }
 
     void OnDestroy()

@@ -72,7 +72,7 @@ public class RunTimer : MonoBehaviour
         
     }
 
-    void DisableTimer(int reward = 0)
+    void DisableTimer()
     {
         Disabled = true;
     }

@@ -2,18 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using Bosses;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using Utility;
 using Random = UnityEngine.Random;
 
-public class LampBossController : MonoBehaviour
+
+public class LampBossController : Boss
 {
     public int lightRayCount = 8;
     [SerializeField] GameObject lightRayPrefab;
     [SerializeField] PlayerEnterTrigger playerEnterTrigger;
-    public float maxHealth;
     [SerializeField] float timeBeforeFirstAttack = 2f;
     [Header("Initial attack settings")]
     [SerializeField] float timeBetweenAttacks = 4f;
@@ -22,16 +23,11 @@ public class LampBossController : MonoBehaviour
     [SerializeField] float rotationWindowEnding = 1f;
     [SerializeField] float minRotation = -5f;
     [SerializeField] float maxRotation = 5f;
-    [SerializeField] int coinReward = 30;
-
-    public event Action<int> OnDeath;
-    public event Action OnDamageTaken;
     
     private float _rayWidth = 0;
     private List<GameObject> _lightRays = new List<GameObject>();
 
-
-    private float _currentHealth;
+    
     private float timeRemaining = 2;
     private float dimLightIntensity = 0.5f;
     private float _rotationTarget = 0f;
@@ -39,7 +35,6 @@ public class LampBossController : MonoBehaviour
 
     void Start()
     {
-        _currentHealth = maxHealth;
         CreateLightRays();
         ChangeLightStrength(dimLightIntensity, false);
         playerEnterTrigger.OnTriggered += TriggeredCallback;
@@ -70,11 +65,6 @@ public class LampBossController : MonoBehaviour
             ChangeLightStrength(1, true);
             timeRemaining = 4;
         }
-    }
-
-    public float GetCurrentHealth()
-    {
-        return _currentHealth;
     }
 
     void TriggeredCallback()
@@ -124,23 +114,5 @@ public class LampBossController : MonoBehaviour
             var currentRotation = lightRay.transform.localEulerAngles;
             lightRay.transform.localEulerAngles = currentRotation + new Vector3(0, 0, angle);
         }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        _currentHealth -= damage;
-        OnDamageTaken?.Invoke();
-        if (_currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    void Die()
-    {
-        CoinManager.Instance.AddRunEarnings(coinReward);
-        DifficultyManager.Instance.IncreaseDifficulty();
-        OnDeath?.Invoke(coinReward);
-        Destroy(gameObject);
     }
 }

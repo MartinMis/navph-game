@@ -47,8 +47,8 @@ public class DogController : MonoBehaviour
             Debug.LogError("Animator not found on Dog!");
         }
 
-        minX = -hallwayWidth / 2 + dogWidth / 2;
-        maxX = hallwayWidth / 2 - dogWidth / 2;
+        minX = -hallwayWidth / 2;
+        maxX = hallwayWidth / 2;
 
         UpdateSpriteDirection();
         UpdateAnimatorParameters();
@@ -66,6 +66,17 @@ public class DogController : MonoBehaviour
         {
             float moveDirection = movingRight ? 1 : -1;
             transform.Translate(Vector2.right * moveDirection * speed * Time.deltaTime);
+            
+            if (movingRight && transform.position.x > maxX)
+            {
+                movingRight = false;
+                UpdateSpriteDirection();
+            }
+            else if (!movingRight && transform.position.x < minX)
+            {
+                movingRight = true;
+                UpdateSpriteDirection();
+            }
         }
     }
 

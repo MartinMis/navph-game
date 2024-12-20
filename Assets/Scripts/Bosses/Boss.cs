@@ -10,13 +10,24 @@ namespace Bosses
         [SerializeField] private int coinReward;
         private float _health;
         
+        /// <summary>
+        /// Action triggered when boss dies.
+        /// </summary>
         public event Action OnDeath;
+        
+        /// <summary>
+        /// Action triggered when player achieves victory.
+        /// </summary>
+        /// <remarks>
+        /// Usually triggered at the same time
+        /// </remarks>
         public event Action<int> OnVictory;
         public event Action OnDamageTaken;
 
         public float Health => _health;
-        
-        private void Start()
+        public float MaxHealth => maxHealth;
+
+        void Awake()
         {
             _health = maxHealth;
         }
@@ -33,7 +44,11 @@ namespace Bosses
 
         private void Die()
         {
-            return;
+            CoinManager.Instance.AddCoins(coinReward);
+            DifficultyManager.Instance.IncreaseDifficulty();
+            OnDeath?.Invoke();
+            OnVictory?.Invoke(coinReward);
+            Destroy(gameObject);
         }
     }
 }

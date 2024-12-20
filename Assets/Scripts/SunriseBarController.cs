@@ -27,7 +27,7 @@ public class SunriseBarController : MonoBehaviour
         percentageText.text = Mathf.RoundToInt(percentage*100) + "%";
     }
 
-    void Disable(int reward = 0)
+    void Disable()
     {
         Destroy(gameObject);
     }

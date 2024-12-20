@@ -22,7 +22,7 @@ public class BoosRoomInitializer : MonoBehaviour
         // Adjust socket count according to difficulty
         var actualSocketCount = initialSocketCount + DifficultyManager.Instance.currentDifficulty - 1;
         // Calculate damage for individual sockets (+1 to avoid float rounding errors causing not enough damage)
-        var socketDamage = boss.maxHealth / actualSocketCount + 1;
+        var socketDamage = boss.MaxHealth / actualSocketCount + 1;
         var boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider == null)
         {
