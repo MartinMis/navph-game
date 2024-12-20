@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utility;
 
 public class FurnitureSpawner : MonoBehaviour
 {
@@ -58,6 +59,20 @@ public class FurnitureSpawner : MonoBehaviour
                     }
 
                 }
+                /*
+                * Check if there isn't anything else in the area, to reduce the likelihood of furniture spawning over
+                * the items. There is still a small chance physics interactions will cause items very close together.
+                */
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(spawnPosition, furnitureDistance);
+                foreach (Collider2D collider in colliders)
+                {
+                    Debug.Log($"[FurnitureSpawner] {collider.gameObject.name}");
+                    if (!collider.gameObject.CompareTag(Tags.Background))
+                    {
+                        tooClose = true;
+                    }
+                }
+                
                 if (!tooClose)
                 {
                     furniturePositions.Add(spawnPosition);

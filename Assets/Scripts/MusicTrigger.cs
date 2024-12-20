@@ -1,12 +1,15 @@
 
+using System;
+using Triggers;
 using Utility;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(Collider))]
-public class PlayerMusicTrigger : MonoBehaviour
+[RequireComponent(typeof(Collider2D))]
+public class PlayerEnterTrigger : MonoBehaviour, ITrigger
 {
     private AudioSource _audioSource;
+    public event Action OnTriggered;
     
     private void Awake()
     {
@@ -18,6 +21,7 @@ public class PlayerMusicTrigger : MonoBehaviour
         if (other.CompareTag(Tags.Player))
         {
             _audioSource.Play();
+            OnTriggered?.Invoke();
         }
     }
 }

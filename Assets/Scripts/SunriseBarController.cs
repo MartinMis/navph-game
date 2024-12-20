@@ -16,7 +16,7 @@ public class SunriseBarController : MonoBehaviour
         }
         else
         {
-            GameObject.FindWithTag("Boss").GetComponent<Boss>().OnDeath += Disable;
+            GameObject.FindWithTag("Boss").GetComponent<LampBossController>().OnDeath += Disable;
             RunTimer.Instance.OnUpdate += ChangePercentage;
         }
     }
@@ -27,7 +27,7 @@ public class SunriseBarController : MonoBehaviour
         percentageText.text = Mathf.RoundToInt(percentage*100) + "%";
     }
 
-    void Disable()
+    void Disable(int reward = 0)
     {
         Destroy(gameObject);
     }
