@@ -175,7 +175,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  dogSoundPrefab: {fileID: 7629072467698986697, guid: 9035bf2d8d94382489204362234c8f70, type: 3}
 --- !u!114 &-1814284583633058437
 MonoBehaviour:
   m_ObjectHideFlags: 0
