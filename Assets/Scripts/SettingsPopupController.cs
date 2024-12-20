@@ -11,7 +11,6 @@ public class SettingsPopupController : MonoBehaviour
 
     private void Awake()
     {
-       
         audioManager = AudioManager.Instance;
 
         if (audioManager == null)
@@ -32,8 +31,11 @@ public class SettingsPopupController : MonoBehaviour
 
             if (musicSlider != null)
             {
-                musicSlider.value = audioManager.GetMusicVolume();
-                musicSlider.onValueChanged.AddListener(audioManager.SetMusicVolume);
+                musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", audioManager.GetMusicVolume());
+                musicSlider.onValueChanged.AddListener(volume => {
+                    audioManager.SetMusicVolume(volume);
+                    PlayerPrefs.SetFloat("MusicVolume", volume);
+                });
                 Debug.Log("[SettingsPopupController] MusicSlider connected.");
             }
             else
@@ -43,8 +45,11 @@ public class SettingsPopupController : MonoBehaviour
 
             if (sfxSlider != null)
             {
-                sfxSlider.value = audioManager.GetSFXVolume();
-                sfxSlider.onValueChanged.AddListener(audioManager.SetSFXVolume);
+                sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", audioManager.GetSFXVolume());
+                sfxSlider.onValueChanged.AddListener(volume => {
+                    audioManager.SetSFXVolume(volume);
+                    PlayerPrefs.SetFloat("SFXVolume", volume);
+                });
                 Debug.Log("[SettingsPopupController] SFXSlider connected.");
             }
             else
@@ -79,5 +84,4 @@ public class SettingsPopupController : MonoBehaviour
             settingsPopupInstance.SetActive(false);
         }
     }
-    
 }
