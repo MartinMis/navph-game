@@ -66,7 +66,7 @@ namespace Bosses
         /// </summary>
         private void Die()
         {
-            CoinManager.Instance.AddCoins(coinReward);
+            CoinManager.Instance.AddRunEarnings(coinReward);
             DifficultyManager.Instance.IncreaseDifficulty();
             OnDeath?.Invoke();
             OnVictory?.Invoke(coinReward);

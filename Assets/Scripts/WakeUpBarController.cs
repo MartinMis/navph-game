@@ -32,6 +32,7 @@ public class WakeUpBarController : MonoBehaviour
 
     void OnDestroy()
     {
+        if (_playerController == null) return;
         _playerController.OnWakeUpMeterUpdated -= FillBar;
     }
 }
