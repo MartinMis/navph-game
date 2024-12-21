@@ -98,9 +98,10 @@ namespace UI
             }
         }
     
-    
-    
-
+        /// <summary>
+        /// Method for updating the UI to reflect the currently equiped item.
+        /// </summary>
+        /// <param name="itemSprite"></param>
         public void UpdateEquippedItemUI(Sprite itemSprite)
         {
             if (itemIcon != null)

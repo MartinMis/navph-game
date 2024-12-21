@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Managers;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace Spawners
         [SerializeField] float wallSnapDistance;
     
         private List<Vector3> _furniturePositions = new ();
+        private List<GameObject> _spawnedFurniture = new ();
         void Start()
         {
             furnitureCount = (int)(furnitureCount * DifficultyManager.Instance.HallwaySpawnRateCoeficient);
@@ -81,19 +83,8 @@ namespace Spawners
                         }
 
                     }
-                    /*
-                * Check if there isn't anything else in the area, to reduce the likelihood of furniture spawning over
-                * the items. There is still a small chance physics interactions will cause items very close together.
-                */
-                    Collider2D[] colliders = Physics2D.OverlapCircleAll(spawnPosition, furnitureDistance);
-                    foreach (Collider2D collider in colliders)
-                    {
-                        Debug.Log($"[FurnitureSpawner] {collider.gameObject.name}");
-                        if (!collider.gameObject.CompareTag(Tags.Background))
-                        {
-                            tooClose = true;
-                        }
-                    }
+                    
+                    
                     
                     if (!tooClose)
                     {
@@ -109,9 +100,36 @@ namespace Spawners
                 // Spawn new furniture
                 GameObject newFurniture  = Instantiate(randomFurniture, transform);
                 newFurniture.transform.localPosition = spawnPosition;
-
+                _spawnedFurniture.Add(newFurniture);
             }
-            
+            // Delete any furniture overlapping with other things in the hallway
+            StartCoroutine(RemoveOverlapping());
+        }
+        
+        /// <summary>
+        /// Coroutine for deleting the overlapping furniture. Inspired by
+        /// https://discussions.unity.com/t/how-to-wait-a-certain-amount-of-seconds-in-c/192244
+        /// </summary>
+        /// <remarks>
+        /// Future implementation should use a more robust solution for overlapping
+        /// </remarks>
+        private IEnumerator RemoveOverlapping()
+        {
+            yield return new WaitForFixedUpdate();
+            foreach (var furniture in _spawnedFurniture)
+            {
+                var spawnPosition = furniture.transform.localPosition;
+                var circleCenter = new Vector2(transform.position.x + spawnPosition.x, transform.position.y + spawnPosition.y);
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(circleCenter, 1f);
+                foreach (Collider2D collider in colliders)
+                {
+                    if (!collider.gameObject.CompareTag(Tags.Background) && collider.gameObject != furniture.gameObject)
+                    {
+                        Destroy(furniture);
+                        break;
+                    }
+                }
+            }
         }
         
         /// <summary>
@@ -129,5 +147,7 @@ namespace Spawners
         
             return new Vector3(xPosition, yPosition, 0);
         }
+        
     }
+    
 }
