@@ -11,7 +11,7 @@ namespace Spawners
     public class WindowGenerator : MonoBehaviour
     {
         [Tooltip("Prefab of the window")]
-        [SerializeField] private GameObject windowPrefab;
+        [SerializeField] private SpriteRenderer windowPrefab;
         
         [Tooltip("How much should the window be offset from spawnable area")]
         [SerializeField] private float windowOffset = 8;
@@ -54,9 +54,9 @@ namespace Spawners
             float hallwayWidth = hallwayGenerator.HallwayWidth;
             float hallwayLength = hallwayGenerator.HallwayLength;
         
-            float minYPosition = -hallwayLength/2 + windowPrefab.GetComponent<SpriteRenderer>().bounds.size.y/2;
-            float maxYPosition = hallwayLength/2 - windowPrefab.GetComponent<SpriteRenderer>().bounds.size.y/2;
-            float xOffset = windowPrefab.GetComponent<SpriteRenderer>().bounds.size.x + windowOffset;
+            float minYPosition = -hallwayLength/2 + windowPrefab.bounds.size.y/2;
+            float maxYPosition = hallwayLength/2 - windowPrefab.bounds.size.y/2;
+            float xOffset = windowPrefab.bounds.size.x + windowOffset;
         
             List<float> leftWallWindowPositions = new List<float>();
             List<float> rightWallWindowPositions = new List<float>();
@@ -141,7 +141,7 @@ namespace Spawners
                 
                 // If position is good spawn and initialize the window
                 newWindowLocalPosition += new Vector3(0, windowY, 0);
-                GameObject newWindow = Instantiate(windowPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                GameObject newWindow = Instantiate(windowPrefab.gameObject, new Vector3(0, 0, 0), Quaternion.identity);
                 newWindow.transform.SetParent(transform);
                 newWindow.transform.localPosition = newWindowLocalPosition;
                 newWindow.transform.Rotate(newWindowRotation);

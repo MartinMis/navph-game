@@ -63,7 +63,7 @@ namespace Managers
 
         /// <summary>
         /// Function to recalculate volume. Sliders output linear values while decibels are a logarithmic scale. This
-        /// function provides conversion between the two.
+        /// function provides conversion between the two. Inspired by https://discussions.unity.com/t/how-to-calculate-db-correct/712114/2
         /// </summary>
         /// <param name="volume">Desired volume on linear scale</param>
         /// <returns>Volume in decibels</returns>
