@@ -8,6 +8,9 @@ using Random = UnityEngine.Random;
 
 namespace Bosses
 {
+    /// <summary>
+    /// Lamp boss and its attacks.
+    /// </summary>
     public class LampBossController : Boss
     {
         [Tooltip("Number of light rays Lamp should spawn")]
@@ -39,7 +42,7 @@ namespace Bosses
         [SerializeField] float attackSafezoneTime = 2f;
         
         [Tooltip("Time when the boss starts rotating")]
-        [SerializeField] float rotationWindowBegining = 1.5f;
+        [SerializeField] float rotationWindowBeggining = 1.5f;
         
         [Tooltip("Time when the boss stops rotating")]
         [SerializeField] float rotationWindowEnding = 1f;
@@ -69,35 +72,45 @@ namespace Bosses
         {
             // If player is not in the room don't do anything
             if (!_playerInRoom) return;
+            // Decrease the remaining time
             if (_timeRemaining > 0)
             {
                 _timeRemaining -= Time.deltaTime;
             }
-
+            
+            // If we are in the safe zone time dim the lights
             if (_timeRemaining < attackSafezoneTime)
             {
                 ChangeLightStrength(dimLightIntensity, false);
             }
-
-            if (_timeRemaining <= 1.5 && _timeRemaining > 1)
+            
+            // If we are in the rotation window rotate
+            if (_timeRemaining <= rotationWindowBeggining && _timeRemaining > rotationWindowEnding)
             {
                 RotateLightRays(_rotationTarget);
             }
-
+            
+            // At the end of the attack time reset
             if (_timeRemaining < 0)
             {
-                _rotationTarget = Random.Range(-5f, 5f);
-                ChangeLightStrength(1, true);
+                _rotationTarget = Random.Range(minRotation, maxRotation);
+                ChangeLightStrength(1);
                 _timeRemaining = timeBetweenAttacks;
             }
         }
-
+        
+        /// <summary>
+        /// Callback to wait for a bit before starting the fight.
+        /// </summary>
         void TriggeredCallback()
         {
             var waiter = new Waiter();
             StartCoroutine(waiter.WaitAndExecuteCoroutine(timeBeforeFirstAttack, StartFight));
         }
         
+        /// <summary>
+        /// Coroutine called to start a fight.
+        /// </summary>
         void StartFight()
         {
             _playerInRoom = true;
@@ -135,7 +148,7 @@ namespace Bosses
             foreach (var lightRay in _lightRays)
             {
                 var lightEmitter = lightRay.GetComponent<Light2D>();
-                var lightDamage = lightRay.GetComponent<DamagePlayer>();
+                var lightDamage = lightRay.GetComponent<DealLightDamage>();
                 lightEmitter.intensity = intensity;
                 lightDamage.enabled = dealDamage; 
             }

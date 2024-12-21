@@ -1,61 +1,68 @@
-using Controllers;
+using Gameplay;
 using UnityEngine;
 using Utility;
 
 namespace Enemies
 {
+    /// <summary>
+    /// Component managing the dealing of damage to the player with fire
+    /// </summary>
     public class FireDamage : MonoBehaviour
     {
+        [Tooltip("How much damage to deal")]
         [SerializeField] private float damageAmount = 1f;
+        
+        [Tooltip("How long should the fire exist")]
         [SerializeField] private float lifetime = 5f;
+        
+        [Tooltip("How fast should the fire move")]
         [SerializeField] private float speed = 5f;
 
-        private Transform playerTransform;
-        private Rigidbody2D rb;
-        private AudioSource fireAudio;
+        private Transform _playerTransform;
+        private Rigidbody2D _rb;
 
         private void Start()
         {
-            fireAudio = GetComponent<AudioSource>();
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            GameObject player = GameObject.FindGameObjectWithTag(Tags.Player);
             if (player != null)
             {
-                playerTransform = player.transform;
+                _playerTransform = player.transform;
             }
 
             Destroy(gameObject, lifetime);
 
-            rb = GetComponent<Rigidbody2D>();
-            if (rb == null)
+            _rb = GetComponent<Rigidbody2D>();
+            if (_rb == null)
             {
-                Debug.LogError("Rigidbody2D component missing from fire prefab.");
+                Debug.LogError("[FireDamage] Rigidbody2D component missing from fire prefab.");
             }
         }
 
         private void Update()
         {
-            if (playerTransform != null)
+            // Calculate direction to the player and move in it
+            if (_playerTransform != null)
             {
-                Vector2 direction = (playerTransform.position - transform.position).normalized;
-                if (rb != null)
+                Vector2 direction = (_playerTransform.position - transform.position).normalized;
+                if (_rb != null)
                 {
-                    rb.velocity = direction * speed;
+                    _rb.velocity = direction * speed;
                 }
             }
             else
             {
-                if (rb != null)
+                if (_rb != null)
                 {
-                    rb.velocity = Vector2.zero;
+                    _rb.velocity = Vector2.zero;
                 }
             }
         }
-
+        
+        // On collision either deal damage to the player or destroy the fire object
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player"))
+            if (collision.CompareTag(Tags.Player))
             {
-                fireAudio.Play();
                 PlayerController playerController = collision.GetComponent<PlayerController>();
                 if (playerController != null)
                 {
@@ -63,7 +70,7 @@ namespace Enemies
                 }
                 Destroy(gameObject);
             }
-            else if (collision.CompareTag("Furniture"))
+            else if (collision.CompareTag(Tags.Furniture))
             {
                 Destroy(gameObject);
             }

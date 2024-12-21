@@ -2,18 +2,15 @@ using UnityEngine;
 
 namespace Utility
 {
+    /// <summary>
+    /// Simple class setting the FPS to 60
+    /// </summary>
     public class Optimise : MonoBehaviour
     {
-        // Start is called before the first frame update
         void Start()
         {
-            Application.targetFrameRate = 120;
+            Application.targetFrameRate = 60;
         }
-
-        // Update is called once per frame
-        void Update()
-        {
         
-        }
     }
 }

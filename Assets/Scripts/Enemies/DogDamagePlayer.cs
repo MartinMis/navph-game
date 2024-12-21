@@ -1,77 +1,85 @@
-using Controllers;
+using Gameplay;
 using UnityEngine;
+using Utility;
 
 namespace Enemies
 {
+    /// <summary>
+    /// Component for damaging player by dog
+    /// </summary>
     public class DogDamage : MonoBehaviour
     {
+        [Tooltip("Damage amount")]
         [SerializeField] private float damage = 0.1f;
+        
+        [Tooltip("In what radius should the damage be dealt")]
         [SerializeField] private float damageRadius = 4f;
-        private Transform playerTransform;
-        private DogController dogController;
-
-        private AudioSource audioSource;
+        
+        private Transform _playerTransform;
+        private DogController _dogController;
+        private AudioSource _audioSource;
 
         void Start()
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            GameObject player = GameObject.FindGameObjectWithTag(Tags.Player);
             if (player != null)
             {
-                playerTransform = player.transform;
+                _playerTransform = player.transform;
             }
             else
             {
-                Debug.LogError("Player not found! Please ensure the player has the tag 'Player'.");
+                Debug.LogError("[DogDamagePlayer] Player not found! Please ensure the player has the tag 'Player'.");
             }
 
-            dogController = GetComponent<DogController>();
-            if (dogController == null)
+            _dogController = GetComponent<DogController>();
+            if (_dogController == null)
             {
-                Debug.LogError("DogController script not found on the dog GameObject.");
+                Debug.LogError("[DogDamagePlayer] DogController script not found on the dog GameObject.");
             }
 
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
+            if (_audioSource == null)
             {
-                Debug.LogError("AudioSource component missing on DogDamage.");
+                Debug.LogError("[DogDamagePlayer] AudioSource component missing on DogDamage.");
             }
         }
 
         void Update()
         {
-            if (playerTransform == null) return;
+            if (_playerTransform == null) return;
 
-            if (!dogController.IsMoving)
+            if (!_dogController.IsMoving)
             {
-                float distance = Vector2.Distance(transform.position, playerTransform.position);
+                // If dog is stopped and player is in the range deal damage to him and play the barking sound effect
+                float distance = Vector2.Distance(transform.position, _playerTransform.position);
                 if (distance <= damageRadius)
                 {
-                    PlayerController playerController = playerTransform.GetComponent<PlayerController>();
+                    PlayerController playerController = _playerTransform.GetComponent<PlayerController>();
                     if (playerController != null)
                     {
                         playerController.DamagePlayer(damage * Time.deltaTime);
                     }
                     else
                     {
-                        Debug.LogError("PlayerController script not found on the player.");
+                        Debug.LogError("[DogDamagePlayer] PlayerController script not found on the player.");
                     }
 
-                    if (audioSource != null)
+                    if (_audioSource != null)
                     {
                         float volume = Mathf.Clamp01(1 - (distance / damageRadius));
-                        audioSource.volume = volume;
+                        _audioSource.volume = volume;
 
-                        if (!audioSource.isPlaying)
+                        if (!_audioSource.isPlaying)
                         {
-                            audioSource.Play();
+                            _audioSource.Play();
                         }
                     }
                 }
                 else
                 {
-                    if (audioSource != null && audioSource.isPlaying)
+                    if (_audioSource != null && _audioSource.isPlaying)
                     {
-                        audioSource.Stop();
+                        _audioSource.Stop();
                     }
                 }
             }

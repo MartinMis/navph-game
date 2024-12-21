@@ -4,15 +4,18 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Class for displaying the total coins
+    /// </summary>
     public class CoinDisplay : MonoBehaviour
     {
         public Text coinsText; 
 
-        private ICoinManager coinManager;
+        private ICoinManager _coinManager;
 
         private void Start()
         {
-            coinManager = CoinManager.Instance;
+            _coinManager = CoinManager.Instance;
 
             if (coinsText == null)
             {
@@ -21,9 +24,9 @@ namespace UI
             }
 
             // when the coins change, update the display
-            if (coinManager != null)
+            if (_coinManager != null)
             {
-                coinManager.OnCoinsChanged += UpdateCoinDisplay;
+                _coinManager.OnCoinsChanged += UpdateCoinDisplay;
             }
 
             UpdateCoinDisplay();
@@ -31,15 +34,18 @@ namespace UI
 
         private void OnDestroy()
         {
-            if (coinManager != null)
+            if (_coinManager != null)
             {
-                coinManager.OnCoinsChanged -= UpdateCoinDisplay;
+                _coinManager.OnCoinsChanged -= UpdateCoinDisplay;
             }
         }
-
+        
+        /// <summary>
+        /// Method to update the coin display
+        /// </summary>
         private void UpdateCoinDisplay()
         {
-            coinsText.text = $"{coinManager.GetTotalCoins()}";
+            coinsText.text = $"{_coinManager.GetTotalCoins()}";
         }
     }
 }

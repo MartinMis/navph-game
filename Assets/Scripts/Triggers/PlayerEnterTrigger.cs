@@ -5,23 +5,22 @@ using UnityEngine;
 
 namespace Triggers
 {
+    /// <summary>
+    /// Class containing a trigger for when player enters an area
+    /// </summary>
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Collider2D))]
     public class PlayerEnterTrigger : MonoBehaviour
     {
-        private AudioSource _audioSource;
+        /// <summary>
+        /// Triggered when player enters
+        /// </summary>
         public event Action OnTriggered;
-    
-        private void Awake()
-        {
-            _audioSource = GetComponent<AudioSource>();
-        }
-
+        
         void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag(Tags.Player))
             {
-                _audioSource.Play();
                 OnTriggered?.Invoke();
             }
         }

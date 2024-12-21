@@ -2,6 +2,9 @@
 
 namespace Upgrades
 {
+    /// <summary>
+    /// Class implementing the player speed upgrade
+    /// </summary>
     public class PlayerSpeedUpgrade : IUpgrade
     {
         public UpgradeKey Key { get; private set; }
@@ -12,7 +15,7 @@ namespace Upgrades
         public float SpeedMultiplier { get; private set; }
         public string Description { get; private set; }
 
-        private float speedIncreasePerLevel;
+        private float _speedIncreasePerLevel;
 
         public PlayerSpeedUpgrade(UpgradeData data)
         {
@@ -23,25 +26,32 @@ namespace Upgrades
             }
 
             Key = data.key;
-            Name = data.name ?? "Unknown Upgrade";
+            Name = data.title ?? "Unknown Upgrade";
             Icon = data.icon;
             Description = data.description ?? "No Description";
             BasePrice = data.basePrice > 0 ? data.basePrice : 100; // Default price
             CurrentLevel = data.currentLevel;
-            speedIncreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
+            _speedIncreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
         }
-
+        
+        /// <summary>
+        /// Method to set the upgrade level
+        /// </summary>
+        /// <param name="level">Level to set</param>
         public void SetCurrentLevel(int level)
         {
             CurrentLevel = level;
         }
-
+        
+        /// <summary>
+        /// Method to apply the upgrade effect
+        /// </summary>
         public void ApplyEffect()
         {
             Debug.Log($"{Name}: Player speed increased!");
             Debug.Log($"{Name}: Player speed level upgrade = {CurrentLevel}!");
 
-            SpeedMultiplier = 1f + (CurrentLevel * speedIncreasePerLevel);
+            SpeedMultiplier = 1f + (CurrentLevel * _speedIncreasePerLevel);
 
             Debug.Log($"{Name}: Computed Speed Multiplier = {SpeedMultiplier}");
         }

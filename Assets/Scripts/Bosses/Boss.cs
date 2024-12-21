@@ -65,7 +65,7 @@ namespace Bosses
         /// Method triggered when boss dies. Automatically calls the appropriate actions, adjust the game difficulty
         /// and adds coins to the player.
         /// </summary>
-        private void Die()
+        void Die()
         {
             CoinManager.Instance.AddRunEarnings(coinReward);
             DifficultyManager.Instance.IncreaseDifficulty();

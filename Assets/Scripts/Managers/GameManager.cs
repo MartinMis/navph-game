@@ -3,10 +3,19 @@ using Upgrades;
 
 namespace Managers
 {
+    /// <summary>
+    /// Class centralising the core managers
+    /// </summary>
     public class GameManager : MonoBehaviour
     {
+        [Tooltip("Coin manger to use")]
         [SerializeField] private CoinManager coinManager;
+        
+        [Tooltip("Upgrade manager to use")]
         [SerializeField] private UpgradeManager upgradeManager;
+        
+        [Tooltip("Audio manager to use")]
+        [SerializeField] private AudioManager audioManager;
     
         public static GameManager Instance {get; private set;}
     
@@ -21,9 +30,7 @@ namespace Managers
             {
                 Destroy(gameObject);
             }
-        
-            //delete playerprefs
-            //PlayerPrefs.DeleteAll();
+            
 
             Debug.Log("[GameManager] Initializing core managers...");
 
@@ -45,6 +52,16 @@ namespace Managers
             else
             {
                 Debug.LogError("[GameManager] UpgradeManager reference is missing!");
+            }
+            
+            // then audio manager
+            if (audioManager != null)
+            {
+                audioManager.Initialize();
+            }
+            else
+            {
+                Debug.LogError("[GameManager] AudioManager reference is missing!");
             }
 
             Debug.Log("[GameManager] Initialization complete.");

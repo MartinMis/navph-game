@@ -6,29 +6,31 @@ using UnityEngine.SceneManagement;
 
 namespace Upgrades
 {
+    /// <summary>
+    /// Class managing the upgrades implemented as a singleton
+    /// </summary>
     public class UpgradeManager : MonoBehaviour
     {
         public static UpgradeManager Instance { get; private set; }
-
+        public List<UpgradeData> upgrades;
         public GameObject upgradePrefab;
-        private Transform contentParent;
-
-        [SerializeField] public List<UpgradeData> upgrades;
-
-        private readonly Dictionary<UpgradeKey, Func<UpgradeData, IUpgrade>> upgradeFactories =
+       
+        private Transform _contentParent;
+        private readonly Dictionary<UpgradeKey, Func<UpgradeData, IUpgrade>> _upgradeFactories =
             new Dictionary<UpgradeKey, Func<UpgradeData, IUpgrade>>();
-
-        private Dictionary<UpgradeKey, IUpgrade> createdUpgrades = new Dictionary<UpgradeKey, IUpgrade>();
-
-        private ICoinManager coinManager;
+        private Dictionary<UpgradeKey, IUpgrade> _createdUpgrades = new Dictionary<UpgradeKey, IUpgrade>();
+        private ICoinManager _coinManager;
 
         // it is initialized in HomeScene and blocks are created in UpgradeScene
-        private bool isInitialized = false;
+        private bool _isInitialized = false;
 
         // when this is UpgradeScene, we need to find contentParent where the upgrade blocks will be created
         private const string UpgradeSceneName = "UpgradesScene";
         private const string ContentParentObjectName = "UpgradeContainer";
-
+        
+        /// <summary>
+        /// Method for initializing the upgrade manager singleton
+        /// </summary>
         public void Initialize()
         {
             Debug.Log("[UpgradeManager] Initializing...");
@@ -40,9 +42,8 @@ namespace Upgrades
             }
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
 
-            coinManager = CoinManager.Instance;
+            _coinManager = CoinManager.Instance;
             InitializeFactories();
 
             // Initialize all upgrades
@@ -56,14 +57,14 @@ namespace Upgrades
 
                 if (string.IsNullOrEmpty(data.key.ToString()))
                 {
-                    Debug.LogError($"[UpgradeManager] UpgradeData has an invalid key: {data.name}");
+                    Debug.LogError($"[UpgradeManager] UpgradeData has an invalid key: {data.title}");
                     continue;
                 }
 
                 var upgrade = CreateUpgrade(data);
                 if (upgrade != null)
                 {
-                    createdUpgrades[data.key] = upgrade;
+                    _createdUpgrades[data.key] = upgrade;
                 }
                 else
                 {
@@ -72,7 +73,7 @@ namespace Upgrades
             }
 
             // Load saved state for all upgrades
-            foreach (var upgrade in createdUpgrades.Values)
+            foreach (var upgrade in _createdUpgrades.Values)
             {
                 if (UpgradeStateStorage.TryLoadUpgradeState(upgrade.Key, out var level, out var price))
                 {
@@ -86,16 +87,19 @@ namespace Upgrades
                 }
             }
 
-            isInitialized = true;
+            _isInitialized = true;
 
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             Debug.Log("[UpgradeManager] Upgrades loaded into memory, waiting for contentParent to create blocks.");
         }
-
+        
+        /// <summary>
+        /// Method for reloading the upgrades
+        /// </summary>
         public void ReloadUpgrades()
         {
-            foreach (var upgrade in createdUpgrades.Values)
+            foreach (var upgrade in _createdUpgrades.Values)
             {
                 if (UpgradeStateStorage.TryLoadUpgradeState(upgrade.Key, out var level, out var price))
                 {
@@ -109,20 +113,28 @@ namespace Upgrades
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Helper method initializing the upgrade fcctories
+        /// </summary>
         private void InitializeFactories()
         {
-            upgradeFactories[UpgradeKey.Slippers] = data => new PlayerSpeedUpgrade(data);
-            upgradeFactories[UpgradeKey.Bear] = data => new SleepMeterCapacityUpgrade(data);
-            upgradeFactories[UpgradeKey.Mask] = data => new SunriseTimerUpgrade(data);
-            upgradeFactories[UpgradeKey.Pyjama] = data => new LightDamageUpgrade(data);
+            _upgradeFactories[UpgradeKey.Slippers] = data => new PlayerSpeedUpgrade(data);
+            _upgradeFactories[UpgradeKey.Bear] = data => new SleepMeterCapacityUpgrade(data);
+            _upgradeFactories[UpgradeKey.Mask] = data => new SunriseTimerUpgrade(data);
+            _upgradeFactories[UpgradeKey.Pyjama] = data => new LightDamageUpgrade(data);
         }
-
+        
+        /// <summary>
+        /// Helper method for creating the upgrades from upgrade data
+        /// </summary>
+        /// <param name="data">Upgrade data</param>
+        /// <returns>Upgrade</returns>
         private IUpgrade CreateUpgrade(UpgradeData data)
         {
             Debug.Log($"[UpgradeManager] Processing UpgradeData: {data?.key}");
 
-            if (upgradeFactories.TryGetValue(data.key, out var factory))
+            if (_upgradeFactories.TryGetValue(data.key, out var factory))
             {
                 return factory(data);
             }
@@ -130,7 +142,12 @@ namespace Upgrades
             Debug.LogWarning($"[UpgradeManager] Unknown upgrade key: {data.key}");
             return null;
         }
-
+        
+        /// <summary>
+        /// Method to be executed when scene changes
+        /// </summary>
+        /// <param name="scene">Name of the loaded scene</param>
+        /// <param name="mode">Scene mode</param>
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name == UpgradeSceneName)
@@ -148,24 +165,31 @@ namespace Upgrades
                 }
             }
         }
-
-        public void SetContentParent(Transform parent)
+        
+        /// <summary>
+        /// Method to set parents
+        /// </summary>
+        /// <param name="parent">Object to act as a parrent</param>
+        private void SetContentParent(Transform parent)
         {
-            contentParent = parent;
+            _contentParent = parent;
             Debug.Log("[UpgradeManager] Content parent set from scene load event.");
 
             TryCreateUpgradeBlocks();
         }
-
+        
+        /// <summary>
+        /// Method to try and create upgrade blocks
+        /// </summary>
         private void TryCreateUpgradeBlocks()
         {
-            if (!isInitialized)
+            if (!_isInitialized)
             {
                 Debug.LogWarning("[UpgradeManager] Cannot create upgrade blocks, manager not initialized yet.");
                 return;
             }
 
-            if (contentParent == null)
+            if (_contentParent == null)
             {
                 Debug.LogWarning("[UpgradeManager] Cannot create upgrade blocks, contentParent not set.");
                 return;
@@ -179,29 +203,36 @@ namespace Upgrades
 
             ClearExistingBlocks();
 
-            foreach (var upgrade in createdUpgrades.Values)
+            foreach (var upgrade in _createdUpgrades.Values)
             {
                 CreateUpgradeBlock(upgrade);
             }
 
             Debug.Log("[UpgradeManager] All upgrade blocks created.");
         }
-
+        
+        /// <summary>
+        /// Method to remove already existing upgrade blocks
+        /// </summary>
         private void ClearExistingBlocks()
         {
-            if (contentParent != null)
+            if (_contentParent != null)
             {
-                foreach (Transform child in contentParent)
+                foreach (Transform child in _contentParent)
                 {
                     Destroy(child.gameObject);
                 }
                 Debug.Log("[UpgradeManager] Existing upgrade blocks cleared.");
             }
         }
-
+        
+        /// <summary>
+        /// Method to create upgrade block for an upgrade
+        /// </summary>
+        /// <param name="upgrade">Upgrade to create upgrade block for</param>
         private void CreateUpgradeBlock(IUpgrade upgrade)
         {
-            GameObject upgradeBlockObj = Instantiate(upgradePrefab, contentParent);
+            GameObject upgradeBlockObj = Instantiate(upgradePrefab, _contentParent);
             var upgradeBlock = upgradeBlockObj.GetComponent<UpgradeBlock>();
 
             if (upgradeBlock == null)
@@ -210,12 +241,17 @@ namespace Upgrades
                 return;
             }
 
-            upgradeBlock.Initialize(upgrade.Icon, upgrade.Name, upgrade.Description, upgrade.BasePrice, upgrade.ApplyEffect, coinManager, upgrade);
+            upgradeBlock.Initialize(upgrade.Icon, upgrade.Name, upgrade.Description, upgrade.BasePrice, upgrade.ApplyEffect, _coinManager, upgrade);
         }
-
+        
+        /// <summary>
+        /// Method to get upgrade by its key
+        /// </summary>
+        /// <param name="key">Key of the upgrade</param>
+        /// <returns>Upgrade</returns>
         public IUpgrade GetUpgradeByKey(UpgradeKey key)
         {
-            if (createdUpgrades.TryGetValue(key, out var upgrade))
+            if (_createdUpgrades.TryGetValue(key, out var upgrade))
             {
                 return upgrade;
             }

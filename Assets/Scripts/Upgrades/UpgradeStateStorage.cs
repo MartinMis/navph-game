@@ -2,9 +2,14 @@
 
 namespace Upgrades
 {
+    /// <summary>
+    /// Class for storing the upgrade states
+    /// </summary>
     public static class UpgradeStateStorage
     {
-        // when the game starts, we need to load the state of all upgrades (level and price)
+        /// <summary>
+        /// When the game starts, we need to load the state of all upgrades (level and price)
+        /// </summary>
         public static bool TryLoadUpgradeState(UpgradeKey upgradeKey, out int level, out int price)
         {
             string keyLevel = $"Upgrade_{upgradeKey}_Level";
@@ -21,8 +26,10 @@ namespace Upgrades
             price = 0;
             return false;
         }
-
-        // when the player buys an upgrade, we need to save the new state
+        
+        /// <summary>
+        /// When the player buys an upgrade, we need to save the new state
+        /// </summary>
         public static void SaveUpgradeState(UpgradeKey upgradeKey, int level, int price)
         {
             string keyLevel = $"Upgrade_{upgradeKey}_Level";

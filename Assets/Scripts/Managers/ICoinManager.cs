@@ -2,6 +2,9 @@
 
 namespace Managers
 {
+    /// <summary>
+    /// Interface describing the coin manager
+    /// </summary>
     public interface ICoinManager
 
     {

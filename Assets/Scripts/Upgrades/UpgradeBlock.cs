@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace Upgrades
 {
+    /// <summary>
+    /// Implementation of the upgrade block
+    /// </summary>
     public class UpgradeBlock : MonoBehaviour, IUpgradeBlock
     {
         public Image upgradeImage;     
@@ -16,21 +19,23 @@ namespace Upgrades
         public Image progressBarFill;
         // can be an upgrade description in the future
 
-        private ICoinManager coinManager;
-        private IUpgrade associatedUpgrade;
+        private ICoinManager _coinManager;
+        private IUpgrade _associatedUpgrade;
 
-        private int currentUpgradePrice;         
-        private int currentUpgradeLevel;         
-        private int maxUpgradeLevel = 10;
-        private int baseUpgradePrice;
-        private int baseUpgradeLevel = 0;
+        private int _currentUpgradePrice;         
+        private int _currentUpgradeLevel;         
+        private int _maxUpgradeLevel = 10;
+        private int _baseUpgradePrice;
+        private int _baseUpgradeLevel = 0;
         public string UpgradeName => upgradeName.text;
-        public int CurrentLevel => currentUpgradeLevel;
-        public int MaxLevel => maxUpgradeLevel;
-        public int CurrentPrice => currentUpgradePrice;
+        public int CurrentLevel => _currentUpgradeLevel;
+        public int MaxLevel => _maxUpgradeLevel;
+        public int CurrentPrice => _currentUpgradePrice;
 
 
-
+        /// <summary>
+        /// Action invoked when the upgrade is applied
+        /// </summary>
         public Action OnUpgradeApplied { get; set; }
 
         private void Start()
@@ -51,104 +56,121 @@ namespace Upgrades
         {
             Debug.Log($"[UpgradeBlock] Initializing upgrade: {name}, Base Price: {basePrice}");
 
-            this.coinManager = coinManager ?? throw new ArgumentNullException(nameof(coinManager)); // ensure DI is provided
+            this._coinManager = coinManager ?? throw new ArgumentNullException(nameof(coinManager)); // ensure DI is provided
             
             upgradeImage.sprite = icon; 
             upgradeName.text = name; 
-            currentUpgradePrice = basePrice;
-            baseUpgradePrice = basePrice;
+            _currentUpgradePrice = basePrice;
+            _baseUpgradePrice = basePrice;
             upgradeDescription.text = description;
 
             // Invoked in ApplyUpgrade() method
-            /** this is IUpgrade ApplyEffect() method which is implemented by
-            PlayerSpeedUpgrade, SleepMeterCapacityUpgrade, SleepMeterSpeedUpgrade, LightDamageUpgrade **/
             OnUpgradeApplied = onUpgradeApplied;
-            associatedUpgrade = upgrade;
+            _associatedUpgrade = upgrade;
 
             LoadUpgradeState();
             UpdateUI();                      
 
             Debug.Log($"[UpgradeBlock] Initialized {name} successfully");
         }
-
+        
+        /// <summary>
+        /// Method to apply the upgrade
+        /// </summary>
         public void ApplyUpgrade()
         {
             Debug.Log($"[UpgradeBlock] Applying upgrade: {UpgradeName}");
             // when the upgrade is applied, tell CoinManager to update the UI
             OnUpgradeApplied?.Invoke(); 
         }
-
+        
+        /// <summary>
+        /// Method to reset the upgrades
+        /// </summary>
         public void ResetUpgrade()
         {
-            currentUpgradeLevel = baseUpgradeLevel;
-            currentUpgradePrice = baseUpgradePrice;
-            UpgradeStateStorage.SaveUpgradeState(associatedUpgrade.Key, currentUpgradeLevel, currentUpgradePrice);
+            _currentUpgradeLevel = _baseUpgradeLevel;
+            _currentUpgradePrice = _baseUpgradePrice;
+            UpgradeStateStorage.SaveUpgradeState(_associatedUpgrade.Key, _currentUpgradeLevel, _currentUpgradePrice);
             UpdateUI();
         }
-
-        // upgrade next price multiplier
+        
+        /// <summary>
+        /// Upgrade next price multiplier
+        /// </summary>
         private void NextUpgradePrice()
         {
-            currentUpgradePrice = (int)(currentUpgradePrice * 1.8);
+            _currentUpgradePrice = (int)(_currentUpgradePrice * 1.8);
         }
-
-        // when the upgrade buy button is clicked
+        
+        /// <summary>
+        /// When the upgrade buy button is clicked
+        /// </summary>
         public void BuyUpgrade()
         {
             Debug.Log($"[UpgradeBlock] Attempting to buy upgrade: {UpgradeName}");
             if (AffordableOrAvailable())
             {
-                currentUpgradeLevel++;
+                _currentUpgradeLevel++;
                 NextUpgradePrice();
 
-                associatedUpgrade.SetCurrentLevel(currentUpgradeLevel);
+                _associatedUpgrade.SetCurrentLevel(_currentUpgradeLevel);
                 //ApplyUpgrade();    
-                UpgradeStateStorage.SaveUpgradeState(associatedUpgrade.Key, currentUpgradeLevel, currentUpgradePrice);
+                UpgradeStateStorage.SaveUpgradeState(_associatedUpgrade.Key, _currentUpgradeLevel, _currentUpgradePrice);
                 UpdateUI();        
-                Debug.Log($"[UpgradeBlock] Upgrade {UpgradeName} purchased. New Level: {currentUpgradeLevel}");
+                Debug.Log($"[UpgradeBlock] Upgrade {UpgradeName} purchased. New Level: {_currentUpgradeLevel}");
             }
             else
             {
                 Debug.LogWarning($"[UpgradeBlock] Not enough coins or max level reached for {UpgradeName}.");
             }
         }
-
+        
+        /// <summary>
+        /// Method to check if upgrade is aviable
+        /// </summary>
+        /// <returns>Upgrade aviability</returns>
         private bool AffordableOrAvailable()
         {
-            return currentUpgradeLevel < maxUpgradeLevel && coinManager.SpendCoins(currentUpgradePrice);
+            return _currentUpgradeLevel < _maxUpgradeLevel && _coinManager.SpendCoins(_currentUpgradePrice);
         }
-
+        
+        /// <summary>
+        /// Method to update the UI
+        /// </summary>
         private void UpdateUI()
         {
-            upgradePrice.text = $"{currentUpgradePrice} Coins";
-            upgradeCount.text = $"{currentUpgradeLevel}/{maxUpgradeLevel}";
+            upgradePrice.text = $"{_currentUpgradePrice} Coins";
+            upgradeCount.text = $"{_currentUpgradeLevel}/{_maxUpgradeLevel}";
 
             // upgrade progress bar
             if (progressBarFill != null)
             {
-                progressBarFill.fillAmount = (float)currentUpgradeLevel / maxUpgradeLevel; 
+                progressBarFill.fillAmount = (float)_currentUpgradeLevel / _maxUpgradeLevel; 
             }
 
-            upgradeButton.interactable = currentUpgradeLevel < maxUpgradeLevel; // deactivate buy button on max level
+            upgradeButton.interactable = _currentUpgradeLevel < _maxUpgradeLevel; // deactivate buy button on max level
 
 
         }
-
-        /// loads the saved state of the upgrade from PlayerPrefs.
+        
+        /// <summary>
+        /// Loads the saved state of the upgrade from PlayerPrefs.
+        /// </summary>
         private void LoadUpgradeState()
         {
-            if (UpgradeStateStorage.TryLoadUpgradeState(associatedUpgrade.Key, out var loadedLevel, out var loadedPrice))
+            if (UpgradeStateStorage.TryLoadUpgradeState(_associatedUpgrade.Key, out var loadedLevel, out var loadedPrice))
             {
-                currentUpgradeLevel = loadedLevel;
-                currentUpgradePrice = loadedPrice;
-                Debug.Log($"[UpgradeBlock] Loaded {UpgradeName}: Level {currentUpgradeLevel}, Price {currentUpgradePrice}");
+                _currentUpgradeLevel = loadedLevel;
+                _currentUpgradePrice = loadedPrice;
+                Debug.Log($"[UpgradeBlock] Loaded {UpgradeName}: Level {_currentUpgradeLevel}, Price {_currentUpgradePrice}");
             }
             else
             {
                 ResetUpgrade();
                 Debug.Log($"[UpgradeBlock] No saved state for {UpgradeName}. Defaulting to Level 0, Price 10");
             }
-            associatedUpgrade.SetCurrentLevel(currentUpgradeLevel);
+            _associatedUpgrade.SetCurrentLevel(_currentUpgradeLevel);
         }
     }
 }

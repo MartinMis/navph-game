@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 572c4e0e4fe904209a4ff662b9d519c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0.05
+  damage: 15
   rayCount: 12
 --- !u!1 &3948986601963073077
 GameObject:
@@ -195,3 +195,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8737941e4f1d148c48f4565415a6dd20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightObject: {fileID: 413844405559200422}

@@ -2,6 +2,9 @@
 
 namespace Upgrades
 {
+    /// <summary>
+    /// Class implementing the sunrise timer upgrade
+    /// </summary>
     public class SunriseTimerUpgrade : IUpgrade
     {
         public UpgradeKey Key { get; private set; }
@@ -13,7 +16,7 @@ namespace Upgrades
         public string Description { get; private set; }
         
         public float SunriseTimerModifier { get; private set; }
-        private float sunriseTimerModifierIncreasePerLevel;
+        private float _sunriseTimerModifierIncreasePerLevel;
 
         public SunriseTimerUpgrade(UpgradeData data)
         {
@@ -23,21 +26,28 @@ namespace Upgrades
                 return;
             }
             Key = data.key;
-            Name = data.name ?? "Unknown Upgrade";
+            Name = data.title ?? "Unknown Upgrade";
             Icon = data.icon;
             Description = data.description ?? "No Description";
             BasePrice = data.basePrice > 0 ? data.basePrice : 100;
             CurrentLevel = data.currentLevel;
-            sunriseTimerModifierIncreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
+            _sunriseTimerModifierIncreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
 
         }
-
+        
+        /// <summary>
+        /// Method to apply the upgrade effect
+        /// </summary>
         public void ApplyEffect()
         {
             Debug.Log($"{Name}: Sunrise timer increased!");
-            SunriseTimerModifier = 1 + (CurrentLevel * sunriseTimerModifierIncreasePerLevel);
+            SunriseTimerModifier = 1 + (CurrentLevel * _sunriseTimerModifierIncreasePerLevel);
         }
-
+        
+        /// <summary>
+        /// Method to set the upgrade level
+        /// </summary>
+        /// <param name="level">Level to set</param>
         public void SetCurrentLevel(int level)
         {
             CurrentLevel = level;

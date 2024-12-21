@@ -1,44 +1,61 @@
 using UnityEngine;
+using Utility;
 
 namespace Enemies
 {
+    /// <summary>
+    /// Controller for the tea candle enemy.
+    /// </summary>
     public class TeaCandleController : MonoBehaviour
     {
         [Header("Movement Settings")]
+        [Tooltip("Radius in which candle circles")]
         [SerializeField] private float radius = 2f;
+        
+        [Tooltip("Speed at which the candle circles")]
         [SerializeField] private float angularSpeed = 50f;
 
         [Header("Fire Settings")]
+        [Tooltip("Prefab for the fire projectile")]
         [SerializeField] private GameObject firePrefab;
+        
+        [Tooltip("How often should the candle fire a projectile")]
         [SerializeField] private float fireInterval = 3f;
+        
+        [Tooltip("How many times should the candle fire a projectile")]
         [SerializeField] private int maxFires = 10;
+        
+        [Tooltip("At what range should the candle fire")]
         [SerializeField] private float fireRange = 10f;
 
-        private int firesShot = 0;
-        private float fireTimer = 0f;
-        private Vector3 centerPosition;
-        private float angle = 0f;
+        private int _firesShot;
+        private float _fireTimer;
+        private Vector3 _centerPosition;
+        private float _angle;
+        private Transform _playerTransform;
 
-        private Transform playerTransform;
-
+        /// <summary>
+        /// Method for setting the center position around which the candle circles.
+        /// </summary>
+        /// <param name="center">Center position</param>
         public void SetCenterPosition(Vector3 center)
         {
-            centerPosition = center;
+            _centerPosition = center;
         }
 
         void Start()
         {
-            if (centerPosition == Vector3.zero)
-                centerPosition = transform.position;
+            if (_centerPosition == Vector3.zero)
+                _centerPosition = transform.position;
 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            GameObject player = GameObject.FindGameObjectWithTag(Tags.Player);
             if (player != null)
             {
-                playerTransform = player.transform;
+                _playerTransform = player.transform;
             }
             else
             {
-                Debug.LogError("Player not found! Please ensure the player has the tag 'Player'.");
+                Debug.LogError("[TeaCandleController] Player not found! Please ensure the player has the tag 'Player'.");
             }
         }
 
@@ -48,47 +65,59 @@ namespace Enemies
             HandleShooting();
         }
 
+        /// <summary>
+        /// Method for moving the tea candle in a circle using trigonometry
+        /// </summary>
         private void MoveInCircle()
         {
-            angle += angularSpeed * Time.deltaTime;
-            float rad = angle * Mathf.Deg2Rad;
+            _angle += angularSpeed * Time.deltaTime;
+            float rad = _angle * Mathf.Deg2Rad;
 
             Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * radius;
-            transform.localPosition = centerPosition + offset;
+            transform.localPosition = _centerPosition + offset;
         }
-
+        
+        /// <summary>
+        /// Method for handling shooting of projectiles
+        /// </summary>
         private void HandleShooting()
         {
-            if (firesShot >= maxFires)
+            // If all projectiles have been shot, destroy the tea candle
+            if (_firesShot >= maxFires)
             {
                 Destroy(gameObject);
                 return;
             }
 
-            if (playerTransform == null)
+            if (_playerTransform == null)
                 return;
-
-            float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+            
+            // Calculate the distance to the player and if its in range and enough time has passed shoot
+            float distanceToPlayer = Vector2.Distance(transform.position, _playerTransform.position);
             if (distanceToPlayer <= fireRange)
             {
-                fireTimer += Time.deltaTime;
-                if (fireTimer >= fireInterval)
+                _fireTimer += Time.deltaTime;
+                if (_fireTimer >= fireInterval)
                 {
                     ShootFire();
-                    fireTimer = 0f;
-                    firesShot++;
+                    _fireTimer = 0f;
+                    _firesShot++;
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Method for spawning projectile instances.
+        /// </summary>
         private void ShootFire()
         {
             Instantiate(firePrefab, transform.position, Quaternion.identity);
         }
-
+        
+        // Destroy tea candle when touched by the player
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag(Tags.Player))
             {
                 Destroy(gameObject);
             }

@@ -8,20 +8,20 @@ namespace Managers
     /// </summary>
     public class AudioManager : MonoBehaviour, IAudioManager
     {
+        [Tooltip("AudioMixer to use")]
         [SerializeField] private AudioMixer audioMixer;
         public static IAudioManager Instance { get; private set; }
     
         // Private variables
-        private float _musicVolume = 0f;
-        private float _sfxVolume = 0f;
+        private float _musicVolume;
+        private float _sfxVolume ;
     
         // Initialize as an Singleton
-        private void Awake()
+        public void Initialize()
         {
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -32,7 +32,7 @@ namespace Managers
         private void Start()
         {
             _musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0f);
-            _sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0f);
+            _sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0f);
             audioMixer.SetFloat("MusicVolume", CalculateDecibels(_musicVolume));
             audioMixer.SetFloat("SFXVolume", CalculateDecibels(_sfxVolume));
         }

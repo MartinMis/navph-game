@@ -2,6 +2,9 @@
 
 namespace Upgrades
 {
+    /// <summary>
+    /// Class implementing the sleep meter capacity upgrade
+    /// </summary>
     public class SleepMeterCapacityUpgrade : IUpgrade
     {
         public UpgradeKey Key { get; private set; }
@@ -13,7 +16,7 @@ namespace Upgrades
         public int CurrentLevel { get; private set; }
         
         public float SleepMeterCapacityModifier { get; private set; }
-        private float sleepMeterCapacityIncreasePerLevel;
+        private float _sleepMeterCapacityIncreasePerLevel;
         public SleepMeterCapacityUpgrade(UpgradeData data)
         {
             if (data == null)
@@ -22,21 +25,28 @@ namespace Upgrades
                 return;
             }
             Key = data.key;
-            Name = data.name ?? "Unknown Upgrade";
+            Name = data.title ?? "Unknown Upgrade";
             Icon = data.icon;
             Description = data.description ?? "No Description";
             BasePrice = data.basePrice > 0 ? data.basePrice : 100;
             CurrentLevel = data.currentLevel;
-            sleepMeterCapacityIncreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
+            _sleepMeterCapacityIncreasePerLevel = data.upgradeMultiplier > 0 ? data.upgradeMultiplier : 0.05f;
 
         }
-
+        
+        /// <summary>
+        /// Method to apply the upgrade effect
+        /// </summary>
         public void ApplyEffect()
         {
             Debug.Log($"{Name}: Sleep meter capacity increased!");
-            SleepMeterCapacityModifier = 1 + (CurrentLevel * sleepMeterCapacityIncreasePerLevel);
+            SleepMeterCapacityModifier = 1 + (CurrentLevel * _sleepMeterCapacityIncreasePerLevel);
         }
-
+        
+        /// <summary>
+        /// Method to set the upgrade level
+        /// </summary>
+        /// <param name="level">Level to set</param>
         public void SetCurrentLevel(int level)
         {
             CurrentLevel = level;

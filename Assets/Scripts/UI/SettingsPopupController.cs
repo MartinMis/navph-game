@@ -4,39 +4,45 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Class controlling the settings pop up
+    /// </summary>
     public class SettingsPopupController : MonoBehaviour
     {
         public GameObject settingsPopupPrefab; // Prefab pre SettingsPopup
-        private GameObject settingsPopupInstance;
+        private GameObject _settingsPopupInstance;
 
-        private IAudioManager audioManager;
+        private IAudioManager _audioManager;
 
         private void Awake()
         {
-            audioManager = AudioManager.Instance;
+            _audioManager = AudioManager.Instance;
 
-            if (audioManager == null)
+            if (_audioManager == null)
             {
                 Debug.LogError("[SettingsPopupController] AudioManager not found!");
             }
         }
-
+        
+        /// <summary>
+        /// Method for opening the setting pop up
+        /// </summary>
         public void OpenSettingsPopup()
         {
-            if (settingsPopupInstance == null)
+            if (_settingsPopupInstance == null)
             {
-                settingsPopupInstance = Instantiate(settingsPopupPrefab, transform);
+                _settingsPopupInstance = Instantiate(settingsPopupPrefab, transform);
 
                 // find sliders in popup prefab
-                var musicSlider = settingsPopupInstance.transform.Find("popupBlock/SlidersBlock/MusicSlider")?.GetComponent<Slider>();
-                var sfxSlider = settingsPopupInstance.transform.Find("popupBlock/SlidersBlock/SFXSlider")?.GetComponent<Slider>();
+                var musicSlider = _settingsPopupInstance.transform.Find("popupBlock/SlidersBlock/MusicSlider")?.GetComponent<Slider>();
+                var sfxSlider = _settingsPopupInstance.transform.Find("popupBlock/SlidersBlock/SFXSlider")?.GetComponent<Slider>();
 
                 if (musicSlider != null)
                 {
-                    musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", audioManager.GetMusicVolume());
-                    audioManager.SetMusicVolume(musicSlider.value);
+                    musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", _audioManager.GetMusicVolume());
+                    _audioManager.SetMusicVolume(musicSlider.value);
                     musicSlider.onValueChanged.AddListener(volume => {
-                        audioManager.SetMusicVolume(volume);
+                        _audioManager.SetMusicVolume(volume);
                         PlayerPrefs.SetFloat("MusicVolume", volume);
                     });
                     Debug.Log("[SettingsPopupController] MusicSlider connected.");
@@ -48,10 +54,10 @@ namespace UI
 
                 if (sfxSlider != null)
                 {
-                    sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", audioManager.GetSFXVolume());
-                    audioManager.SetSFXVolume(sfxSlider.value);
+                    sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", _audioManager.GetSFXVolume());
+                    _audioManager.SetSFXVolume(sfxSlider.value);
                     sfxSlider.onValueChanged.AddListener(volume => {
-                        audioManager.SetSFXVolume(volume);
+                        _audioManager.SetSFXVolume(volume);
                         PlayerPrefs.SetFloat("SFXVolume", volume);
                     });
                     Debug.Log("[SettingsPopupController] SFXSlider connected.");
@@ -77,15 +83,18 @@ namespace UI
             // if popup is already created, just show it
             else
             {
-                settingsPopupInstance.SetActive(true);
+                _settingsPopupInstance.SetActive(true);
             }
         }
-
+        
+        /// <summary>
+        /// Method for closing the setting pop up
+        /// </summary>
         public void CloseSettingsPopup()
         {
-            if (settingsPopupInstance != null)
+            if (_settingsPopupInstance != null)
             {
-                settingsPopupInstance.SetActive(false);
+                _settingsPopupInstance.SetActive(false);
             }
         }
     }

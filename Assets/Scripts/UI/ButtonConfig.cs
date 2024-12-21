@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Configurations for the button
+    /// </summary>
     [CreateAssetMenu(fileName = "NewButtonConfig", menuName = "UI/ButtonConfig")]
     public class ButtonConfig : ScriptableObject
     {

@@ -1,13 +1,19 @@
-using Controllers;
+using Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
 
 namespace UI
 {
+    /// <summary>
+    /// Class controlling the wake up bar
+    /// </summary>
     public class WakeUpBarController : MonoBehaviour
     {
+        [Tooltip("Maximal value text")]
         [SerializeField] private Text maxValue;
+        
+        [Tooltip("Fill element of the bar")]
         [SerializeField] private Image fill;
     
         private PlayerController _playerController;
@@ -24,7 +30,10 @@ namespace UI
             _playerController.OnWakeUpMeterUpdated += FillBar;
             FillBar();
         }
-
+        
+        /// <summary>
+        /// Method to update the bar state
+        /// </summary>
         void FillBar()
         {
             if (_playerController == null) return;

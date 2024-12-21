@@ -3,27 +3,41 @@ using UnityEngine;
 
 namespace Managers
 {
+    /// <summary>
+    /// Singleton class for managing coins
+    /// </summary>
     public class CoinManager : MonoBehaviour, ICoinManager
     {
         // Singleton instance
+        [Tooltip("Coins when first starting the game")]
         [SerializeField] private int initialCoins;
+       
         public static ICoinManager Instance { get; private set; }
-
-        int totalCoins; // global total coins 
         public int RunEarnings { get; private set; } = 0;  // in game run earnings
 
+        int _totalCoins; // global total coins 
+        
+        /// <summary>
+        /// Invoke when total coins change
+        /// </summary>
         public event Action OnCoinsChanged;
+        
+        /// <summary>
+        /// Invoke when run coins change
+        /// </summary>
         public event Action OnRunEarningsChanged;
-
+        
         private const string TotalCoinsKey = "TotalCoins"; // for PlayerPrefs
 
+        /// <summary>
+        /// Initializer for the singleton
+        /// </summary>
         public void Initialize()
         {
             Debug.Log("[CoinManager] Initializing...");
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -34,85 +48,107 @@ namespace Managers
             LoadCoins();
         }
 
-
+        /// <summary>
+        /// Getter for total number of coins
+        /// </summary>
+        /// <returns>Total number of coins</returns>
         public int GetTotalCoins()
         {
-            return totalCoins;
+            return _totalCoins;
         }
-
-        // When added or spent coins 
+        
+        /// <summary>
+        /// When added or spent coins
+        /// </summary>
         private void SaveAndInvoke() 
         { 
             SaveCoins();
             OnCoinsChanged?.Invoke();
         }
-
-        // future feature; can be used in events or achievements
-        // or when player buys coins for real money $$$
+        
+        /// <summary>
+        /// Add coinst to players total
+        /// </summary>
+        /// <remarks>
+        /// future feature; can be used in events or achievements
+        /// or when player buys coins for real money $$$
+        /// </remarks>
         public void AddCoins(int amount)
         {
-            totalCoins += amount;
-            Debug.Log($"Added {amount} coins. Total: {totalCoins}");
+            _totalCoins += amount;
+            Debug.Log($"Added {amount} coins. Total: {_totalCoins}");
             SaveAndInvoke();
         }
 
 
-
-        // when player buys something in the game
+        /// <summary>
+        /// When player buys something in the game
+        /// </summary>
         public bool SpendCoins(int amount)
         {
-            if (totalCoins >= amount)
+            if (_totalCoins >= amount)
             {
-                totalCoins -= amount;
-                Debug.Log($"Spent {amount} coins. Remaining: {totalCoins}");
+                _totalCoins -= amount;
+                Debug.Log($"Spent {amount} coins. Remaining: {_totalCoins}");
                 SaveAndInvoke();
                 return true;
             }
             Debug.Log("Not enough coins!");
             return false;
         }
-
-        // will be called during the game run each time player collects coins
+        
+        /// <summary>
+        /// Will be called during the game run each time player collects coins
+        /// </summary>
         public void AddRunEarnings(int amount)
         {
             RunEarnings += amount;
             OnRunEarningsChanged?.Invoke();
             Debug.Log($"Run earnings: {RunEarnings}");
         }
-
-        // when player finishes the run, add the run earnings to the total
+        
+        /// <summary>
+        /// When player finishes the run, add the run earnings to the total
+        /// </summary>
         public void FinalizeRunEarnings()
         {
-            totalCoins += RunEarnings;
-            Debug.Log($"Run earnings {RunEarnings} added to total. New total: {totalCoins}");
+            _totalCoins += RunEarnings;
+            Debug.Log($"Run earnings {RunEarnings} added to total. New total: {_totalCoins}");
             RunEarnings = 0; // Reset earnings
             SaveCoins(); // Ulož nový stav
             OnCoinsChanged?.Invoke();
         }
-
+        
+        /// <summary>
         /// Saves the total coins to PlayerPrefs.
+        /// </summary>
         private void SaveCoins()
         {
-            PlayerPrefs.SetInt(TotalCoinsKey, totalCoins);
+            PlayerPrefs.SetInt(TotalCoinsKey, _totalCoins);
             PlayerPrefs.Save(); // Zapíš dáta na disk
-            Debug.Log($"[CoinManager] Coins saved: {totalCoins}");
+            Debug.Log($"[CoinManager] Coins saved: {_totalCoins}");
         }
 
+        /// <summary>
         /// Loads the total coins from PlayerPrefs.
+        /// </summary>
         private void LoadCoins()
         {
             if (PlayerPrefs.HasKey(TotalCoinsKey))
             {
-                totalCoins = PlayerPrefs.GetInt(TotalCoinsKey);
-                Debug.Log($"[CoinManager] Loaded coins: {totalCoins}");
+                _totalCoins = PlayerPrefs.GetInt(TotalCoinsKey);
+                Debug.Log($"[CoinManager] Loaded coins: {_totalCoins}");
             }
             else
             {
-                totalCoins = initialCoins; // Predvolený poèet coinov
-                Debug.Log($"[CoinManager] No saved coins found. Defaulting to {totalCoins}");
+                _totalCoins = initialCoins; // Predvolený poèet coinov
+                Debug.Log($"[CoinManager] No saved coins found. Defaulting to {_totalCoins}");
             }
         }
-
+        
+        /// <summary>
+        /// Method for resetting the coins
+        /// </summary>
         public void ResetCoins()
         {
             LoadCoins();

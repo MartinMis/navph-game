@@ -1,5 +1,8 @@
 ﻿namespace Managers
 {
+    /// <summary>
+    /// Inteface describing the audio manager
+    /// </summary>
     public interface IAudioManager
     {
         void SetMusicVolume(float volume);

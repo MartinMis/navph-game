@@ -1,5 +1,5 @@
 using System.Collections;
-using Controllers;
+using Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
@@ -7,10 +7,10 @@ using Utility;
 namespace UI
 {
     /// <summary>
-    /// 
+    /// Class for the item pop up
     /// </summary>
     [RequireComponent(typeof(Text))]
-    public class UpgradePopUpController : MonoBehaviour
+    public class ItemPopUpController : MonoBehaviour
     {
         [Tooltip("For how many seconds should the pop-up appear")]
         [SerializeField] private float displayTime = 2;
@@ -48,13 +48,18 @@ namespace UI
             _text.text = upgradeDescription;
             StartCoroutine(Disapear(displayTime));
         }
-    
+        
+        /// <summary>
+        /// Coroutine to disappear after some time. Inspired by https://discussions.unity.com/t/how-to-wait-a-certain-amount-of-seconds-in-c/192244
+        /// </summary>
+        /// <param name="time">How long to wait until disapperaing</param>
         IEnumerator Disapear(float time)
         {
             yield return new WaitForSeconds(time);
             _text.enabled = false;
         }
-
+        
+        // Unsubscribe from event when destroyed
         void OnDestroy()
         {
             _playerController.OnItemEquipped -= AnnounceUpgrade;

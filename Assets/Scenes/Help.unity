@@ -899,7 +899,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 958031}
   m_HandleRect: {fileID: 958030}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1861,7 +1861,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 937484568}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.7059292
+  m_Size: 0.6757816
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2019,7 +2019,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4939901059472377559, guid: 2e14d0d458b914f088f6f95736acd270, type: 3}
       propertyPath: m_Name
-      value: Button (Legacy)
+      value: Back To Menu
       objectReference: {fileID: 0}
     - target: {fileID: 9182142125636199519, guid: 2e14d0d458b914f088f6f95736acd270, type: 3}
       propertyPath: m_Pivot.x

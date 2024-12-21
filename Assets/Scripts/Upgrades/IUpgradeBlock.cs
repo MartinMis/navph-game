@@ -2,6 +2,9 @@
 
 namespace Upgrades
 {
+    /// <summary>
+    /// Interface for the upgrade blocks
+    /// </summary>
     public interface IUpgradeBlock
     {
         string UpgradeName { get; } 
