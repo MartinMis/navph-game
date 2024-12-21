@@ -1,4 +1,5 @@
 using System;
+using Interactables;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,7 @@ namespace UI
         public Sprite defaultIcon;
     
         private RectTransform _interactionRectTransform;
+        private Interactable _oldInteractable;
     
 
         private void Awake()
@@ -45,11 +47,21 @@ namespace UI
         /// Toggle popup visibility
         /// </summary>
         /// <param name="show">Should the popup be visible</param>
-        /// <param name="popUpWorldPosition">World position of the popup</param>
+        /// <param name="interact">Thing being interacted with</param>
         /// <param name="sprite">Sprite</param>
         /// <param name="callback">Callback function for the popup</param>
-        public void ToggleInteractionPopUp(bool show, Vector3 popUpWorldPosition, Sprite sprite = null, Action callback = null) // DELEGATES ????
+        public void ToggleInteractionPopUp(bool show, Interactable interact = null, Sprite sprite = null, Action callback = null)
         {
+            Vector3 popUpWorldPosition;
+            if (interact != null)
+            {
+                popUpWorldPosition = interact.transform.position;
+            }
+            else
+            {
+                popUpWorldPosition = Vector3.zero;
+            }
+            
             if (interactionPopUp != null)
             {
                 interactionPopUp.SetActive(show);
@@ -68,6 +80,10 @@ namespace UI
                 
                 // Assign the callback to interaction button
                 InteractButtonController buttonController = interactionPopUp.gameObject.GetComponent<InteractButtonController>();
+                if (_oldInteractable != interact)
+                {
+                    buttonController.ResetAllListeners();
+                }
                 if (show && !buttonController.InteractionIsAssigned())
                 {
                     Debug.Log("[UIManager] Assigning callback");
@@ -78,6 +94,7 @@ namespace UI
                     Debug.Log("[UIManager] Unassigning callback");
                     buttonController.ResetAllListeners();
                 }
+                _oldInteractable = interact;
             }
         }
     

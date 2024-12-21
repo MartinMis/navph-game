@@ -225,4 +225,4 @@ MonoBehaviour:
   maxDamage: 75
   maxDistance: 10
   damageExponent: 2
-  movementSpeed: 2.5
+  movementSpeed: 3

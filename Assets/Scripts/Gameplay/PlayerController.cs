@@ -221,12 +221,12 @@ namespace Gameplay
             // If there is such an object and player can interact with it prompt an interact popup 
             if (closestInteractable != null && _canInteract)
             {
-                UIManager.Instance.ToggleInteractionPopUp(true, closestInteractable.transform.position,
+                UIManager.Instance.ToggleInteractionPopUp(true, closestInteractable,
                     callback: (() => closestInteractable.Interact(this)));
             }
             else
             {
-                UIManager.Instance.ToggleInteractionPopUp(false, Vector3.zero);
+                UIManager.Instance.ToggleInteractionPopUp(false);
             }
         }
         
