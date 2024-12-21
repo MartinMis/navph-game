@@ -155,6 +155,7 @@ namespace Gameplay
             float finalDamage = damage;
            
             // Apply modifier from upgrades
+            Debug.Log($"[PlayerController] Current damage reduction modifier is {GetDamageReductionModifier()}");
             finalDamage *= GetDamageReductionModifier();
         
             // Account for item effect

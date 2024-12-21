@@ -18,6 +18,9 @@ namespace Gameplay
         
         [Tooltip("Camera following the player")]
         [SerializeField] FollowPlayer followingCamera;
+        
+        [Tooltip("Should the teleport disable screamer")]
+        [SerializeField] bool disableScreamer;
     
         private Transform _player;
 
@@ -44,6 +47,11 @@ namespace Gameplay
             {
                 followingCamera.transform.position = targetPosition;
                 followingCamera.ignoreHorizontal = !followingCamera.ignoreHorizontal;
+            }
+
+            if (disableScreamer)
+            {
+                Destroy(GameObject.FindGameObjectWithTag(Tags.Screamer));
             }
         }
     }

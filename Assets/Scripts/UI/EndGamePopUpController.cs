@@ -18,9 +18,12 @@ namespace UI
         [Tooltip("Victory text")]
         [SerializeField] private Text text;
         private GameObject _finalBoss;
+        private GameObject _player;
         void Awake()
         {
             _finalBoss = GameObject.FindWithTag(Tags.Boss);
+            _player = GameObject.FindWithTag(Tags.Player);
+            _player.GetComponent<PlayerController>().OnDeath += DisableOnPlayerDeath;
             _finalBoss.GetComponent<LampBossController>().OnVictory += ToggleVisibility;
         }
         
@@ -32,6 +35,11 @@ namespace UI
         {
             text.text = $"Victory! You gain {reward} coins for defeating the boss!";
             uiElements.SetActive(!uiElements.activeSelf);
+        }
+
+        void DisableOnPlayerDeath()
+        {
+            uiElements.SetActive(false);
         }
         
         /// <summary>
@@ -61,6 +69,11 @@ namespace UI
             if (_finalBoss != null)
             {
                 _finalBoss.GetComponent<LampBossController>().OnVictory -= ToggleVisibility;
+            }
+
+            if (_player != null)
+            {
+                _player.GetComponent<PlayerController>().OnDeath -= DisableOnPlayerDeath;
             }
         }
     }
