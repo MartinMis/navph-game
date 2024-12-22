@@ -1,9 +1,10 @@
 using System;
 using Interactables;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace Managers
 {
     /// <summary>
     /// Class for the UI Manager implemented as a singleton

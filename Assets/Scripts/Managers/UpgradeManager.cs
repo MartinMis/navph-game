@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Upgrades;
 
-namespace Upgrades
+namespace Managers
 {
     /// <summary>
     /// Class managing the upgrades implemented as a singleton
