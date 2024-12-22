@@ -198,7 +198,14 @@ namespace Gameplay
         
         void Update()
         {
-            _moveInput = _move.ReadValue<Vector2>();
+            if (_canMove)
+            {
+                _moveInput = _move.ReadValue<Vector2>();
+            }
+            else
+            {
+                _moveInput = Vector2.zero;
+            }
             HandleInteraction();
         }
         
