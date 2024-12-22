@@ -31,8 +31,8 @@ namespace Managers
 
         private void Start()
         {
-            _musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0f);
-            _sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0f);
+            _musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+            _sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
             audioMixer.SetFloat("MusicVolume", CalculateDecibels(_musicVolume));
             audioMixer.SetFloat("SFXVolume", CalculateDecibels(_sfxVolume));
         }
