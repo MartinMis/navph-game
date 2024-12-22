@@ -51,7 +51,7 @@ namespace Gameplay
         void Start()
         {
             // Subscribe to current bosses on death event
-            var boss = GameObject.FindGameObjectWithTag(Tags.Boss).GetComponent<Boss>();
+            var boss = GameObject.FindGameObjectWithTag(Tags.Boss).GetComponent<LampBossController>();
             boss.OnDeath += DisableTimer;
             
             // Get the sunrise time upgrade and apply it
@@ -98,5 +98,6 @@ namespace Gameplay
         {
             disabled = true;
         }
+        
     }
 }

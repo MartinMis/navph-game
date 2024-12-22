@@ -12,6 +12,7 @@ namespace Gameplay
 {
     /// <summary>
     /// Main controller for the player
+    /// Movement inspired by: https://www.youtube.com/watch?v=HmXU4dZbaMw
     /// </summary>
     public class PlayerController : MonoBehaviour
     {
@@ -28,6 +29,8 @@ namespace Gameplay
         [Tooltip("Stylish Shades prefab")]
         [SerializeField] private GameObject stylishShadesPrefab;
         
+        
+        
         public bool godMode;
         public float maxSleepMeter = 100;
         
@@ -39,6 +42,8 @@ namespace Gameplay
         private GameObject _equippedItemPrefab;
         private bool _canMove = true;
         private bool _canInteract = true;
+        private PlayerInputActions _playerControls;
+        private InputAction _move;
         
         /// <summary>
         /// Action invoked when the player dies
@@ -55,7 +60,11 @@ namespace Gameplay
         /// </summary>
         public event Action<string> OnItemEquipped;
 
-    
+        private void Awake()
+        {
+            _playerControls = new PlayerInputActions();
+        }
+
         void Start()
         {
             // Ensure only one player is in the scene at the time
@@ -138,6 +147,7 @@ namespace Gameplay
             OnWakeUpMeterUpdated?.Invoke();
         }
         
+    
         void FixedUpdate()
         {
             _rigidbody.velocity = speed * Time.fixedDeltaTime * _moveInput;
@@ -185,13 +195,10 @@ namespace Gameplay
         {
             return _health;
         }
-
-        public void OnMove(InputValue value)
-        {
-            _moveInput = _canMove ? value.Get<Vector2>() : new Vector2(0, 0);
-        }
+        
         void Update()
         {
+            _moveInput = _move.ReadValue<Vector2>();
             HandleInteraction();
         }
         
@@ -312,6 +319,17 @@ namespace Gameplay
                 return stylishShades.GetItemSprite();
             }
             return null;
+        }
+
+        void OnEnable()
+        {
+            _move = _playerControls.Player.Move;
+            _move.Enable();
+        }
+
+        void OnDisable()
+        {
+            _move.Disable();
         }
     }
 }

@@ -9,9 +9,6 @@ namespace Bosses
     /// </summary>
     public abstract class Boss: MonoBehaviour
     {   
-        [Tooltip("Prefab of the boss")]
-        [SerializeField] private GameObject bossPrefab;
-        
         [Tooltip("Maximum HP of the boss")]
         [SerializeField] private float maxHealth;
         

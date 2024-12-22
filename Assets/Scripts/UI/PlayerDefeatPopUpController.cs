@@ -21,7 +21,7 @@ namespace UI
         /// </summary>
         void ToggleVisibility()
         {
-            uiElements.SetActive(!uiElements.activeSelf);
+            uiElements.SetActive(true);
         }
         
         /// <summary>

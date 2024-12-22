@@ -1,5 +1,5 @@
 {
-    "name": "Unawakened-The_Long_Sleep",
+    "name": "PlayerInputActions",
     "maps": [
         {
             "name": "Player",
@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "Move",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "2fb4cd26-fee0-486a-b38b-b99e72b8a0ed",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -22,7 +22,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Touch;Joystick;XR;Keyboard&Mouse",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
