@@ -18,6 +18,7 @@ namespace Utility
         {
             // UI manager is persistent between game scene but we need to destroy it when going to menu
             Object.Destroy(UIManager.Instance.gameObject);
+            Object.Destroy(DifficultyManager.Instance.gameObject);
             RunTimer.Instance.disabled = false;
             CoinManager.Instance.FinalizeRunEarnings();
             var player = GameObject.FindGameObjectWithTag(Tags.Player);
