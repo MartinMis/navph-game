@@ -5,7 +5,8 @@ using UnityEngine;
 namespace Utility
 {
     /// <summary>
-    /// Helper class for executing things with delay. Inspired by https://discussions.unity.com/t/how-to-wait-a-certain-amount-of-seconds-in-c/192244
+    /// Helper class for executing things with delay.
+    /// Inspired by https://discussions.unity.com/t/how-to-wait-a-certain-amount-of-seconds-in-c/192244
     /// </summary>
     public class Waiter
     {

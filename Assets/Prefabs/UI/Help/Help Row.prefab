@@ -32,10 +32,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3134769712691773970}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 257.6684, y: -55.853}
-  m_SizeDelta: {x: 363.1269, y: 111.71}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 38.03, y: 0}
+  m_SizeDelta: {x: 319.86, y: 111.71}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1393437138589401989
 CanvasRenderer:
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Alarm Clock - Instantly wakes up the player
+  m_Text: Coin - Can be used to purchase upgrades
 --- !u!1 &7917209679115965672
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,9 +148,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3134769712691773970}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 38.2, y: -55.853}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -159.8, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5451714392668909935
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9c2c978869c110e40bf29dae7dfe13f4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
